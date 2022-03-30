@@ -15,6 +15,7 @@
 #include "RingsObject.h"
 #include "ScoreObject.h"
 #include "CheckpointObject.h"
+#include "LifeObject.h"
 
 #include "LevelGame.h"
 
@@ -35,8 +36,11 @@ public:
 	void LoadCheckpointObject(MainObject& Player, GameMap& gamemap, SDL_Renderer* Screen);
 	void checkIntersectCheckpointObject(ScoreObject& Score, MainObject& Player, Map& map_data, SDL_Renderer* Screen);
 
+	void LoadLifeObject(MainObject& Player, GameMap& gamemap, SDL_Renderer* Screen);
+	void checkIntersectLifeObject(LifeObject& Life, ScoreObject& Score, MainObject& Player, Map& map_data, SDL_Renderer* Screen);
+
 	void LoadALLObject(MainObject& Player, GameMap& gamemap, SDL_Renderer* Screen);
-	void checkIntersectALLObject(ScoreObject& Score, MainObject& Player, Map& map_data, SDL_Renderer* Screen);
+	void checkIntersectALLObject(LifeObject& Life, ScoreObject& Score, MainObject& Player, Map& map_data, SDL_Renderer* Screen);
 
 	int Get_is_IntersectBallVsThreats() {return is_IntersectBallVsThreats_;}
 
@@ -53,6 +57,7 @@ private:
 	std::vector <ThreatsObject*> threats_list;
 	std::vector <RingsObject*> rings_list;
 	std::vector <CheckpointObject*> checkpoints_list;
+	std::vector <LifeObject*> lifes_list;
 
 	int is_IntersectBallVsThreats_;
 	int is_IntersectBallVsRing_;

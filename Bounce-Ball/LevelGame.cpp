@@ -11,7 +11,9 @@
 #include "ThreatsObject.h"
 #include "RingsObject.h"
 #include "ScoreObject.h"
+#include "LifeObject.h"
 #include "CheckpointObject.h"
+#include "TextObject.h"
 
 #include "LevelGame.h"
 
@@ -33,14 +35,38 @@ FPS fps_timer;
 MainObject Player;
 ManagementObject Object;
 ScoreObject Score;
+LifeObject Life;
+TTF_Font *FontGame;
+TextObject ScoreText;
+TextObject LifeText;
 
-void LevelGame::LoadLevelGame() { 
+void ShowScore(SDL_Renderer* Screen) {
+    std::string str_Score = "Score: " + std::to_string(Score.GetScore());
+    ScoreText.SetText(str_Score);
+    ScoreText.LoadFromRenderText(FontGame, gScreen);
+    ScoreText.ShowText(gScreen, SCREEN_WIDTH - 250, 15);
+}
+
+void ShowLife(SDL_Renderer* Screen) {
+    std::string str_Life = "Life: " + std::to_string(Life.GetLife());
+    LifeText.SetText(str_Life);
+    LifeText.LoadFromRenderText(FontGame, Screen);
+    LifeText.ShowText(Screen, 15, 15);
+}
+
+void LevelGame::LoadLevelGame() {
+    Life.SetLife(ORIGINAL_LIFE);
+
     gamemap.LoadMap("map//map02.dat");
     gamemap.LoadIMGBlock(gScreen);
 
     Player.LoadImage("img//ball//ball.png", gScreen);
     Player.Set_Clips();
     Player.Set_pos(gamemap.Get_start_x_player(), gamemap.Get_start_y_player());
+    //Player.Set_pos(7200, 1216);
+
+    ScoreText.SetColor(TextObject::WHITE_COLOR);
+    LifeText.SetColor(TextObject::WHITE_COLOR);
 
     Object.LoadALLObject(Player, gamemap, gScreen);
 
@@ -70,19 +96,34 @@ void LevelGame::LoadLevelGame() {
         gamemap.SetMap(map_data);
         gamemap.DrawMap(gScreen);
         
-        Object.checkIntersectALLObject(Score, Player, map_data, gScreen);
+        Object.checkIntersectALLObject(Life, Score, Player, map_data, gScreen);
 
-        cerr << Score.GetScore() << '\n';
+        ShowScore(gScreen);
 
-        SDL_RenderPresent(gScreen);
+        // //SDL_RenderPresent(gScreen);
 
         if (Object.Get_is_IntersectBallVsThreats()) {
             Player.LoadImage("img//ball//ball_pop.png", gScreen);
             Player.Set_Clips();
             Player.ShowImage(gScreen);
+
+            Life.IncreaseLife(-1);
+
+            if (Life.GetLife() == 0) {
+                ShowLife(gScreen);
+
+                SDL_RenderPresent(gScreen);
+                SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
+                    "GameOver!!!",
+                    "GameOver!!!",
+                    NULL);
+                return;
+            }
+            
+            ShowLife(gScreen);
+
             SDL_RenderPresent(gScreen);
-            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
-                "Thong bao", "Thung bong", NULL);
+            SDL_Delay(1000);
             Object.Set_is_IntersectBallVsThreats(0);
             Player.LoadImage("img//ball//ball.png", gScreen);
             Player.Set_Clips();
@@ -90,6 +131,10 @@ void LevelGame::LoadLevelGame() {
             Player.Set_pos(Player.Get_x_pos_checkpoint(), Player.Get_y_pos_checkpoint());
             SDL_RenderPresent(gScreen);
         }
+
+        ShowLife(gScreen);
+
+        SDL_RenderPresent(gScreen);
 
         int real_time = fps_timer.get_ticks();
         int time_one_frame = 1000 / FRAME_PER_SECOND;
@@ -119,6 +164,11 @@ bool initSDL() {
         SDL_SetRenderDrawColor(gScreen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
         int imgFlags = IMG_INIT_PNG;
         if (!(IMG_Init(imgFlags) && imgFlags)) return false;
+        if (TTF_Init() == -1) return false;
+        FontGame = TTF_OpenFont("font//no_continue.ttf", 45);
+        if (FontGame == NULL) {
+            return false;   
+        }
     }
     return true;
 }

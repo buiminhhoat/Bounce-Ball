@@ -12,6 +12,7 @@
 #include "RingsObject.h"
 #include "ScoreObject.h"
 #include "CheckpointObject.h"
+#include "LifeObject.h"
 
 #include "LevelGame.h"
 
@@ -278,17 +279,77 @@ void ManagementObject::checkIntersectCheckpointObject(ScoreObject& Score,
     }
 }
 
+void ManagementObject::LoadLifeObject(MainObject& Player, GameMap& gamemap, SDL_Renderer* Screen) {
+    Map c_map = gamemap.GetMap();
+    for (int i = 0; i < c_map.max_y_ / TILE_SIZE; ++i) {
+        for (int j = 0; j < c_map.max_x_ / TILE_SIZE; ++j) {
+            if (c_map.block[i][j] == LIFE) {
+                LifeObject* life_object = new LifeObject;
+                if (life_object != NULL) {
+                    int x = j * TILE_SIZE;
+                    int y = i * TILE_SIZE;
+                    life_object->LoadImage("img//life//life.png", Screen);
+                    life_object->SetClips();
+                    life_object->Set_x_pos(x);
+                    life_object->Set_y_pos(y);
+                    //cerr << x << ' ' << y << '\n';
+                    life_object->Set_ScoreLife(SCORE_LIFE);
+                    lifes_list.push_back(life_object);
+                }
+            }
+        }
+    }
+}
+
+void ManagementObject::checkIntersectLifeObject(LifeObject &Life, ScoreObject& Score,
+                                                        MainObject& Player,
+                                                        Map& map_data,
+                                                        SDL_Renderer* Screen) {
+    for (int i = 0; i < lifes_list.size(); ++i) {
+        LifeObject* life_object = lifes_list.at(i);
+        if (life_object != NULL) {
+            life_object->SetMapXY(map_data.start_x_, map_data.start_y_);
+            life_object->ShowImage(Screen);
+
+            float x1_checkpoint = life_object->Get_x_pos();
+            float y1_checkpoint = life_object->Get_y_pos();
+            float x2_checkpoint = x1_checkpoint + life_object->Get_width_frame();
+            float y2_checkpoint = y1_checkpoint + life_object->Get_height_frame();
+
+            float cx_player = Player.Get_x_pos() + Player.Get_width_frame() / 2;
+            float cy_player = Player.Get_y_pos() + Player.Get_height_frame() / 2;
+            float r_player = min(Player.Get_width_frame(), Player.Get_height_frame()) / 2 - 1;
+
+            RectObject rect_checkpoint = { x1_checkpoint, y1_checkpoint, x2_checkpoint, y2_checkpoint };
+            CircleObject circle_player = { cx_player, cy_player, r_player };
+
+            if (checkIntersectBallVsObject(circle_player, rect_checkpoint)
+                && life_object->Get_is_catched() == 0) {
+                is_IntersectBallVsRing_ = 1;
+                Score.IncreaseScore(life_object->Get_ScoreLife());
+                Life.IncreaseLife(1);
+                life_object->Set_ScoreLife(0);
+                life_object->Set_is_catched(1);
+                life_object->LoadImage("img//life//life_clear.png", Screen);
+                life_object->SetClips();
+            }
+        }
+    }
+}
+
 void ManagementObject::LoadALLObject(MainObject& Player, GameMap& gamemap, SDL_Renderer* Screen) {
     LoadThreatsObject(gamemap, Screen);
     LoadRingsObject(gamemap, Screen);
     LoadCheckpointObject(Player, gamemap, Screen);
+    LoadLifeObject(Player, gamemap, Screen);
 }
 
-void ManagementObject::checkIntersectALLObject(ScoreObject& Score, 
+void ManagementObject::checkIntersectALLObject(LifeObject& Life, ScoreObject& Score,
                                                 MainObject& Player, 
                                                 Map& map_data, 
                                                 SDL_Renderer* Screen) {
     checkIntersectThreatsObject(Player, map_data, Screen);
     checkIntersectRingsObject(Score, Player, map_data, Screen);
     checkIntersectCheckpointObject(Score, Player, map_data, Screen);
+    checkIntersectLifeObject(Life, Score, Player, map_data, Screen);
 }

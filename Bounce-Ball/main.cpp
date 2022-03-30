@@ -12,6 +12,7 @@
 #include "RingsObject.h"
 #include "ScoreObject.h"
 #include "CheckpointObject.h"
+#include "TextObject.h"
 
 #include "LevelGame.h"
 
