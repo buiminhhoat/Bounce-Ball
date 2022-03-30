@@ -280,6 +280,7 @@ void ManagementObject::checkIntersectCheckpointObject(ScoreObject& Score,
 }
 
 void ManagementObject::LoadLifeObject(MainObject& Player, GameMap& gamemap, SDL_Renderer* Screen) {
+
     Map c_map = gamemap.GetMap();
     for (int i = 0; i < c_map.max_y_ / TILE_SIZE; ++i) {
         for (int j = 0; j < c_map.max_x_ / TILE_SIZE; ++j) {
@@ -292,7 +293,6 @@ void ManagementObject::LoadLifeObject(MainObject& Player, GameMap& gamemap, SDL_
                     life_object->SetClips();
                     life_object->Set_x_pos(x);
                     life_object->Set_y_pos(y);
-                    //cerr << x << ' ' << y << '\n';
                     life_object->Set_ScoreLife(SCORE_LIFE);
                     lifes_list.push_back(life_object);
                 }
