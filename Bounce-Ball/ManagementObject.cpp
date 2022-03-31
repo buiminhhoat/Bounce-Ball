@@ -129,7 +129,6 @@ void ManagementObject::checkIntersectThreatsObject(MainObject &Player, Map &map_
             if (checkIntersectBallVsObject(circle_player, rect_threat)) {
                 is_IntersectBallVsThreats_ = 1;
             }
-
         }
     }
 }
@@ -150,6 +149,7 @@ void ManagementObject::LoadRingsObject(GameMap& gamemap, SDL_Renderer* Screen) {
                     ring_object->Set_ScoreRing(SCORE_RING_HORIZONTAL);
                     ring_object->Set_is_Vertical(0);
                     rings_list.push_back(ring_object);
+                    ++rem_Rings;
                 }
             }
             else if (c_map.block[i][j] == RING_VERTICAL)  {
@@ -164,6 +164,7 @@ void ManagementObject::LoadRingsObject(GameMap& gamemap, SDL_Renderer* Screen) {
                     ring_object->Set_ScoreRing(SCORE_RING_VERTICAL);
                     ring_object->Set_is_Vertical(1);
                     rings_list.push_back(ring_object);
+                    ++rem_Rings;
                 }
             }
         }
@@ -201,12 +202,11 @@ void ManagementObject::checkIntersectRingsObject(ScoreObject &Score,
                     ring_object->LoadImage("img//rings//RING_VERTICAL_catched.png", Screen);
                     ring_object->SetClips();
                 }
-                    
                 else {
                     ring_object->LoadImage("img//rings//RING_HORIZONTAL_catched.png", Screen);
                     ring_object->SetClips();
                 }
-                    
+                --rem_Rings;
             }
         }
     }
@@ -280,7 +280,6 @@ void ManagementObject::checkIntersectCheckpointObject(ScoreObject& Score,
 }
 
 void ManagementObject::LoadLifeObject(MainObject& Player, GameMap& gamemap, SDL_Renderer* Screen) {
-
     Map c_map = gamemap.GetMap();
     for (int i = 0; i < c_map.max_y_ / TILE_SIZE; ++i) {
         for (int j = 0; j < c_map.max_x_ / TILE_SIZE; ++j) {

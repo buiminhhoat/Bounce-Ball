@@ -39,19 +39,41 @@ LifeObject Life;
 TTF_Font *FontGame;
 TextObject ScoreText;
 TextObject LifeText;
+TextObject RemRingText;
 
 void ShowScore(SDL_Renderer* Screen) {
     std::string str_Score = "Score: " + std::to_string(Score.GetScore());
     ScoreText.SetText(str_Score);
     ScoreText.LoadFromRenderText(FontGame, gScreen);
-    ScoreText.ShowText(gScreen, SCREEN_WIDTH - 250, 15);
+    ScoreText.ShowText(gScreen, SCREEN_WIDTH - 200, 5);
 }
 
 void ShowLife(SDL_Renderer* Screen) {
-    std::string str_Life = "Life: " + std::to_string(Life.GetLife());
+    LifeObject* gbar_life = new LifeObject;
+    gbar_life->LoadImage("img//life//gbar_life.png", Screen);
+    gbar_life->SetClips();
+    gbar_life->Set_x_pos(15);
+    gbar_life->Set_y_pos(5);
+    gbar_life->ShowImage(Screen);
+    gbar_life->CleanUp();
+    std::string str_Life = " x " + std::to_string(Life.GetLife());
     LifeText.SetText(str_Life);
     LifeText.LoadFromRenderText(FontGame, Screen);
-    LifeText.ShowText(Screen, 15, 15);
+    LifeText.ShowText(Screen, 15 + gbar_life->Get_width_frame(), 5);
+}
+
+void ShowRemRings(SDL_Renderer* Screen) {
+    RingsObject* gbar_ring = new RingsObject;
+    gbar_ring->LoadImage("img//rings//gbar_ring.png", Screen);
+    gbar_ring->SetClips();
+    gbar_ring->Set_x_pos(325);
+    gbar_ring->Set_y_pos(5);
+    gbar_ring->ShowImage(Screen);
+    gbar_ring->CleanUp();
+    std::string str_Ring = " x " + std::to_string(Object.Get_rem_Rings());
+    RemRingText.SetText(str_Ring);
+    RemRingText.LoadFromRenderText(FontGame, Screen);
+    RemRingText.ShowText(Screen, 325 + gbar_ring->Get_width_frame(), 5);
 }
 
 void LevelGame::LoadLevelGame() {
@@ -67,7 +89,8 @@ void LevelGame::LoadLevelGame() {
 
     ScoreText.SetColor(TextObject::WHITE_COLOR);
     LifeText.SetColor(TextObject::WHITE_COLOR);
-
+    RemRingText.SetColor(TextObject::WHITE_COLOR);
+    
     Object.LoadALLObject(Player, gamemap, gScreen);
 
     gamemap.FixMap();
@@ -99,7 +122,7 @@ void LevelGame::LoadLevelGame() {
         Object.checkIntersectALLObject(Life, Score, Player, map_data, gScreen);
 
         ShowScore(gScreen);
-
+        ShowRemRings(gScreen);
         // //SDL_RenderPresent(gScreen);
 
         if (Object.Get_is_IntersectBallVsThreats()) {
@@ -121,7 +144,7 @@ void LevelGame::LoadLevelGame() {
             }
             
             ShowLife(gScreen);
-
+            
             SDL_RenderPresent(gScreen);
             SDL_Delay(1000);
             Object.Set_is_IntersectBallVsThreats(0);
@@ -165,7 +188,7 @@ bool initSDL() {
         int imgFlags = IMG_INIT_PNG;
         if (!(IMG_Init(imgFlags) && imgFlags)) return false;
         if (TTF_Init() == -1) return false;
-        FontGame = TTF_OpenFont("font//no_continue.ttf", 45);
+        FontGame = TTF_OpenFont("font//no_continue.ttf", 30);
         if (FontGame == NULL) {
             return false;   
         }

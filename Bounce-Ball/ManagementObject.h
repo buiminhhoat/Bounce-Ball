@@ -53,6 +53,8 @@ public:
 	void Set_is_IntersectBallVsRing(const int & is_IntersectBallVsRing) {
 		is_IntersectBallVsRing_ = is_IntersectBallVsRing;
 	}
+
+	int Get_rem_Rings() { return rem_Rings; };
 private:
 	std::vector <ThreatsObject*> threats_list;
 	std::vector <RingsObject*> rings_list;
@@ -61,6 +63,7 @@ private:
 
 	int is_IntersectBallVsThreats_;
 	int is_IntersectBallVsRing_;
+	int rem_Rings;
 };
 #endif
 #pragma once

@@ -76,4 +76,4 @@ private:
 	int Life_;
 };
 
-#endif#pragma once
+#endif
