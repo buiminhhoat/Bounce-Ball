@@ -11,6 +11,7 @@
 #define PLAYER_JUMP 20
 #define EQUILIBRIUM_RATIO 0.70
 #define FREE_ROLLING_SPEED 5
+#define DRAW_BACK 4 * 64
 
 class MainObject : public BaseObject {
 public:
@@ -30,7 +31,7 @@ public:
 	void CheckPlayerVsMap(Map& mapdata);
 	void SetMapXY(const int map_x, const int map_y) {map_x_ = map_x;map_y_ = map_y;}
 	void CenterEntityOnMap(Map& map_data);
-	int come_back_time;
+	int come_back_time_;
 	float Get_x_pos() { return x_pos_; };
 	float Get_y_pos() { return y_pos_; };
 

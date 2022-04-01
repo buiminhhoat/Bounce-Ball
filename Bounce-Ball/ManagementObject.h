@@ -16,6 +16,7 @@
 #include "ScoreObject.h"
 #include "CheckpointObject.h"
 #include "LifeObject.h"
+#include "EndpointObject.h"
 
 #include "LevelGame.h"
 
@@ -39,6 +40,10 @@ public:
 	void LoadLifeObject(MainObject& Player, GameMap& gamemap, SDL_Renderer* Screen);
 	void checkIntersectLifeObject(LifeObject& Life, ScoreObject& Score, MainObject& Player, Map& map_data, SDL_Renderer* Screen);
 
+	void LoadEndpointObject(MainObject& Player, GameMap& gamemap, SDL_Renderer* Screen);
+	void OpenAllEndpointObject(SDL_Renderer* Screen);
+	void checkIntersectEndpointObject(ScoreObject& Score, MainObject& Player, Map& map_data, SDL_Renderer* Screen);
+
 	void LoadALLObject(MainObject& Player, GameMap& gamemap, SDL_Renderer* Screen);
 	void checkIntersectALLObject(LifeObject& Life, ScoreObject& Score, MainObject& Player, Map& map_data, SDL_Renderer* Screen);
 
@@ -54,16 +59,18 @@ public:
 		is_IntersectBallVsRing_ = is_IntersectBallVsRing;
 	}
 
-	int Get_rem_Rings() { return rem_Rings; };
+	void Set_rem_Rings(const int& rem_Rings) { rem_Rings_ = rem_Rings; }
+	int Get_rem_Rings() { return rem_Rings_; };
 private:
 	std::vector <ThreatsObject*> threats_list;
 	std::vector <RingsObject*> rings_list;
 	std::vector <CheckpointObject*> checkpoints_list;
 	std::vector <LifeObject*> lifes_list;
+	std::vector <EndpointObject*> endpoints_list;
 
 	int is_IntersectBallVsThreats_;
 	int is_IntersectBallVsRing_;
-	int rem_Rings;
+	int rem_Rings_;
 };
 #endif
 #pragma once

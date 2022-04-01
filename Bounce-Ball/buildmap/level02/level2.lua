@@ -55,7 +55,28 @@ return {
     {
       name = "life",
       firstgid = 9,
-      filename = "../tileset/life.tsx"
+      tilewidth = 64,
+      tileheight = 64,
+      spacing = 0,
+      margin = 0,
+      columns = 1,
+      image = "../tileset/life.png",
+      imagewidth = 64,
+      imageheight = 64,
+      objectalignment = "unspecified",
+      tileoffset = {
+        x = 0,
+        y = 0
+      },
+      grid = {
+        orientation = "orthogonal",
+        width = 64,
+        height = 64
+      },
+      properties = {},
+      wangsets = {},
+      tilecount = 1,
+      tiles = {}
     }
   },
   layers = {

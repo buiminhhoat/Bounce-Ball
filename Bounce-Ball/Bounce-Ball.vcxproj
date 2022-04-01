@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="CheckpointObject.cpp" />
+    <ClCompile Include="EndpointObject.cpp" />
     <ClCompile Include="LevelGame.cpp" />
     <ClCompile Include="LifeObject.cpp" />
     <ClCompile Include="MainObject.cpp" />
@@ -160,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="CheckpointObject.h" />
+    <ClInclude Include="EndpointObject.h" />
     <ClInclude Include="LevelGame.h" />
     <ClInclude Include="LifeObject.h" />
     <ClInclude Include="MainObject.h" />

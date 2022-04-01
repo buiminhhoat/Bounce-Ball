@@ -1,7 +1,7 @@
 #ifndef LIFE__OBJECT__H_
 #define LIFE__OBJECT__H_
 
-#define ORIGINAL_LIFE 3
+#define ORIGINAL_LIFE 10000
 #define LIFE_FRAME_NUM 1
 #define SCORE_LIFE 50
 

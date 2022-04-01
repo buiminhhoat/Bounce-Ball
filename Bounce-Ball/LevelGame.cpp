@@ -74,18 +74,23 @@ void ShowRemRings(SDL_Renderer* Screen) {
     RemRingText.SetText(str_Ring);
     RemRingText.LoadFromRenderText(FontGame, Screen);
     RemRingText.ShowText(Screen, 325 + gbar_ring->Get_width_frame(), 5);
+    //Object.Set_rem_Rings(0);
+    if (Object.Get_rem_Rings() == 0) {
+        Object.OpenAllEndpointObject(Screen);
+    }
 }
 
-void LevelGame::LoadLevelGame() {
+void LevelGame::LoadLevelGame(const char* NameFileMap) {
     Life.SetLife(ORIGINAL_LIFE);
 
-    gamemap.LoadMap("map//map02.dat");
+    //gamemap.LoadMap("map//map02.dat");
+    gamemap.LoadMap(NameFileMap);
     gamemap.LoadIMGBlock(gScreen);
 
     Player.LoadImage("img//ball//ball.png", gScreen);
     Player.Set_Clips();
     Player.Set_pos(gamemap.Get_start_x_player(), gamemap.Get_start_y_player());
-    //Player.Set_pos(7200, 1216);
+    //Player.Set_pos(8176, 384);
 
     ScoreText.SetColor(TextObject::WHITE_COLOR);
     LifeText.SetColor(TextObject::WHITE_COLOR);
@@ -104,7 +109,7 @@ void LevelGame::LoadLevelGame() {
             }
             Player.InputAction(gEvent, gScreen);
         }
-
+        
         SDL_SetRenderDrawColor(gScreen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
         SDL_RenderClear(gScreen);
 
@@ -116,6 +121,7 @@ void LevelGame::LoadLevelGame() {
         Player.DoPlayer(map_data);
         Player.ShowImage(gScreen);
 
+        //cerr << Player.Get_x_pos() << ' ' << Player.Get_y_pos() << '\n';
         gamemap.SetMap(map_data);
         gamemap.DrawMap(gScreen);
         

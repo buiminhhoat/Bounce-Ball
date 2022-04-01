@@ -149,7 +149,7 @@ void ManagementObject::LoadRingsObject(GameMap& gamemap, SDL_Renderer* Screen) {
                     ring_object->Set_ScoreRing(SCORE_RING_HORIZONTAL);
                     ring_object->Set_is_Vertical(0);
                     rings_list.push_back(ring_object);
-                    ++rem_Rings;
+                    ++rem_Rings_;
                 }
             }
             else if (c_map.block[i][j] == RING_VERTICAL)  {
@@ -164,7 +164,7 @@ void ManagementObject::LoadRingsObject(GameMap& gamemap, SDL_Renderer* Screen) {
                     ring_object->Set_ScoreRing(SCORE_RING_VERTICAL);
                     ring_object->Set_is_Vertical(1);
                     rings_list.push_back(ring_object);
-                    ++rem_Rings;
+                    ++rem_Rings_;
                 }
             }
         }
@@ -206,7 +206,7 @@ void ManagementObject::checkIntersectRingsObject(ScoreObject &Score,
                     ring_object->LoadImage("img//rings//RING_HORIZONTAL_catched.png", Screen);
                     ring_object->SetClips();
                 }
-                --rem_Rings;
+                --rem_Rings_;
             }
         }
     }
@@ -336,11 +336,81 @@ void ManagementObject::checkIntersectLifeObject(LifeObject &Life, ScoreObject& S
     }
 }
 
+void ManagementObject::LoadEndpointObject(MainObject& Player, GameMap& gamemap, SDL_Renderer* Screen) {
+    Map c_map = gamemap.GetMap();
+    for (int i = 0; i < c_map.max_y_ / TILE_SIZE; ++i) {
+        for (int j = 0; j < c_map.max_x_ / TILE_SIZE; ++j) {
+            if (c_map.block[i][j] == ENDPOINT) {
+                EndpointObject* endpoint_object = new EndpointObject;
+                if (endpoint_object != NULL) {
+                    int x = j * TILE_SIZE;
+                    int y = i * TILE_SIZE;
+                    endpoint_object->LoadImage("img//ENDPOINT//ENDPOINT.png", Screen);
+                    endpoint_object->SetClips();
+                    endpoint_object->Set_x_pos(x);
+                    endpoint_object->Set_y_pos(y);
+                    endpoint_object->Set_ScoreEndpoint(SCORE_ENDPOINT);
+                    endpoints_list.push_back(endpoint_object);
+                }
+            }
+        }
+    }
+}
+
+void ManagementObject::OpenAllEndpointObject(SDL_Renderer* Screen) {
+    for (int i = 0; i < endpoints_list.size(); ++i) {
+        EndpointObject* endpoint_object = endpoints_list.at(i);
+        if (endpoint_object != NULL) {
+            endpoint_object->Set_is_opened(1);
+            endpoint_object->LoadImage("img//ENDPOINT//ENDPOINT_opened.png", Screen);
+            endpoint_object->ShowImage(Screen);
+        }
+    }
+}
+
+void ManagementObject::checkIntersectEndpointObject(ScoreObject& Score,
+                                                        MainObject& Player,
+                                                        Map& map_data,
+                                                        SDL_Renderer* Screen) {
+    for (int i = 0; i < endpoints_list.size(); ++i) {
+        EndpointObject* endpoint_object = endpoints_list.at(i);
+        if (endpoint_object != NULL) {
+            endpoint_object->SetMapXY(map_data.start_x_, map_data.start_y_);
+            endpoint_object->ShowImage(Screen);
+
+            float x1_checkpoint = endpoint_object->Get_x_pos();
+            float y1_checkpoint = endpoint_object->Get_y_pos();
+            float x2_checkpoint = x1_checkpoint + endpoint_object->Get_width_frame();
+            float y2_checkpoint = y1_checkpoint + endpoint_object->Get_height_frame();
+
+            float cx_player = Player.Get_x_pos() + Player.Get_width_frame() / 2;
+            float cy_player = Player.Get_y_pos() + Player.Get_height_frame() / 2;
+            float r_player = min(Player.Get_width_frame(), Player.Get_height_frame()) / 2 - 1;
+
+            RectObject rect_checkpoint = { x1_checkpoint, y1_checkpoint, x2_checkpoint, y2_checkpoint };
+            CircleObject circle_player = { cx_player, cy_player, r_player };
+
+            if (checkIntersectBallVsObject(circle_player, rect_checkpoint)
+                && endpoint_object->Get_is_opened() == 0) {
+                Player.Set_pos(Player.Get_x_pos() - 64, Player.Get_y_pos());
+                //is_IntersectBallVsRing_ = 1;
+                //Score.IncreaseScore(life_object->Get_ScoreLife());
+                //Life.IncreaseLife(1);
+                //life_object->Set_ScoreLife(0);
+                //life_object->Set_is_catched(1);
+                //life_object->LoadImage("img//life//life_clear.png", Screen);
+                //life_object->SetClips();
+            }
+        }
+    }
+}
+
 void ManagementObject::LoadALLObject(MainObject& Player, GameMap& gamemap, SDL_Renderer* Screen) {
     LoadThreatsObject(gamemap, Screen);
     LoadRingsObject(gamemap, Screen);
     LoadCheckpointObject(Player, gamemap, Screen);
     LoadLifeObject(Player, gamemap, Screen);
+    LoadEndpointObject(Player, gamemap, Screen);
 }
 
 void ManagementObject::checkIntersectALLObject(LifeObject& Life, ScoreObject& Score,
@@ -351,4 +421,5 @@ void ManagementObject::checkIntersectALLObject(LifeObject& Life, ScoreObject& Sc
     checkIntersectRingsObject(Score, Player, map_data, Screen);
     checkIntersectCheckpointObject(Score, Player, map_data, Screen);
     checkIntersectLifeObject(Life, Score, Player, map_data, Screen);
+    checkIntersectEndpointObject(Score, Player, map_data, Screen);
 }

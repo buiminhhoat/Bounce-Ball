@@ -29,7 +29,7 @@ MainObject::MainObject() {
 	on_ground_ = false;
 	map_x_ = 0;
 	map_y_ = 0;
-	come_back_time = 0;
+	come_back_time_ = 0;
 	id_checkpoint_ = -1;
 }
 
@@ -69,7 +69,7 @@ void MainObject::ShowImage(SDL_Renderer* des) {
 		frame_ = 0;
 	}
 
-	if (come_back_time == 0) {
+	if (come_back_time_ == 0) {
 		Rect_.x = x_pos_ - map_x_;
 		Rect_.y = y_pos_ - map_y_;
 
@@ -122,7 +122,7 @@ void MainObject::InputAction(SDL_Event events, SDL_Renderer* Screen) {
 }
 
 void MainObject::DoPlayer(Map &map_data) {
-	if (come_back_time == 0) {
+	if (come_back_time_ == 0) {
 		x_val_ = 0;
 		y_val_ += GRAVITY_SPEED;
 		if (y_val_ >= MAX_FALL_SPEED) {
@@ -147,13 +147,13 @@ void MainObject::DoPlayer(Map &map_data) {
 		CenterEntityOnMap(map_data);
 	}
 
-	if (come_back_time > 0) {
-		--come_back_time;
-		if (come_back_time == 0) {
+	if (come_back_time_ > 0) {
+		--come_back_time_;
+		if (come_back_time_ == 0) {
 			on_ground_ = false;
-			if (x_pos_ > 256) {
-				x_pos_ -= 256; // 4 tiles
-				//map_x_ -= 256;
+			if (x_pos_ > DRAW_BACK) {
+				x_pos_ -= DRAW_BACK; // 4 tiles
+				map_x_ -= DRAW_BACK;
 			}
 			else {
 				x_pos_ = 0;
@@ -336,7 +336,6 @@ void MainObject::CheckPlayerVsMap(Map& map_data) {
 		y_pos_ = 0;
 	}
 	if (y_pos_ > map_data.max_y_) {
-		//y_pos_ = 0;
-		come_back_time = 10;
+		come_back_time_ = 10;
 	}
 }

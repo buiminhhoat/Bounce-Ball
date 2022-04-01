@@ -11,7 +11,9 @@
  <tileset firstgid="6" source="../tileset/ring_vertical.tsx"/>
  <tileset firstgid="7" source="../tileset/ring_horizontal.tsx"/>
  <tileset firstgid="8" source="../tileset/END_POINT.tsx"/>
- <tileset firstgid="9" source="../tileset/life.tsx"/>
+ <tileset firstgid="9" name="life" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+  <image source="../tileset/life.png" width="64" height="64"/>
+ </tileset>
  <layer id="1" name="Tile Layer 1" width="134" height="22">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,

@@ -76,6 +76,7 @@ void ThreatsObject::InitThreats() {
 }
 
 void ThreatsObject::DoPlayer(Map& gMap) {
+	if (type_move_ == STATIC_THREAT) return;
 	x_val_ = 0;
 	y_val_ += THREAT_GRAVITY_SPEED;
 	if (y_val_ >= THREAT_MAX_FALL_SPEED) {

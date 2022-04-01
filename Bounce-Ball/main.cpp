@@ -42,7 +42,8 @@ int main(int argc, char* argv[]) {
     if (!LoadBackground()) 
         return -1;
 
-    LevelGame::LoadLevelGame();
+    LevelGame::LoadLevelGame("map//level27.map");
+
     CleanUp();
     return 0;
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="28" height="8" tilewidth="64" tileheight="64" infinite="0" nextlayerid="3" nextobjectid="1">
+ <editorsettings>
+  <export format="lua"/>
+ </editorsettings>
+ <tileset firstgid="1" source="../buildmap/tileset/START_POINT.tsx"/>
+ <tileset firstgid="2" source="../buildmap/tileset/GROUND_BLOCK.tsx"/>
+ <tileset firstgid="3" source="../buildmap/tileset/THORN.tsx"/>
+ <tileset firstgid="4" source="../buildmap/tileset/dyn_thorn.tsx"/>
+ <tileset firstgid="5" source="../buildmap/tileset/CHECKPOINT.tsx"/>
+ <tileset firstgid="6" source="../buildmap/tileset/ring_vertical.tsx"/>
+ <tileset firstgid="7" source="../buildmap/tileset/ring_horizontal.tsx"/>
+ <tileset firstgid="8" source="../buildmap/tileset/END_POINT.tsx"/>
+ <tileset firstgid="9" name="life" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+  <image source="../buildmap/tileset/life.png" width="64" height="64"/>
+ </tileset>
+ <layer id="1" name="Tile Layer 1" width="28" height="8">
+  <data encoding="csv">
+2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+2,2,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,2,2,
+2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,
+2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,
+2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,
+0,0,0,0,0,6,0,0,0,0,0,6,0,0,0,0,6,0,0,0,0,0,0,0,0,0,8,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+2,2,2,2,2,2,2,2,3,3,2,2,2,3,3,2,2,2,3,3,2,2,2,2,2,2,2,2
+</data>
+ </layer>
+</map>

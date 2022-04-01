@@ -5,7 +5,7 @@ class LevelGame {
 public:
 	LevelGame();
 	~LevelGame();
-	static void LoadLevelGame();
+	static void LoadLevelGame(const char* NameFileMap);
 private:
 
 };

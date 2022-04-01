@@ -38,7 +38,7 @@ const int TILE_LAYER = 1;
 const int BLANK_TILE = 0;
 
 /* MAP */
-const int MAX_MAP_X = 400;
+const int MAX_MAP_X = 1000;
 const int MAX_MAP_Y = 100;
 
 typedef struct Input {
@@ -72,7 +72,7 @@ enum TypeBlock {
 	CHECKPOINT = 5,
 	RING_VERTICAL = 6,
 	RING_HORIZONTAL = 7,
-	END_POINT = 8,
+	ENDPOINT = 8,
 	LIFE = 9,
 };
 
