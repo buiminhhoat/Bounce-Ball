@@ -1,5 +1,5 @@
-#ifndef GAME__MAP__H_
-#define GAME__MAP__H_
+#ifndef __GAMEMAP__
+#define __GAMEMAP__
 
 #include "CommonFunc.h"
 #include "BaseObject.h"

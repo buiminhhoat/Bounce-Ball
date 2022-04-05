@@ -33,31 +33,16 @@
     <ClCompile Include="FPS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ThreatsObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LevelGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ManagementObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RingsObject.cpp">
+    <ClCompile Include="GameComponents.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ScoreObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CheckpointObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TextObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LifeObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EndpointObject.cpp">
+    <ClCompile Include="BounceBall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,31 +62,16 @@
     <ClInclude Include="FPS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ThreatsObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LevelGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ManagementObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RingsObject.h">
+    <ClInclude Include="GameComponents.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ScoreObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CheckpointObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TextObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LifeObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EndpointObject.h">
+    <ClInclude Include="BounceBall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

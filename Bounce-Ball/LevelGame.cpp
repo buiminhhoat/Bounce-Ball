@@ -2,21 +2,14 @@
 #include <string>
 #include <fstream>
 
+#include "BounceBall.h"
 #include "CommonFunc.h"
 #include "BaseObject.h"
 #include "GameMap.h"
 #include "MainObject.h"
 #include "FPS.h"
-
-#include "ThreatsObject.h"
-#include "RingsObject.h"
-#include "ScoreObject.h"
-#include "LifeObject.h"
-#include "CheckpointObject.h"
-#include "TextObject.h"
-
+#include "GameComponents.h"
 #include "LevelGame.h"
-
 #include "ManagementObject.h"
 
 using namespace std;
@@ -83,20 +76,20 @@ void ShowRemRings(SDL_Renderer* Screen) {
 void LevelGame::LoadLevelGame(const char* NameFileMap) {
     Life.SetLife(ORIGINAL_LIFE);
 
-    //gamemap.LoadMap("map//map02.dat");
     gamemap.LoadMap(NameFileMap);
     gamemap.LoadIMGBlock(gScreen);
 
+    
     Player.LoadImage("img//ball//ball.png", gScreen);
     Player.Set_Clips();
     Player.Set_pos(gamemap.Get_start_x_player(), gamemap.Get_start_y_player());
-    //Player.Set_pos(8176, 384);
 
     ScoreText.SetColor(TextObject::WHITE_COLOR);
     LifeText.SetColor(TextObject::WHITE_COLOR);
     RemRingText.SetColor(TextObject::WHITE_COLOR);
     
-    Object.LoadALLObject(Player, gamemap, gScreen);
+    Object.setAllObject(gamemap, Player, Score, Life);
+    Object.LoadALLObject(gScreen);
 
     gamemap.FixMap();
 
@@ -124,8 +117,9 @@ void LevelGame::LoadLevelGame(const char* NameFileMap) {
         //cerr << Player.Get_x_pos() << ' ' << Player.Get_y_pos() << '\n';
         gamemap.SetMap(map_data);
         gamemap.DrawMap(gScreen);
-        
-        Object.checkIntersectALLObject(Life, Score, Player, map_data, gScreen);
+
+        Object.setAllObject(gamemap, Player, Score, Life);
+        Object.checkIntersectALLObject(gScreen);
 
         ShowScore(gScreen);
         ShowRemRings(gScreen);
@@ -196,7 +190,7 @@ bool initSDL() {
         if (TTF_Init() == -1) return false;
         FontGame = TTF_OpenFont("font//no_continue.ttf", 30);
         if (FontGame == NULL) {
-            return false;   
+            return false;
         }
     }
     return true;

@@ -1,5 +1,5 @@
-#ifndef BASE__OBJECT__H_
-#define BASE__OBJECT__H_
+#ifndef __BASEOBJECT__
+#define __BASEOBJECT__
 
 #include "CommonFunc.h"
 

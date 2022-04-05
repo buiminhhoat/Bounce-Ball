@@ -1,19 +1,15 @@
 ﻿#include <vector>
 #include <string>
 #include <fstream>
+#include <random>
+#include <Windows.h>
 
 #include "CommonFunc.h"
 #include "BaseObject.h"
 #include "GameMap.h"
 #include "MainObject.h"
 #include "FPS.h"
-
-#include "ThreatsObject.h"
-#include "RingsObject.h"
-#include "ScoreObject.h"
-#include "CheckpointObject.h"
-#include "TextObject.h"
-
+#include "GameComponents.h"
 #include "LevelGame.h"
 
 #include "ManagementObject.h"
@@ -41,7 +37,7 @@ int main(int argc, char* argv[]) {
         return -1;
     if (!LoadBackground()) 
         return -1;
-
+    
     LevelGame::LoadLevelGame("map//level27.map");
 
     CleanUp();

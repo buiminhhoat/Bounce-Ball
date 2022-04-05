@@ -1,5 +1,5 @@
-#ifndef MAIN__OBJECT_H_
-#define MAIN__OBJECT_H_
+#ifndef __MAINOBJECT__
+#define __MAINOBJECT__
 
 #include <vector>
 #include "CommonFunc.h"

@@ -200,14 +200,14 @@ void MainObject::CheckPlayerVsMap(Map& map_data) {
 
 	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y) {
 		if (x_val_ > 0) {
-			if (map_data.block[y1][x2] != BLANK_TILE || map_data.block[y2][x2] != BLANK_TILE) {
+			if (map_data.block[y1][x2] != BLANK_TILES || map_data.block[y2][x2] != BLANK_TILES) {
 				x_pos_ = x2 * TILE_SIZE;
 				x_pos_ -= width_frame_;
 				x_val_ = 0;
 			}
 		}
 		else if (x_val_ < 0) {
-			if (map_data.block[y1][x1] != BLANK_TILE || map_data.block[y2][x1] != BLANK_TILE) {
+			if (map_data.block[y1][x1] != BLANK_TILES || map_data.block[y2][x1] != BLANK_TILES) {
 				x_pos_ = (x1 + 1) * TILE_SIZE;
 				x_val_ = 0;
 			}
@@ -229,11 +229,11 @@ void MainObject::CheckPlayerVsMap(Map& map_data) {
 		float height_block1 = (x1 + 1) * TILE_SIZE - x_pos_;
 		float height_block2 = height_frame_ - height_block1;
 		int select_block = 0;
-		if (select_block == 0 && map_data.block[y2][x1] != BLANK_TILE) {
+		if (select_block == 0 && map_data.block[y2][x1] != BLANK_TILES) {
 			if (height_block1 >= (1 - EQUILIBRIUM_RATIO) * width_frame_)
 				select_block = 1;
 		}
-		if (select_block == 0 && map_data.block[y2][x2] != BLANK_TILE) {
+		if (select_block == 0 && map_data.block[y2][x2] != BLANK_TILES) {
 			if (height_block2 >= (1 - EQUILIBRIUM_RATIO) * width_frame_)
 				select_block = 2;
 		}
@@ -246,7 +246,7 @@ void MainObject::CheckPlayerVsMap(Map& map_data) {
 
 		if (y_val_ > 0) {
 			if (height_block1 == TILE_SIZE) {
-				if (map_data.block[y2][x1] != BLANK_TILE) {
+				if (map_data.block[y2][x1] != BLANK_TILES) {
 					y_pos_ = y2 * TILE_SIZE;
 					y_pos_ -= height_frame_;
 					y_val_ = 0;
@@ -254,32 +254,32 @@ void MainObject::CheckPlayerVsMap(Map& map_data) {
 				}
 			}
 			else if (height_block2 == TILE_SIZE) {
-				if (map_data.block[y2][x2] != BLANK_TILE) {
+				if (map_data.block[y2][x2] != BLANK_TILES) {
 					y_pos_ = y2 * TILE_SIZE;
 					y_pos_ -= height_frame_;
 					y_val_ = 0;
 					on_ground_ = true;
 				}
 			}
-			else if (map_data.block[y2][x1] != BLANK_TILE) {
+			else if (map_data.block[y2][x1] != BLANK_TILES) {
 				y_pos_ = y2 * TILE_SIZE;
 				y_pos_ -= height_frame_;
 				y_val_ = 0;
 				on_ground_ = true;
 				if (height_block1 <= (1 - EQUILIBRIUM_RATIO) * width_frame_
-					&& map_data.block[y2][x2] == BLANK_TILE)
+					&& map_data.block[y2][x2] == BLANK_TILES)
 					if (height_block1 <= FREE_ROLLING_SPEED)
 						x_pos_ += height_block1;
 					else
 						x_pos_ += FREE_ROLLING_SPEED;
 			}
-			else if (map_data.block[y2][x2] != BLANK_TILE) {
+			else if (map_data.block[y2][x2] != BLANK_TILES) {
 				y_pos_ = y2 * TILE_SIZE;
 				y_pos_ -= height_frame_;
 				y_val_ = 0;
 				on_ground_ = true;
 				if (height_block2 <= (1 - EQUILIBRIUM_RATIO) * width_frame_
-					&& map_data.block[y2][x1] == BLANK_TILE)
+					&& map_data.block[y2][x1] == BLANK_TILES)
 					if (height_block2 <= FREE_ROLLING_SPEED)
 						x_pos_ -= height_block2;
 					else
@@ -288,31 +288,31 @@ void MainObject::CheckPlayerVsMap(Map& map_data) {
 		}
 		else if (y_val_ < 0) {
 			if (height_block1 == TILE_SIZE) {
-				if (map_data.block[y1][x1] != BLANK_TILE) {
+				if (map_data.block[y1][x1] != BLANK_TILES) {
 					y_pos_ = (y1 + 1) * TILE_SIZE;
 					y_val_ = 0;
 				}
 			}
 			else if (height_block2 == TILE_SIZE) {
-				if (map_data.block[y1][x2] != BLANK_TILE) {
+				if (map_data.block[y1][x2] != BLANK_TILES) {
 					y_pos_ = (y1 + 1) * TILE_SIZE;
 					y_val_ = 0;
 				}
 			}
-			else if (map_data.block[y1][x1] != BLANK_TILE) {
+			else if (map_data.block[y1][x1] != BLANK_TILES) {
 				y_pos_ = (y1 + 1) * TILE_SIZE;
 				if (height_block1 <= (1 - EQUILIBRIUM_RATIO) * width_frame_
-					&& map_data.block[y1][x2] == BLANK_TILE)
+					&& map_data.block[y1][x2] == BLANK_TILES)
 					if (height_block1 <= FREE_ROLLING_SPEED)
 						x_pos_ += height_block1;
 					else
 						x_pos_ += FREE_ROLLING_SPEED;
 				y_val_ = 0;
 			}
-			else if (map_data.block[y1][x2] != BLANK_TILE) {
+			else if (map_data.block[y1][x2] != BLANK_TILES) {
 				y_pos_ = (y1 + 1) * TILE_SIZE;
 				if (height_block2 <= (1 - EQUILIBRIUM_RATIO) * width_frame_
-					&& map_data.block[y1][x1] == BLANK_TILE)
+					&& map_data.block[y1][x1] == BLANK_TILES)
 					if (height_block2 <= FREE_ROLLING_SPEED)
 						x_pos_ -= height_block2;
 					else

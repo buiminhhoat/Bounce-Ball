@@ -22,7 +22,6 @@ bool BaseObject::LoadImage(std::string path, SDL_Renderer* Screen) {
         return false;
     }
     else {
-        SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, COLOR_KEY_R, COLOR_KEY_G, COLOR_KEY_B));
         newTexture = SDL_CreateTextureFromSurface(Screen, loadedSurface);
         if (newTexture == NULL) {
             std::cerr << "Unable to create texture from " << path << " SDL Error: "

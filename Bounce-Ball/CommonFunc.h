@@ -1,14 +1,17 @@
-#ifndef COMMON__FUNC__H_
-#define COMMON__FUNC__H_
+#ifndef __COMMONFUNC__
+#define __COMMONFUNC__
 
+#include <vector>
+#include <string>
+#include <fstream>
 #include <windows.h>
 #include <iostream>
 #include <string>
+
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
-
 
 static SDL_Window* gWindow = NULL;
 static SDL_Renderer* gScreen = NULL;
@@ -23,25 +26,18 @@ const int FRAME_PER_SECOND = 60;
 /* TITLE */
 const std::string WINDOW_TITLE = "Bounce Ball by Bui Minh Hoat";
 
-/* COLOR KEY */
-
-const int COLOR_KEY_R = 167;
-const int COLOR_KEY_G = 175;
-const int COLOR_KEY_B = 180;
-
 /* RENDER DRAW COLOR */
 const int RENDER_DRAW_COLOR = 255;
 
 /* TILE SIZE */
 const int TILE_SIZE = 64;
 const int TILE_LAYER = 1;
-const int BLANK_TILE = 0;
 
 /* MAP */
-const int MAX_MAP_X = 1000;
+const int MAX_MAP_X = 500;
 const int MAX_MAP_Y = 100;
 
-typedef struct Input {
+struct Input {
 	int left_;
 	int right_;
 	int up_;
@@ -49,7 +45,7 @@ typedef struct Input {
 	int jump_;
 };
 
-typedef struct Map {
+struct Map {
 	int start_x_player_;
 	int start_y_player_;
 	int start_x_;
@@ -76,4 +72,4 @@ enum TypeBlock {
 	LIFE = 9,
 };
 
-#endif#pragma once
+#endif

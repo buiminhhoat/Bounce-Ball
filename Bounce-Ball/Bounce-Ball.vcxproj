@@ -143,36 +143,26 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp" />
-    <ClCompile Include="CheckpointObject.cpp" />
-    <ClCompile Include="EndpointObject.cpp" />
+    <ClCompile Include="BounceBall.cpp" />
+    <ClCompile Include="GameComponents.cpp" />
     <ClCompile Include="LevelGame.cpp" />
-    <ClCompile Include="LifeObject.cpp" />
     <ClCompile Include="MainObject.cpp" />
     <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="CommonFunc.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="FPS.cpp" />
     <ClCompile Include="ManagementObject.cpp" />
-    <ClCompile Include="RingsObject.cpp" />
-    <ClCompile Include="ScoreObject.cpp" />
-    <ClCompile Include="TextObject.cpp" />
-    <ClCompile Include="ThreatsObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseObject.h" />
-    <ClInclude Include="CheckpointObject.h" />
-    <ClInclude Include="EndpointObject.h" />
+    <ClInclude Include="BounceBall.h" />
+    <ClInclude Include="GameComponents.h" />
     <ClInclude Include="LevelGame.h" />
-    <ClInclude Include="LifeObject.h" />
     <ClInclude Include="MainObject.h" />
     <ClInclude Include="CommonFunc.h" />
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="FPS.h" />
     <ClInclude Include="ManagementObject.h" />
-    <ClInclude Include="RingsObject.h" />
-    <ClInclude Include="ScoreObject.h" />
-    <ClInclude Include="TextObject.h" />
-    <ClInclude Include="ThreatsObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

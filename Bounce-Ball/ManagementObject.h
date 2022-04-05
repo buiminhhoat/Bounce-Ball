@@ -1,5 +1,5 @@
-#ifndef MANAGEMENT__OBJECT__H_
-#define MANAGEMENT__OBJECT__H_
+#ifndef __MANAGEMENTOBJECT__
+#define __MANAGEMENTOBJECT__
 
 #include <vector>
 #include <string>
@@ -10,14 +10,7 @@
 #include "GameMap.h"
 #include "MainObject.h"
 #include "FPS.h"
-
-#include "ThreatsObject.h"
-#include "RingsObject.h"
-#include "ScoreObject.h"
-#include "CheckpointObject.h"
-#include "LifeObject.h"
-#include "EndpointObject.h"
-
+#include "GameComponents.h"
 #include "LevelGame.h"
 
 #include "ManagementObject.h"
@@ -28,24 +21,24 @@ class ManagementObject {
 public:
 	ManagementObject();
 	~ManagementObject();
-	void LoadThreatsObject(GameMap &gamemap, SDL_Renderer* Screen);
-	void checkIntersectThreatsObject(MainObject &Player, Map &map_data, SDL_Renderer* Screen);
+	void LoadThreatsObject(SDL_Renderer* Screen);
+	void checkIntersectThreatsObject(SDL_Renderer* Screen);
 	
-	void LoadRingsObject(GameMap& gamemap, SDL_Renderer* Screen);
-	void checkIntersectRingsObject(ScoreObject& Score, MainObject &Player, Map& map_data, SDL_Renderer* Screen);
+	void LoadRingsObject(SDL_Renderer* Screen);
+	void checkIntersectRingsObject(SDL_Renderer* Screen);
 	
-	void LoadCheckpointObject(MainObject& Player, GameMap& gamemap, SDL_Renderer* Screen);
-	void checkIntersectCheckpointObject(ScoreObject& Score, MainObject& Player, Map& map_data, SDL_Renderer* Screen);
+	void LoadCheckpointObject(SDL_Renderer* Screen);
+	void checkIntersectCheckpointObject(SDL_Renderer* Screen);
 
-	void LoadLifeObject(MainObject& Player, GameMap& gamemap, SDL_Renderer* Screen);
-	void checkIntersectLifeObject(LifeObject& Life, ScoreObject& Score, MainObject& Player, Map& map_data, SDL_Renderer* Screen);
+	void LoadLifeObject(SDL_Renderer* Screen);
+	void checkIntersectLifeObject(SDL_Renderer* Screen);
 
-	void LoadEndpointObject(MainObject& Player, GameMap& gamemap, SDL_Renderer* Screen);
+	void LoadEndpointObject(SDL_Renderer* Screen);
 	void OpenAllEndpointObject(SDL_Renderer* Screen);
-	void checkIntersectEndpointObject(ScoreObject& Score, MainObject& Player, Map& map_data, SDL_Renderer* Screen);
+	void checkIntersectEndpointObject(SDL_Renderer* Screen);
 
-	void LoadALLObject(MainObject& Player, GameMap& gamemap, SDL_Renderer* Screen);
-	void checkIntersectALLObject(LifeObject& Life, ScoreObject& Score, MainObject& Player, Map& map_data, SDL_Renderer* Screen);
+	void LoadALLObject(SDL_Renderer* Screen);
+	void checkIntersectALLObject(SDL_Renderer* Screen);
 
 	int Get_is_IntersectBallVsThreats() {return is_IntersectBallVsThreats_;}
 
@@ -61,6 +54,14 @@ public:
 
 	void Set_rem_Rings(const int& rem_Rings) { rem_Rings_ = rem_Rings; }
 	int Get_rem_Rings() { return rem_Rings_; };
+
+	void setAllObject(GameMap &gamemap,	MainObject &Player, ScoreObject &Score, LifeObject &Life) {
+		gamemap_ = gamemap;
+		Player_ = Player;
+		Score_ = Score;
+		Life_ = Life;
+		map_data_ = gamemap_.getMap();
+	}
 private:
 	std::vector <ThreatsObject*> threats_list;
 	std::vector <RingsObject*> rings_list;
@@ -71,6 +72,11 @@ private:
 	int is_IntersectBallVsThreats_;
 	int is_IntersectBallVsRing_;
 	int rem_Rings_;
+
+	GameMap gamemap_;
+	MainObject Player_;
+	Map map_data_;
+	ScoreObject Score_;
+	LifeObject Life_;
 };
 #endif
-#pragma once

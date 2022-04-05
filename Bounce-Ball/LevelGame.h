@@ -1,5 +1,5 @@
-#ifndef LEVEL__GAME__H_
-#define LEVEL__GAME__H_ 
+#ifndef __LEVELGAME__
+#define __LEVELGAME__ 
 
 class LevelGame {
 public:

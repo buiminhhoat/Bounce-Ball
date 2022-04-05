@@ -1,3 +1,6 @@
+#ifndef __BOUNCEBALL__
+#define __BOUNCEBALL__
+
 #include <vector>
 #include <string>
 #include <fstream>
@@ -7,15 +10,15 @@
 #include "GameMap.h"
 #include "MainObject.h"
 #include "FPS.h"
-
-#include "ThreatsObject.h"
-#include "RingsObject.h"
-#include "ScoreObject.h"
-#include "LifeObject.h"
-#include "CheckpointObject.h"
-#include "TextObject.h"
-
+#include "GameComponents.h"
 #include "LevelGame.h"
-
 #include "ManagementObject.h"
-#include "Menu.h"
+
+class BounceBall {
+private:
+	
+public:
+
+};
+#endif
+#pragma once

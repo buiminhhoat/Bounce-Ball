@@ -7,23 +7,11 @@
 #include "GameMap.h"
 #include "MainObject.h"
 #include "FPS.h"
-
-#include "ThreatsObject.h"
-#include "RingsObject.h"
-#include "ScoreObject.h"
-#include "CheckpointObject.h"
-#include "TextObject.h"
-
+#include "GameComponents.h"
 #include "LevelGame.h"
 
 #include "ManagementObject.h"
+#include "BounceBall.h"
 
 using namespace std;
 
-ScoreObject::ScoreObject() {
-	Score = 0;
-}
-
-ScoreObject::~ScoreObject() {
-
-}

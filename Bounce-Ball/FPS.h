@@ -1,5 +1,5 @@
-#ifndef FPS__H_
-#define FPS__H_
+#ifndef __FPS__
+#define __FPS__
 class FPS {
 public:
 	FPS();
