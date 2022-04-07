@@ -15,10 +15,21 @@
 #include "ManagementObject.h"
 
 class BounceBall {
-private:
-	
 public:
-
+	BounceBall();
+	~BounceBall();
+	int startGame();
+	bool initSDL();
+	void CleanUp();
+	void displayMenu();
+	void displayPlay();
+	void displayleaderboard();
+	void setDisplay(int display) {
+		this->display = display;
+	}
+	
+private:
+	int display = 0;
 };
 #endif
 #pragma once

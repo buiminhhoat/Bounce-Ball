@@ -11,6 +11,7 @@
 #include "FPS.h"
 #include "GameComponents.h"
 #include "LevelGame.h"
+#include "BounceBall.h"
 
 #include "ManagementObject.h"
 
@@ -25,22 +26,12 @@ using namespace std;
 #define debug4(a, b, c, d) cout << #a << " = " << a << "; " << #b << " = " << b << "; " << #c << " = " << c << "; " << #d << " = " << d << "; "
 #define debug4l(a, b, c, d) cout << #a << " = " << a << "; " << #b << " = " << b << "; " << #c << " = " << c << "; " << #d << " = " << d << "; " << '\n'
 
-
-bool initSDL();
-
-bool LoadBackground();
-
-void CleanUp();
-
 int main(int argc, char* argv[]) {
-    if (!initSDL()) 
-        return -1;
-    if (!LoadBackground()) 
-        return -1;
-    
-    LevelGame::LoadLevelGame("map//level27.map");
+    //LevelGame::LoadLevelGame("map//level27.map");
 
-    CleanUp();
+    BounceBall* bounceBall = new BounceBall;
+    bounceBall->startGame();
+
     return 0;
 }
 

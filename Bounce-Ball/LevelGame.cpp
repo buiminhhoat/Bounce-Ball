@@ -37,8 +37,8 @@ TextObject RemRingText;
 void ShowScore(SDL_Renderer* Screen) {
     std::string str_Score = "Score: " + std::to_string(Score.GetScore());
     ScoreText.SetText(str_Score);
-    ScoreText.LoadFromRenderText(FontGame, gScreen);
-    ScoreText.ShowText(gScreen, SCREEN_WIDTH - 200, 5);
+    ScoreText.LoadFromRenderText(FontGame, Screen);
+    ScoreText.ShowText(Screen, SCREEN_WIDTH - 200, 5);
 }
 
 void ShowLife(SDL_Renderer* Screen) {
@@ -73,14 +73,22 @@ void ShowRemRings(SDL_Renderer* Screen) {
     }
 }
 
-void LevelGame::LoadLevelGame(const char* NameFileMap) {
+void LevelGame::LoadLevelGame(const char* NameFileMap, SDL_Renderer* Screen, 
+                                SDL_Event Event, InfoPlayer* infoPlayer) {
+    Score.setScore(infoPlayer->getScore());
+    Background.LoadImage("img//Background.jpg", Screen);
+    if (TTF_Init() == -1) return;
+    FontGame = TTF_OpenFont("font//no_continue.ttf", 30);
+    if (FontGame == NULL) {
+        return;
+    }
+
     Life.SetLife(ORIGINAL_LIFE);
 
     gamemap.LoadMap(NameFileMap);
-    gamemap.LoadIMGBlock(gScreen);
+    gamemap.LoadIMGBlock(Screen);
 
-    
-    Player.LoadImage("img//ball//ball.png", gScreen);
+    Player.LoadImage("img//ball//ball.png", Screen);
     Player.Set_Clips();
     Player.Set_pos(gamemap.Get_start_x_player(), gamemap.Get_start_y_player());
 
@@ -88,54 +96,59 @@ void LevelGame::LoadLevelGame(const char* NameFileMap) {
     LifeText.SetColor(TextObject::WHITE_COLOR);
     RemRingText.SetColor(TextObject::WHITE_COLOR);
     
-    Object.setAllObject(gamemap, Player, Score, Life);
-    Object.LoadALLObject(gScreen);
+    Object.setAllObject(&gamemap, &Player, &Score, &Life, infoPlayer);
+    Object.LoadALLObject(infoPlayer, Screen);
 
     gamemap.FixMap();
 
     bool is_quit = false;
     while (!is_quit) {
         fps_timer.start();
-        while (SDL_PollEvent(&gEvent) != 0) {
-            if (gEvent.type == SDL_QUIT) {
+        while (SDL_PollEvent(&Event) != 0) {
+            if (Event.type == SDL_QUIT) {
                 is_quit = true;
+                break;
             }
-            Player.InputAction(gEvent, gScreen);
+            Player.InputAction(Event, Screen);
         }
-        
-        SDL_SetRenderDrawColor(gScreen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
-        SDL_RenderClear(gScreen);
+        SDL_SetRenderDrawColor(Screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
+        SDL_RenderClear(Screen);
 
-        Background.Render(gScreen, NULL);
+        Background.Render(Screen, NULL);
 
         Map map_data = gamemap.getMap();
 
         Player.SetMapXY(map_data.start_x_, map_data.start_y_);
         Player.DoPlayer(map_data);
-        Player.ShowImage(gScreen);
+        Player.ShowImage(Screen);
 
-        //cerr << Player.Get_x_pos() << ' ' << Player.Get_y_pos() << '\n';
         gamemap.SetMap(map_data);
-        gamemap.DrawMap(gScreen);
+        gamemap.DrawMap(Screen);
 
-        Object.setAllObject(gamemap, Player, Score, Life);
-        Object.checkIntersectALLObject(gScreen);
+        Object.setAllObject(&gamemap, &Player, &Score, &Life, infoPlayer);
+        Object.checkIntersectALLObject(Screen);
+        Object.setAllObject(&gamemap, &Player, &Score, &Life, infoPlayer);
 
-        ShowScore(gScreen);
-        ShowRemRings(gScreen);
-        // //SDL_RenderPresent(gScreen);
+        ShowScore(Screen);
+        ShowRemRings(Screen);
+
+        if (Object.Get_is_IntersectBallVsEndpoint_()) {
+            Object.Set_is_IntersectBallVsEndpoint_(0);
+            LevelGame::LoadLevelGame("map//level03.map", Screen, Event, infoPlayer);
+            return;
+        }
 
         if (Object.Get_is_IntersectBallVsThreats()) {
-            Player.LoadImage("img//ball//ball_pop.png", gScreen);
+            Player.LoadImage("img//ball//ball_pop.png", Screen);
             Player.Set_Clips();
-            Player.ShowImage(gScreen);
+            Player.ShowImage(Screen);
 
             Life.IncreaseLife(-1);
 
             if (Life.GetLife() == 0) {
-                ShowLife(gScreen);
+                ShowLife(Screen);
 
-                SDL_RenderPresent(gScreen);
+                SDL_RenderPresent(Screen);
                 SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
                     "GameOver!!!",
                     "GameOver!!!",
@@ -143,21 +156,21 @@ void LevelGame::LoadLevelGame(const char* NameFileMap) {
                 return;
             }
             
-            ShowLife(gScreen);
+            ShowLife(Screen);
             
-            SDL_RenderPresent(gScreen);
+            SDL_RenderPresent(Screen);
             SDL_Delay(1000);
             Object.Set_is_IntersectBallVsThreats(0);
-            Player.LoadImage("img//ball//ball.png", gScreen);
+            Player.LoadImage("img//ball//ball.png", Screen);
             Player.Set_Clips();
-            Player.ShowImage(gScreen);
+            Player.ShowImage(Screen);
             Player.Set_pos(Player.Get_x_pos_checkpoint(), Player.Get_y_pos_checkpoint());
-            SDL_RenderPresent(gScreen);
+            SDL_RenderPresent(Screen);
         }
+        
+        ShowLife(Screen);
 
-        ShowLife(gScreen);
-
-        SDL_RenderPresent(gScreen);
+        SDL_RenderPresent(Screen);
 
         int real_time = fps_timer.get_ticks();
         int time_one_frame = 1000 / FRAME_PER_SECOND;
@@ -166,49 +179,9 @@ void LevelGame::LoadLevelGame(const char* NameFileMap) {
             if (delay_time >= 0)
                 SDL_Delay(delay_time);
         }
+
+        //SDL_Delay(5000);
+        
+        //LevelGame::LoadLevelGame("map//level03.map", Screen, Event, infoPlayer);
     }
-}
-
-bool initSDL() {
-    int init = SDL_Init(SDL_INIT_VIDEO);
-    if (init < 0) return false;
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
-
-    gWindow = SDL_CreateWindow(WINDOW_TITLE.c_str(),
-        SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-        SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-
-    if (gWindow == NULL) {
-        return false;
-    }
-    else {
-        gScreen = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
-        if (gScreen == NULL) return false;
-        SDL_SetRenderDrawColor(gScreen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
-        int imgFlags = IMG_INIT_PNG;
-        if (!(IMG_Init(imgFlags) && imgFlags)) return false;
-        if (TTF_Init() == -1) return false;
-        FontGame = TTF_OpenFont("font//no_continue.ttf", 30);
-        if (FontGame == NULL) {
-            return false;
-        }
-    }
-    return true;
-}
-
-bool LoadBackground() {
-    return Background.LoadImage("img//Background.jpg", gScreen);
-}
-
-void CleanUp() {
-    Background.CleanUp();
-
-    SDL_DestroyRenderer(gScreen);
-    gScreen = NULL;
-
-    SDL_DestroyWindow(gWindow);
-    gWindow = NULL;
-
-    IMG_Quit();
-    SDL_Quit();
 }

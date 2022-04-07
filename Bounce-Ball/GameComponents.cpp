@@ -540,3 +540,13 @@ void ButtonObject::ShowImage(SDL_Renderer* des) {
 		SDL_RenderCopy(des, Object_, &frame_clip_[frame_], &rendQuad);
 	}
 }
+
+InfoPlayer::InfoPlayer() {
+	namePlayer = "";
+	score = 0;
+	life = ORIGINAL_LIFE;
+}
+
+InfoPlayer::~InfoPlayer() {
+
+}

@@ -150,6 +150,7 @@ public:
 		Score += valIncrease;
 	};
 	int GetScore() { return Score; };
+	void setScore(int Score) { this->Score = Score; }
 private:
 	int Score;
 };
@@ -192,6 +193,7 @@ public:
 
 	int Get_ScoreEndpoint() { return ScoreEndpoint_; };
 	void Set_ScoreEndpoint(const int& ScoreEndpoint) { ScoreEndpoint_ = ScoreEndpoint; };
+	
 private:
 	int map_x_;
 	int map_y_;
@@ -413,6 +415,36 @@ public:
 	int getWidthButton() { return width_frame_; }
 
 	int getHeightButton() { return height_frame_; }
+
+	SDL_Rect getSizeButton() { return frame_clip_[0]; }
+};
+
+class InfoPlayer {
+public:
+	InfoPlayer();
+	~InfoPlayer();
+	void setnamePlayer(string namePlayer) {
+		this->namePlayer = namePlayer;
+	}
+
+	string getnamePlayer() {
+		return namePlayer;
+	}
+	void setScore(int score) {
+		this->score = score;
+	}
+	
+	int getScore() { return score; };
+
+	void setlife(int life) {
+		this->life = life;
+	}
+
+	int getlife() { return life; };	
+private:
+	string namePlayer;
+	int score;
+	int life;
 };
 
 #endif

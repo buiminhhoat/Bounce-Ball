@@ -37,7 +37,7 @@ public:
 	void OpenAllEndpointObject(SDL_Renderer* Screen);
 	void checkIntersectEndpointObject(SDL_Renderer* Screen);
 
-	void LoadALLObject(SDL_Renderer* Screen);
+	void LoadALLObject(InfoPlayer* infoPlayer, SDL_Renderer* Screen);
 	void checkIntersectALLObject(SDL_Renderer* Screen);
 
 	int Get_is_IntersectBallVsThreats() {return is_IntersectBallVsThreats_;}
@@ -52,15 +52,25 @@ public:
 		is_IntersectBallVsRing_ = is_IntersectBallVsRing;
 	}
 
+	int Get_is_IntersectBallVsEndpoint_() {
+		return is_IntersectBallVsEndpoint_;
+	}
+
+	void Set_is_IntersectBallVsEndpoint_(int is_IntersectBallVsEndpoint_) {
+		this->is_IntersectBallVsEndpoint_ = 0;
+	}
+
 	void Set_rem_Rings(const int& rem_Rings) { rem_Rings_ = rem_Rings; }
 	int Get_rem_Rings() { return rem_Rings_; };
 
-	void setAllObject(GameMap &gamemap,	MainObject &Player, ScoreObject &Score, LifeObject &Life) {
+	void setAllObject(GameMap *gamemap,	MainObject *Player, ScoreObject *Score, 
+						LifeObject *Life, InfoPlayer *infoPlayer) {
 		gamemap_ = gamemap;
 		Player_ = Player;
 		Score_ = Score;
 		Life_ = Life;
-		map_data_ = gamemap_.getMap();
+		map_data_ = gamemap->getMap();
+		this->infoPlayer_ = infoPlayer;
 	}
 private:
 	std::vector <ThreatsObject*> threats_list;
@@ -71,12 +81,14 @@ private:
 
 	int is_IntersectBallVsThreats_;
 	int is_IntersectBallVsRing_;
+	int is_IntersectBallVsEndpoint_;
 	int rem_Rings_;
 
-	GameMap gamemap_;
-	MainObject Player_;
+	GameMap *gamemap_;
+	MainObject *Player_;
 	Map map_data_;
-	ScoreObject Score_;
-	LifeObject Life_;
+	ScoreObject *Score_;
+	LifeObject *Life_;
+	InfoPlayer* infoPlayer_;
 };
 #endif
