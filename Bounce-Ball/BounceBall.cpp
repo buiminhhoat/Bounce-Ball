@@ -1,6 +1,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <iostream>
 
 #include "CommonFunc.h"
 #include "BaseObject.h"
@@ -13,6 +14,7 @@
 
 #include "ManagementObject.h"
 #include "BounceBall.h"
+#include "RSACryptoSystem.h"
 
 using namespace std;
 
@@ -85,11 +87,44 @@ void BounceBall::displayMenu() {
         if (typeleaderboardButton)
             display = 2;
     }
+    backGround.CleanUp();
+    playButton->CleanUp();
+    leaderboardButton->CleanUp();
 }
 
 void BounceBall::displayPlay() {
-    LevelGame::LoadLevelGame("map//level01.map", gScreen, gEvent, infoPlayer);
-    display = 0;
+    //LevelGame::LoadLevelGame("map//level01.map", gScreen, gEvent, infoPlayer);
+    //display = 0;
+    MouseEvents* mouse = new MouseEvents;
+    mouse->mouseHandleEvent();
+
+    BaseObject backGround;
+    backGround.LoadImage("img//Background.jpg", gScreen);
+    backGround.Render(gScreen);
+
+    int level = 0;
+    ButtonObject* selectLevelButton = new ButtonObject;
+    for (int i = 1; i <= 5; ++i) {
+        for (int j = 1; j <= 10; ++j) {
+            selectLevelButton->LoadImage("img//level//select_level.png", gScreen);
+            selectLevelButton->SetRectSize(j * 64, 64 * i);
+            selectLevelButton->SetClips();
+            selectLevelButton->Render(gScreen);
+            bool typeleaderboardButton = bool(mouse->CheckMouseInButton(selectLevelButton));
+            ++level;
+            if (gEvent.type == SDL_MOUSEBUTTONDOWN && typeleaderboardButton) {
+                infoPlayer->setLevel(level);
+                RSACryptoSystem AddressLevel;
+                string address = "map//level";
+                if (level < 10) address += "0";
+                address += AddressLevel.ConvertNumberToString(level);
+                address += ".map";
+                LevelGame::LoadLevelGame(address.c_str(), gScreen, gEvent, infoPlayer);
+            }
+            selectLevelButton->CleanUp();
+        }
+    }
+    SDL_RenderPresent(gScreen);
 }
 
 void BounceBall::displayleaderboard() {

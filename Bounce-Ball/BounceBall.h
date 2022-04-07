@@ -27,7 +27,6 @@ public:
 	void setDisplay(int display) {
 		this->display = display;
 	}
-	
 private:
 	int display = 0;
 };

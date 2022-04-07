@@ -507,6 +507,14 @@ void TextObject::ShowText(SDL_Renderer* Screen,
 	CleanUp();
 }
 
+ButtonObject::ButtonObject() {
+
+}
+
+ButtonObject::~ButtonObject() {
+	CleanUp();
+}
+
 bool ButtonObject::LoadImage(std::string path, SDL_Renderer* Screen) {
 	bool ret = BaseObject::LoadImage(path, Screen);
 	if (ret) {
@@ -528,17 +536,15 @@ void ButtonObject::SetClips() {
 }
 
 void ButtonObject::ShowImage(SDL_Renderer* des) {
-	if (come_back_time_ == 0) {
-		Rect_.x = x_pos_ - map_x_;
-		Rect_.y = y_pos_ - map_y_;
-		++frame_;
-		if (frame_ >= CHECKPOINT_FRAME_NUM) {
-			frame_ = 0;
-		}
-
-		SDL_Rect rendQuad = { Rect_.x, Rect_.y, width_frame_, height_frame_ };
-		SDL_RenderCopy(des, Object_, &frame_clip_[frame_], &rendQuad);
+	Rect_.x = x_pos_ - map_x_;
+	Rect_.y = y_pos_ - map_y_;
+	++frame_;
+	if (frame_ >= CHECKPOINT_FRAME_NUM) {
+		frame_ = 0;
 	}
+
+	SDL_Rect rendQuad = { Rect_.x, Rect_.y, width_frame_, height_frame_ };
+	SDL_RenderCopy(des, Object_, &frame_clip_[frame_], &rendQuad);
 }
 
 InfoPlayer::InfoPlayer() {

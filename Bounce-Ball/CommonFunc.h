@@ -54,7 +54,7 @@ struct Map {
 	int max_x_;
 	int max_y_;
 
-	int block[MAX_MAP_Y][MAX_MAP_X];
+	int block[MAX_MAP_Y][MAX_MAP_X]; 
 
 	const char* file_map;
 };
@@ -72,4 +72,4 @@ enum TypeBlock {
 	LIFE = 9,
 };
 
-#endif
+#endif 

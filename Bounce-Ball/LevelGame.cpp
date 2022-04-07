@@ -11,6 +11,7 @@
 #include "GameComponents.h"
 #include "LevelGame.h"
 #include "ManagementObject.h"
+#include "RSACryptoSystem.h"
 
 using namespace std;
 
@@ -78,6 +79,7 @@ void LevelGame::LoadLevelGame(const char* NameFileMap, SDL_Renderer* Screen,
     Score.setScore(infoPlayer->getScore());
     Life.SetLife(infoPlayer->getlife());
     Background.LoadImage("img//Background.jpg", Screen);
+
     if (TTF_Init() == -1) return;
     FontGame = TTF_OpenFont("font//no_continue.ttf", 30);
     if (FontGame == NULL) {
@@ -135,7 +137,13 @@ void LevelGame::LoadLevelGame(const char* NameFileMap, SDL_Renderer* Screen,
             Object.Set_is_IntersectBallVsEndpoint_(0);
             infoPlayer->setlife(Life.GetLife());
             infoPlayer->setScore(Score.GetScore());
-            LevelGame::LoadLevelGame("map//level03.map", Screen, Event, infoPlayer);
+            infoPlayer->setLevel(infoPlayer->getLevel() + 1);
+            RSACryptoSystem AddressLevel;
+            string address = "map//level";
+            if (infoPlayer->getLevel() < 10) address += "0";
+            address += AddressLevel.ConvertNumberToString(infoPlayer->getLevel());
+            address += ".map";
+            LevelGame::LoadLevelGame(address.c_str(), Screen, Event, infoPlayer);
             return;
         }
 
@@ -180,9 +188,5 @@ void LevelGame::LoadLevelGame(const char* NameFileMap, SDL_Renderer* Screen,
             if (delay_time >= 0)
                 SDL_Delay(delay_time);
         }
-
-        //SDL_Delay(5000);
-        
-        //LevelGame::LoadLevelGame("map//level03.map", Screen, Event, infoPlayer);
     }
 }

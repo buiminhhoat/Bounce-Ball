@@ -390,20 +390,14 @@ private:
 	float y_val_;
 	float x_pos_;
 	float y_pos_;
-	bool on_ground_;
-	int come_back_time_;
 	SDL_Rect frame_clip_[BUTTON_FRAME_NUM];
 	int width_frame_;
 	int height_frame_;
 	int frame_;
-	int type_move_;
-	int animation_a_;
-	int animation_b_;
-	int is_catched_;
-	int ScoreRing_;
-	int is_Vertical_;
 	string addressImgButton_;
 public:
+	ButtonObject();
+	~ButtonObject();
 	void SetClips();
 
 	bool LoadImage(std::string path, SDL_Renderer* Screen);
@@ -415,8 +409,6 @@ public:
 	int getWidthButton() { return width_frame_; }
 
 	int getHeightButton() { return height_frame_; }
-
-	SDL_Rect getSizeButton() { return frame_clip_[0]; }
 };
 
 class InfoPlayer {
@@ -441,10 +433,19 @@ public:
 	}
 
 	int getlife() { return life; };	
+
+	void setLevel(int level) {
+		this->level = level;
+	}
+
+	int getLevel() {
+		return level;
+	}
 private:
 	string namePlayer;
 	int score;
 	int life;
+	int level;
 };
 
 #endif
