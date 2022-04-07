@@ -76,14 +76,13 @@ void ShowRemRings(SDL_Renderer* Screen) {
 void LevelGame::LoadLevelGame(const char* NameFileMap, SDL_Renderer* Screen, 
                                 SDL_Event Event, InfoPlayer* infoPlayer) {
     Score.setScore(infoPlayer->getScore());
+    Life.SetLife(infoPlayer->getlife());
     Background.LoadImage("img//Background.jpg", Screen);
     if (TTF_Init() == -1) return;
     FontGame = TTF_OpenFont("font//no_continue.ttf", 30);
     if (FontGame == NULL) {
         return;
     }
-
-    Life.SetLife(ORIGINAL_LIFE);
 
     gamemap.LoadMap(NameFileMap);
     gamemap.LoadIMGBlock(Screen);
@@ -134,6 +133,8 @@ void LevelGame::LoadLevelGame(const char* NameFileMap, SDL_Renderer* Screen,
 
         if (Object.Get_is_IntersectBallVsEndpoint_()) {
             Object.Set_is_IntersectBallVsEndpoint_(0);
+            infoPlayer->setlife(Life.GetLife());
+            infoPlayer->setScore(Score.GetScore());
             LevelGame::LoadLevelGame("map//level03.map", Screen, Event, infoPlayer);
             return;
         }

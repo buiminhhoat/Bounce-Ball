@@ -34,8 +34,8 @@ const int TILE_SIZE = 64;
 const int TILE_LAYER = 1;
 
 /* MAP */
-const int MAX_MAP_X = 500;
-const int MAX_MAP_Y = 100;
+const int MAX_MAP_X = 700;
+const int MAX_MAP_Y = 50;
 
 struct Input {
 	int left_;

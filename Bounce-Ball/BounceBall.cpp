@@ -88,7 +88,7 @@ void BounceBall::displayMenu() {
 }
 
 void BounceBall::displayPlay() {
-    LevelGame::LoadLevelGame("map//level02.map", gScreen, gEvent, infoPlayer);
+    LevelGame::LoadLevelGame("map//level01.map", gScreen, gEvent, infoPlayer);
     display = 0;
 }
 
