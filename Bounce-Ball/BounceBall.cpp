@@ -122,9 +122,9 @@ void BounceBall::displayPlay() {
                 LevelGame::LoadLevelGame(address.c_str(), gScreen, gEvent, infoPlayer);
             }
             selectLevelButton->CleanUp();
-        }
+        } 
     }
-    SDL_RenderPresent(gScreen);
+    SDL_RenderPresent(gScreen); 
 }
 
 void BounceBall::displayleaderboard() {
