@@ -27,8 +27,6 @@ using namespace std;
 #define debug4l(a, b, c, d) cout << #a << " = " << a << "; " << #b << " = " << b << "; " << #c << " = " << c << "; " << #d << " = " << d << "; " << '\n'
 
 int main(int argc, char* argv[]) {
-    //LevelGame::LoadLevelGame("map//level27.map");
-
     BounceBall* bounceBall = new BounceBall;
     bounceBall->startGame();
 

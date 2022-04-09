@@ -135,7 +135,7 @@ void LevelGame::LoadLevelGame(const char* NameFileMap, SDL_Renderer* Screen,
 
         if (Object.Get_is_IntersectBallVsEndpoint_()) {
             Object.Set_is_IntersectBallVsEndpoint_(0);
-            infoPlayer->setlife(Life.GetLife());
+            infoPlayer->setlife(Life.GetLife()); 
             infoPlayer->setScore(Score.GetScore());
             infoPlayer->setLevel(infoPlayer->getLevel() + 1);
             RSACryptoSystem AddressLevel;
