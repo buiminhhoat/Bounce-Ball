@@ -131,8 +131,8 @@ void LevelGame::LoadLevelGame(const char* NameFileMap, SDL_Renderer* Screen,
         Object.checkIntersectALLObject(Screen);
         Object.setAllObject(&gamemap, &Player, &Score, &Life, infoPlayer);
 
-        ShowScore(Screen);
-        ShowRemRings(Screen);
+        ShowScore(Screen); 
+        ShowRemRings(Screen); 
 
         if (Object.Get_is_IntersectBallVsEndpoint_()) {
             Object.Set_is_IntersectBallVsEndpoint_(0);

@@ -30,7 +30,7 @@ bool BaseObject::LoadImage(std::string path, SDL_Renderer* Screen) {
         }
         else {
             Rect_.w = loadedSurface->w;
-            Rect_.h = loadedSurface->h;
+            Rect_.h = loadedSurface->h; 
         }
         SDL_FreeSurface(loadedSurface);
     }
