@@ -65,7 +65,7 @@ void BounceBall::displayLogo() {
     backGround.Render(gScreen);
     backGround.CleanUp();
 
-    BaseObject logo;
+    BaseObject logo; 
     logo.LoadImage("img//logo//logo.png", gScreen);
     logo.setRectSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     logo.Render(gScreen);
