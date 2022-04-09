@@ -64,7 +64,7 @@ void GameMap::DrawMap(SDL_Renderer* Screen) {
 		for (int j = x1; j < x2; j += TILE_SIZE) {
 			int val = game_map_.block[map_y][map_x];	
 			if (val != THORN && val != DYN_THORN) {
-				type_block[val].SetRectSize(j, i);
+				type_block[val].setRectPos(j, i);
 				type_block[val].Render(Screen);
 			}
 			++map_x;

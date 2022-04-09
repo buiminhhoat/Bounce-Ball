@@ -8,9 +8,14 @@ public:
 	BaseObject();
 	~BaseObject();
 
-	void SetRectSize(const int& x, const int& y) {
+	void setRectPos(const int& x, const int& y) {
 		Rect_.x = x;
 		Rect_.y = y;
+	}
+
+	void setRectSize(const int& w, const int& h) {
+		Rect_.w = w;
+		Rect_.h = h;
 	}
 
 	SDL_Rect GetRect() const {

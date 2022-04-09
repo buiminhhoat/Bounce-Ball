@@ -21,6 +21,7 @@ public:
 	int startGame();
 	bool initSDL();
 	void CleanUp();
+	void displayLogo();
 	void displayMenu();
 	void displayPlay();
 	void displayleaderboard();

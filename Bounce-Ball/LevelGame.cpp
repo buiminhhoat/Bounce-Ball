@@ -34,6 +34,7 @@ TTF_Font *FontGame;
 TextObject ScoreText;
 TextObject LifeText;
 TextObject RemRingText;
+Map map_data;
 
 void ShowScore(SDL_Renderer* Screen) {
     std::string str_Score = "Score: " + std::to_string(Score.GetScore());
@@ -78,7 +79,7 @@ void LevelGame::LoadLevelGame(const char* NameFileMap, SDL_Renderer* Screen,
                                 SDL_Event Event, InfoPlayer* infoPlayer) {
     Score.setScore(infoPlayer->getScore());
     Life.SetLife(infoPlayer->getlife());
-    Background.LoadImage("img//Background.jpg", Screen);
+    Background.LoadImage("img//Background//Background.jpg", Screen);
 
     if (TTF_Init() == -1) return;
     FontGame = TTF_OpenFont("font//no_continue.ttf", 30);
@@ -108,7 +109,7 @@ void LevelGame::LoadLevelGame(const char* NameFileMap, SDL_Renderer* Screen,
         while (SDL_PollEvent(&Event) != 0) {
             if (Event.type == SDL_QUIT) {
                 is_quit = true;
-                break;
+                return;
             }
             Player.InputAction(Event, Screen);
         }
@@ -117,7 +118,7 @@ void LevelGame::LoadLevelGame(const char* NameFileMap, SDL_Renderer* Screen,
 
         Background.Render(Screen, NULL);
 
-        Map map_data = gamemap.getMap();
+        map_data = gamemap.getMap();
 
         Player.SetMapXY(map_data.start_x_, map_data.start_y_);
         Player.DoPlayer(map_data);

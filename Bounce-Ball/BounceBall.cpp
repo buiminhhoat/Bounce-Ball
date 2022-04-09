@@ -32,6 +32,8 @@ int BounceBall::startGame() {
     if (!initSDL())
         return -1;
 
+    displayLogo();
+
     bool quit = false;
     
     while (!quit) {
@@ -57,24 +59,39 @@ int BounceBall::startGame() {
     CleanUp();
 }
 
+void BounceBall::displayLogo() {
+    BaseObject backGround;
+    backGround.LoadImage("img//Background//Background.jpg", gScreen);
+    backGround.Render(gScreen);
+    backGround.CleanUp();
+
+    BaseObject logo;
+    logo.LoadImage("img//logo//logo.png", gScreen);
+    logo.setRectSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    logo.Render(gScreen);
+    logo.CleanUp();
+    SDL_RenderPresent(gScreen);
+    SDL_Delay(1000);
+}
+
 void BounceBall::displayMenu() {
     MouseEvents* mouse = new MouseEvents;
     mouse->mouseHandleEvent();
 
     BaseObject backGround;
-    backGround.LoadImage("img//Background.jpg", gScreen);
+    backGround.LoadImage("img//Background//Background.jpg", gScreen);
     backGround.Render(gScreen);
 
     ButtonObject* playButton = new ButtonObject;
     playButton->LoadImage("img//button//menu_button_play.png", gScreen);
-    playButton->SetRectSize(450, 100);
+    playButton->setRectPos(450, 100);
     playButton->SetClips();
     playButton->Render(gScreen);
     bool typePlayButton = bool(mouse->CheckMouseInButton(playButton));
 
     ButtonObject* leaderboardButton = new ButtonObject;
     leaderboardButton->LoadImage("img//button//menu_button_leaderboard.png", gScreen);
-    leaderboardButton->SetRectSize(450, 200);
+    leaderboardButton->setRectPos(450, 200);
     leaderboardButton->SetClips();
     leaderboardButton->Render(gScreen);
     bool typeleaderboardButton = bool(mouse->CheckMouseInButton(leaderboardButton));
@@ -97,19 +114,35 @@ void BounceBall::displayPlay() {
     mouse->mouseHandleEvent();
 
     BaseObject backGround;
-    backGround.LoadImage("img//Background.jpg", gScreen);
+    backGround.LoadImage("img//Background//Background.jpg", gScreen);
     backGround.Render(gScreen);
+
+    TTF_Font* FontGame;
+    TextObject LevelText;
+
+    if (TTF_Init() == -1) return;
+    FontGame = TTF_OpenFont("font//no_continue.ttf", 30);
+    if (FontGame == NULL) {
+        return;
+    }
 
     int level = 0;
     ButtonObject* selectLevelButton = new ButtonObject;
+    const int UPPER_BOUNDARY = 100;
     for (int i = 1; i <= 5; ++i) {
         for (int j = 1; j <= 10; ++j) {
             selectLevelButton->LoadImage("img//level//select_level.png", gScreen);
-            selectLevelButton->SetRectSize(j * 64, 64 * i);
+            selectLevelButton->setRectPos(64 * j, UPPER_BOUNDARY + 64 * i);
             selectLevelButton->SetClips();
             selectLevelButton->Render(gScreen);
             bool typeleaderboardButton = bool(mouse->CheckMouseInButton(selectLevelButton));
             ++level;
+            std::string strLevel = "";
+            if (level < 10) strLevel += "0";
+            strLevel += std::to_string(level);
+            LevelText.SetText(strLevel);
+            LevelText.LoadFromRenderText(FontGame, gScreen);
+            LevelText.ShowText(gScreen, 64 * j + 17, UPPER_BOUNDARY + 64 * i + 17);
             if (gEvent.type == SDL_MOUSEBUTTONDOWN && typeleaderboardButton) {
                 infoPlayer->setLevel(level);
                 RSACryptoSystem AddressLevel;
