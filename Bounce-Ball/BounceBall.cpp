@@ -14,7 +14,7 @@
 
 #include "ManagementObject.h"
 #include "BounceBall.h"
-#include "RSACryptoSystem.h"
+#include "Cryptosystem.h"
 
 using namespace std;
 
@@ -145,7 +145,7 @@ void BounceBall::displayPlay() {
             LevelText.ShowText(gScreen, 64 * j + 17, UPPER_BOUNDARY + 64 * i + 17);
             if (gEvent.type == SDL_MOUSEBUTTONDOWN && typeleaderboardButton) {
                 infoPlayer->setLevel(level);
-                RSACryptoSystem AddressLevel;
+                Cryptosystem AddressLevel;
                 string address = "map//level";
                 if (level < 10) address += "0";
                 address += AddressLevel.ConvertNumberToString(level);

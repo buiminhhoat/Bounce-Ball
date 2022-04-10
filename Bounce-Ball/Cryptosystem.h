@@ -1,5 +1,5 @@
-#ifndef __RSACRYPTOSYSTEM__
-#define __RSACRYPTOSYSTEM__
+#ifndef __CRYPTOSYSTEM__
+#define __CRYPTOSYSTEM__
 
 #include <vector>
 #include <string>
@@ -9,7 +9,7 @@
 
 using namespace std;
 
-class RSACryptoSystem {
+class Cryptosystem {
 public:
 	string ConvertNumberToString(int Number);
 	void setNumber(int Number) {
@@ -22,4 +22,4 @@ public:
 private:
 	int Number;
 };
-#endif // !__RSACRYPTOSYSTEM__
+#endif // __CRYPTOSYSTEM__

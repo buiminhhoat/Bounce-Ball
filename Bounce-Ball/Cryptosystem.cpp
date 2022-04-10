@@ -1,6 +1,6 @@
-#include "RSACryptoSystem.h"
+#include "Cryptosystem.h"
 
-string RSACryptoSystem::ConvertNumberToString(int Number) {
+string Cryptosystem::ConvertNumberToString(int Number) {
     string ANS = "";
     if (Number == 0) return "0";
     while (Number > 0) {

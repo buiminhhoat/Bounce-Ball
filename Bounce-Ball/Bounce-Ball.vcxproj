@@ -152,7 +152,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="FPS.cpp" />
     <ClCompile Include="ManagementObject.cpp" />
-    <ClCompile Include="RSACryptoSystem.cpp" />
+    <ClCompile Include="Cryptosystem.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -165,7 +165,7 @@
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="FPS.h" />
     <ClInclude Include="ManagementObject.h" />
-    <ClInclude Include="RSACryptoSystem.h" />
+    <ClInclude Include="Cryptosystem.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

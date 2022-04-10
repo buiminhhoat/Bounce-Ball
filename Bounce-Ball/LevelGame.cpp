@@ -11,7 +11,7 @@
 #include "GameComponents.h"
 #include "LevelGame.h"
 #include "ManagementObject.h"
-#include "RSACryptoSystem.h"
+#include "Cryptosystem.h"
 
 using namespace std;
 
@@ -139,7 +139,7 @@ void LevelGame::LoadLevelGame(const char* NameFileMap, SDL_Renderer* Screen,
             infoPlayer->setlife(Life.GetLife()); 
             infoPlayer->setScore(Score.GetScore());
             infoPlayer->setLevel(infoPlayer->getLevel() + 1);
-            RSACryptoSystem AddressLevel;
+            Cryptosystem AddressLevel;
             string address = "map//level";
             if (infoPlayer->getLevel() < 10) address += "0";
             address += AddressLevel.ConvertNumberToString(infoPlayer->getLevel());

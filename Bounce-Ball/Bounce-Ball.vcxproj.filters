@@ -48,7 +48,7 @@
     <ClCompile Include="Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RSACryptoSystem.cpp">
+    <ClCompile Include="Cryptosystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -83,7 +83,7 @@
     <ClInclude Include="Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RSACryptoSystem.h">
+    <ClInclude Include="Cryptosystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
