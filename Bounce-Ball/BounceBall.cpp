@@ -34,7 +34,7 @@ int BounceBall::startGame() {
 
     //displayLogo();
 
-    display = 3;
+    display = 0;
 
     bool quit = false;
     while (!quit) {
@@ -180,7 +180,6 @@ void BounceBall::displayLogin() {
     BaseObject backGround;
     backGround.LoadImage("img//Background//Background.jpg", gScreen);
     backGround.Render(gScreen);
-    SDL_RenderPresent(gScreen);
     bool quit = false;
 
     TTF_Font* fontGame;
