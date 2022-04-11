@@ -43,7 +43,7 @@ void GameMap::LoadIMGBlock(SDL_Renderer* Screen) {
 void GameMap::DrawMap(SDL_Renderer* Screen) {
 	int x1 = 0;
 	int x2 = 0;
-	
+
 	int y1 = 0;
 	int y2 = 0;
 
@@ -62,7 +62,7 @@ void GameMap::DrawMap(SDL_Renderer* Screen) {
 	for (int i = y1; i < y2; i += TILE_SIZE) {
 		map_x = game_map_.start_x_ / TILE_SIZE;
 		for (int j = x1; j < x2; j += TILE_SIZE) {
-			int val = game_map_.block[map_y][map_x];	
+			int val = game_map_.block[map_y][map_x];
 			if (val != THORN && val != DYN_THORN) {
 				type_block[val].setRectPos(j, i);
 				type_block[val].Render(Screen);

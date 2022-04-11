@@ -16,6 +16,10 @@
 
 class BounceBall {
 public:
+	enum selectInput {
+		ACCOUNT = 1,
+		PASSWORD = 2,
+	};
 	BounceBall();
 	~BounceBall();
 	int startGame();
@@ -25,10 +29,9 @@ public:
 	void displayMenu();
 	void displayPlay();
 	void displayLeaderboard();
+	bool checkInfoLogin(string username, string password);
 	void displayLogin();
-	void setDisplay(int display) {
-		this->display = display;
-	}
+	void setDisplay(int display) { this->display = display; }
 private:
 	int display = 0;
 };

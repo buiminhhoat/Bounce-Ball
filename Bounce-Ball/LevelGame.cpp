@@ -30,7 +30,7 @@ MainObject Player;
 ManagementObject Object;
 ScoreObject Score;
 LifeObject Life;
-TTF_Font *FontGame;
+TTF_Font *fontGame;
 LTexture ScoreText;
 LTexture LifeText;
 LTexture RemRingText;
@@ -39,7 +39,7 @@ Map map_data;
 void ShowScore(SDL_Renderer* Screen) {
     std::string str_Score = "Score: " + std::to_string(Score.GetScore());
     ScoreText.SetText(str_Score);
-    ScoreText.LoadFromRenderText(FontGame, Screen);
+    ScoreText.LoadFromRenderText(fontGame, Screen);
     ScoreText.ShowText(Screen, SCREEN_WIDTH - 200, 5);
 }
 
@@ -53,7 +53,7 @@ void ShowLife(SDL_Renderer* Screen) {
     gbar_life->CleanUp();
     std::string str_Life = " x " + std::to_string(Life.GetLife());
     LifeText.SetText(str_Life);
-    LifeText.LoadFromRenderText(FontGame, Screen);
+    LifeText.LoadFromRenderText(fontGame, Screen);
     LifeText.ShowText(Screen, 15 + gbar_life->Get_width_frame(), 5);
 }
 
@@ -67,7 +67,7 @@ void ShowRemRings(SDL_Renderer* Screen) {
     gbar_ring->CleanUp();
     std::string str_Ring = " x " + std::to_string(Object.Get_rem_Rings());
     RemRingText.SetText(str_Ring);
-    RemRingText.LoadFromRenderText(FontGame, Screen);
+    RemRingText.LoadFromRenderText(fontGame, Screen);
     RemRingText.ShowText(Screen, 325 + gbar_ring->Get_width_frame(), 5);
     //Object.Set_rem_Rings(0);
     if (Object.Get_rem_Rings() == 0) {
@@ -77,13 +77,14 @@ void ShowRemRings(SDL_Renderer* Screen) {
 
 void LevelGame::LoadLevelGame(const char* NameFileMap, SDL_Renderer* Screen, 
                                 SDL_Event Event, InfoPlayer* infoPlayer) {
+    cerr << infoPlayer->getUsername() << '\n';
     Score.setScore(infoPlayer->getScore());
     Life.SetLife(infoPlayer->getlife());
     Background.LoadImage("img//Background//Background.jpg", Screen);
 
     if (TTF_Init() == -1) return;
-    FontGame = TTF_OpenFont("font//no_continue.ttf", 30);
-    if (FontGame == NULL) {
+    fontGame = TTF_OpenFont("font//no_continue.ttf", 30);
+    if (fontGame == NULL) {
         return;
     }
 

@@ -1,5 +1,12 @@
 #include "Cryptosystem.h"
 
+Cryptosystem::Cryptosystem() {
+    Number = 0;
+}
+
+Cryptosystem::~Cryptosystem() {
+
+}
 string Cryptosystem::ConvertNumberToString(int Number) {
     string ANS = "";
     if (Number == 0) return "0";

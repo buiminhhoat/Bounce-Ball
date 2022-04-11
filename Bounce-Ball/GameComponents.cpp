@@ -423,6 +423,9 @@ LTexture::LTexture() {
 	text_color_.g = 255;
 	text_color_.b = 255;
 	texture_ = NULL;
+	text_val_ = "";
+	width_ = 0;
+	height_ = 0;
 }
 
 LTexture::~LTexture() {
@@ -430,6 +433,7 @@ LTexture::~LTexture() {
 }
 
 bool LTexture::LoadFromRenderText(TTF_Font* font, SDL_Renderer* Screen) {
+	CleanUp();
 	SDL_Surface* text_surface = TTF_RenderText_Solid(font, text_val_.c_str(), text_color_);
 	if (text_surface != NULL) {
 		texture_ = SDL_CreateTextureFromSurface(Screen, text_surface);
@@ -496,7 +500,7 @@ void LTexture::SetColor(int type) {
 }
 
 void LTexture::ShowText(SDL_Renderer* Screen,
-	int x_pos_text, int y_pos_text,
+	float x_pos_text, float y_pos_text,
 	SDL_Rect* clip /* = NULL */,
 	double angle /* = 0.0 */,
 	SDL_Point* center /* = NULL */,
@@ -511,7 +515,13 @@ void LTexture::ShowText(SDL_Renderer* Screen,
 }
 
 ButtonObject::ButtonObject() {
-
+	width_frame_ = 0;
+	height_frame_ = 0;
+	x_val_ = 0.0;
+	y_val_ = 0.0;
+	x_pos_ = 0.0;
+	y_pos_ = 0.0;
+	frame_ = 0;
 }
 
 ButtonObject::~ButtonObject() {
@@ -551,7 +561,7 @@ void ButtonObject::ShowImage(SDL_Renderer* des) {
 }
 
 InfoPlayer::InfoPlayer() {
-	namePlayer = "";
+	username = "";
 	score = 0;
 	life = ORIGINAL_LIFE;
 }

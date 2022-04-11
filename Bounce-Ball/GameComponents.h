@@ -361,14 +361,20 @@ public:
 	void SetColor(Uint8 red, Uint8 green, Uint8 blue);
 	void SetColor(int type);
 	void ShowText(SDL_Renderer* Screen,
-		int x_pos_text, int y_pos_text,
+		float x_pos_text, float y_pos_text,
 		SDL_Rect* clip = NULL,
 		double angle = 0.0,
 		SDL_Point* center = NULL,
 		SDL_RendererFlip flip = SDL_FLIP_NONE);
 
-	int GetWidth() { return width_; };
-	int GetHeight() { return height_; };
+	void setPosX(float posX) { this->posX = posX; };
+	void setPosY(float posY) { this->posY = posY; };
+
+	float getPosX() { return this->posX; };
+	float getPosY() { return this->posY; };
+
+	float GetWidth() { return width_; };
+	float GetHeight() { return height_; };
 
 	void SetText(const std::string& text_val) { text_val_ = text_val; };
 	std::string GetText() const { return text_val_; };
@@ -378,8 +384,10 @@ private:
 	SDL_Color text_color_;
 	SDL_Texture* texture_;
 
-	int width_;
-	int height_;
+	float width_;
+	float height_;
+	float posX;
+	float posY;
 };
 
 class ButtonObject : public BaseObject {
@@ -399,6 +407,18 @@ private:
 public:
 	ButtonObject();
 	~ButtonObject();
+
+	void Set_x_val(const float& xVal) { x_val_ = xVal; }
+	void Set_y_val(const float& yVal) { y_val_ = yVal; }
+
+	void Set_x_pos(const float& xPos) { x_pos_ = xPos; }
+	void Set_y_pos(const float& yPos) { y_pos_ = yPos; }
+
+	float Get_x_pos() const { return x_pos_; }
+	float Get_y_pos() const { return y_pos_; }
+
+	void SetMapXY(const int& mp_x, const int& mp_y) { map_x_ = mp_x; map_y_ = mp_y; }
+
 	void SetClips();
 
 	bool LoadImage(std::string path, SDL_Renderer* Screen);
@@ -416,37 +436,35 @@ class InfoPlayer {
 public:
 	InfoPlayer();
 	~InfoPlayer();
-	void setnamePlayer(string namePlayer) {
-		this->namePlayer = namePlayer;
-	}
 
-	string getnamePlayer() {
-		return namePlayer;
-	}
 	void setScore(int score) {
 		this->score = score;
 	}
 	
-	int getScore() { return score; };
+	int getScore() { return this->score; };
 
 	void setlife(int life) {
 		this->life = life;
 	}
 
-	int getlife() { return life; };	
+	int getlife() { return this->life; };	
 
 	void setLevel(int level) {
 		this->level = level;
 	}
 
 	int getLevel() {
-		return level;
+		return this->level;
 	}
+
+	void setUsername(string username) { this->username = username; };
+	string getUsername() { return this->username; };
 private:
-	string namePlayer;
+	string username;
 	int score;
 	int life;
 	int level;
+	int highScore;
 };
 
 #endif

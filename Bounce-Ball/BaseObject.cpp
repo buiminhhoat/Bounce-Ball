@@ -1,11 +1,11 @@
 #include "BaseObject.h"
 
 BaseObject::BaseObject() {
-	Object_ = NULL;
-	Rect_.x = 0;
-	Rect_.y = 0;
-	Rect_.w = 0;
-	Rect_.h = 0;
+    Object_ = NULL;
+    Rect_.x = 0;
+    Rect_.y = 0;
+    Rect_.w = 0;
+    Rect_.h = 0;
 }
 
 BaseObject::~BaseObject() {
@@ -14,7 +14,7 @@ BaseObject::~BaseObject() {
 
 bool BaseObject::LoadImage(std::string path, SDL_Renderer* Screen) {
     CleanUp();
-	SDL_Texture* newTexture = NULL;
+    SDL_Texture* newTexture = NULL;
     SDL_Surface* loadedSurface = IMG_Load(path.c_str());
     if (loadedSurface == NULL) {
         std::cerr << "Unable to load image " << path << " SDL image Error: "
@@ -30,7 +30,7 @@ bool BaseObject::LoadImage(std::string path, SDL_Renderer* Screen) {
         }
         else {
             Rect_.w = loadedSurface->w;
-            Rect_.h = loadedSurface->h; 
+            Rect_.h = loadedSurface->h;
         }
         SDL_FreeSurface(loadedSurface);
     }

@@ -11,6 +11,8 @@ using namespace std;
 
 class Cryptosystem {
 public:
+	Cryptosystem();
+	~Cryptosystem();
 	string ConvertNumberToString(int Number);
 	void setNumber(int Number) {
 		this->Number = Number;
