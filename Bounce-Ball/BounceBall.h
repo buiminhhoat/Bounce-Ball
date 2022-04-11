@@ -26,7 +26,7 @@ public:
 	bool initSDL();
 	void CleanUp();
 	void displayLogo();
-	void displayMenu(); 
+	void displayMenu();  
 	void displayPlay();
 	void displayLeaderboard();
 	bool checkInfoLogin(string username, string password);
