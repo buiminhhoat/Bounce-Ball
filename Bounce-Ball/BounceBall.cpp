@@ -51,7 +51,10 @@ int BounceBall::startGame() {
                 displayPlay();
                 break;
             case 2:
-                displayleaderboard();
+                displayLeaderboard();
+                break;
+            case 3:
+                displayLogin();
                 break;
             }
         }
@@ -96,6 +99,14 @@ void BounceBall::displayMenu() {
     leaderboardButton->Render(gScreen);
     bool typeleaderboardButton = bool(mouse->CheckMouseInButton(leaderboardButton));
 
+
+    ButtonObject* loginButton = new ButtonObject;
+    loginButton->LoadImage("img//button//menu_button_login.png", gScreen);
+    loginButton->setRectPos(450, 300);
+    loginButton->SetClips();
+    loginButton->Render(gScreen);
+    bool typeloginButton = bool(mouse->CheckMouseInButton(loginButton));
+
     SDL_RenderPresent(gScreen);
 
     if (gEvent.type == SDL_MOUSEBUTTONDOWN) {
@@ -103,6 +114,8 @@ void BounceBall::displayMenu() {
             display = 1;
         if (typeleaderboardButton)
             display = 2;
+        if (typeloginButton)
+            display = 3;
     }
     backGround.CleanUp();
     playButton->CleanUp();
@@ -118,7 +131,7 @@ void BounceBall::displayPlay() {
     backGround.Render(gScreen);
 
     TTF_Font* FontGame;
-    TextObject LevelText;
+    LTexture LevelText;
 
     if (TTF_Init() == -1) return;
     FontGame = TTF_OpenFont("font//no_continue.ttf", 30);
@@ -158,8 +171,15 @@ void BounceBall::displayPlay() {
     SDL_RenderPresent(gScreen); 
 }
 
-void BounceBall::displayleaderboard() {
+void BounceBall::displayLeaderboard() {
     display = 0;
+}
+
+void BounceBall::displayLogin() {
+    BaseObject backGround;
+    backGround.LoadImage("img//Background//Background.jpg", gScreen);
+    backGround.Render(gScreen);
+    SDL_RenderPresent(gScreen);
 }
 
 bool BounceBall::initSDL() {

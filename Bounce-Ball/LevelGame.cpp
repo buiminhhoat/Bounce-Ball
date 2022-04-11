@@ -31,9 +31,9 @@ ManagementObject Object;
 ScoreObject Score;
 LifeObject Life;
 TTF_Font *FontGame;
-TextObject ScoreText;
-TextObject LifeText;
-TextObject RemRingText;
+LTexture ScoreText;
+LTexture LifeText;
+LTexture RemRingText;
 Map map_data;
 
 void ShowScore(SDL_Renderer* Screen) {
@@ -94,9 +94,9 @@ void LevelGame::LoadLevelGame(const char* NameFileMap, SDL_Renderer* Screen,
     Player.Set_Clips();
     Player.Set_pos(gamemap.Get_start_x_player(), gamemap.Get_start_y_player());
 
-    ScoreText.SetColor(TextObject::WHITE_COLOR);
-    LifeText.SetColor(TextObject::WHITE_COLOR);
-    RemRingText.SetColor(TextObject::WHITE_COLOR);
+    ScoreText.SetColor(LTexture::WHITE_COLOR);
+    LifeText.SetColor(LTexture::WHITE_COLOR);
+    RemRingText.SetColor(LTexture::WHITE_COLOR);
     
     Object.setAllObject(&gamemap, &Player, &Score, &Life, infoPlayer);
     Object.LoadALLObject(infoPlayer, Screen);

@@ -63,8 +63,8 @@ private:
 	float x_checkpoint_;
 	float y_checkpoint_;
 
-	int width_frame_;
-	int height_frame_;
+	float width_frame_;
+	float height_frame_;
 
 	SDL_Rect frame_clip[8];
 	Input input_type_;

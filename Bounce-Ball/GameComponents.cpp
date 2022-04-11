@@ -418,18 +418,18 @@ void CheckpointObject::ShowImage(SDL_Renderer* des) {
 	}
 }
 
-TextObject::TextObject() {
+LTexture::LTexture() {
 	text_color_.r = 255;
 	text_color_.g = 255;
 	text_color_.b = 255;
 	texture_ = NULL;
 }
 
-TextObject::~TextObject() {
+LTexture::~LTexture() {
 
 }
 
-bool TextObject::LoadFromRenderText(TTF_Font* font, SDL_Renderer* Screen) {
+bool LTexture::LoadFromRenderText(TTF_Font* font, SDL_Renderer* Screen) {
 	SDL_Surface* text_surface = TTF_RenderText_Solid(font, text_val_.c_str(), text_color_);
 	if (text_surface != NULL) {
 		texture_ = SDL_CreateTextureFromSurface(Screen, text_surface);
@@ -437,23 +437,26 @@ bool TextObject::LoadFromRenderText(TTF_Font* font, SDL_Renderer* Screen) {
 		height_ = text_surface->h;
 		SDL_FreeSurface(text_surface);
 	}
+	else {
+		printf("Unable to create texture from %s! SDL Error: %s\n", text_val_.c_str(), SDL_GetError());
+	}
 	return (text_surface != NULL);
 }
 
-void TextObject::CleanUp() {
+void LTexture::CleanUp() {
 	if (texture_ != NULL) {
 		SDL_DestroyTexture(texture_);
 		texture_ = NULL;
 	}
 }
 
-void TextObject::SetColor(Uint8 red, Uint8 green, Uint8 blue) {
+void LTexture::SetColor(Uint8 red, Uint8 green, Uint8 blue) {
 	text_color_.r = red;
 	text_color_.g = green;
 	text_color_.b = blue;
 }
 
-void TextObject::SetColor(int type) {
+void LTexture::SetColor(int type) {
 	if (type == RED_COLOR) {
 		SDL_Color color = { 255, 0, 0 };
 		text_color_ = color;
@@ -492,7 +495,7 @@ void TextObject::SetColor(int type) {
 	}
 }
 
-void TextObject::ShowText(SDL_Renderer* Screen,
+void LTexture::ShowText(SDL_Renderer* Screen,
 	int x_pos_text, int y_pos_text,
 	SDL_Rect* clip /* = NULL */,
 	double angle /* = 0.0 */,

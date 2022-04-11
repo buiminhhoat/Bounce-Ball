@@ -339,10 +339,10 @@ private:
 	int is_Vertical_;
 };
 
-class TextObject {
+class LTexture {
 public:
-	TextObject();
-	~TextObject();
+	LTexture();
+	~LTexture();
 
 	enum {
 		RED_COLOR,
@@ -372,6 +372,7 @@ public:
 
 	void SetText(const std::string& text_val) { text_val_ = text_val; };
 	std::string GetText() const { return text_val_; };
+
 private:
 	std::string text_val_;
 	SDL_Color text_color_;

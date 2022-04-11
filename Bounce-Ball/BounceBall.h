@@ -24,7 +24,8 @@ public:
 	void displayLogo();
 	void displayMenu();
 	void displayPlay();
-	void displayleaderboard();
+	void displayLeaderboard();
+	void displayLogin();
 	void setDisplay(int display) {
 		this->display = display;
 	}
