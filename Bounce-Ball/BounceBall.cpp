@@ -203,7 +203,7 @@ void BounceBall::displayLogin() {
     passwordButton->Set_x_pos((SCREEN_WIDTH - passwordButton->getWidthButton()) / 2);
     passwordButton->Set_y_pos(250);
     passwordButton->setRectPos(passwordButton->Get_x_pos(), passwordButton->Get_y_pos());
-    passwordButton->Render(gScreen);
+    passwordButton->Render(gScreen); 
 
     ButtonObject* loginButton = new ButtonObject;
     loginButton->LoadImage("img//button//login_button_login.png", gScreen);
