@@ -120,6 +120,7 @@ void BounceBall::displayMenu() {
     backGround.CleanUp();
     playButton->CleanUp();
     leaderboardButton->CleanUp();
+    loginButton->CleanUp();
 }
 
 void BounceBall::displayPlay() {
@@ -305,9 +306,6 @@ void BounceBall::displayLogin() {
                         gInputTextTexture = &passwordTextTexture;
                     }
                 }
-                while ((*inputText).size() > 15) {
-                    (*inputText).erase(0, 1);
-                }
             }
             else if (gEvent.type == SDL_TEXTINPUT) {
                 if (!(SDL_GetModState() & KMOD_CTRL 
@@ -325,16 +323,19 @@ void BounceBall::displayLogin() {
         usernameButton->Render(gScreen, NULL);
         passwordButton->Render(gScreen, NULL);
         loginButton->Render(gScreen, NULL);
-
+    
         if (usernameText == "") usernameText = "username";
         if (passwordText == "") passwordText = "password";
-
-        usernameTextTexture.SetText(usernameText);
+        string showUsername = "";
+        for (int i = max(0, (int) usernameText.size() - 15); i < usernameText.size(); ++i) {
+            showUsername += usernameText[i];
+        }
+        usernameTextTexture.SetText(showUsername);
         usernameTextTexture.LoadFromRenderText(fontGame, gScreen);
         usernameTextTexture.ShowText(gScreen, usernameTextTexture.getPosX(), usernameTextTexture.getPosY());
 
         string encodePassword = "";
-        for (int i = 0; i < passwordText.size(); ++i) encodePassword += "*";
+        for (int i = 0; i < min(15, passwordText.size()); ++i) encodePassword += "*";
         if (passwordText == "password") encodePassword = passwordText;
         passwordTextTexture.SetText(encodePassword);
         passwordTextTexture.LoadFromRenderText(fontGame, gScreen);
