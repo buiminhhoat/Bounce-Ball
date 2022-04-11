@@ -82,7 +82,7 @@ void LevelGame::LoadLevelGame(const char* NameFileMap, SDL_Renderer* Screen,
     Life.SetLife(infoPlayer->getlife());
     Background.LoadImage("img//Background//Background.jpg", Screen);
 
-    if (TTF_Init() == -1) return;
+    if (TTF_Init() == -1) return; 
     fontGame = TTF_OpenFont("font//no_continue.ttf", 30);
     if (fontGame == NULL) {
         return;
