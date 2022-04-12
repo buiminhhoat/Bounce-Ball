@@ -1,118 +1,118 @@
 #include "GameComponents.h"
 
 LifeObject::LifeObject() {
-	width_frame_ = 0;
-	height_frame_ = 0;
-	x_val_ = 0.0;
-	y_val_ = 0.0;
-	x_pos_ = 0.0;
-	y_pos_ = 0.0;
-	on_ground_ = false;
-	come_back_time_ = 0;
-	frame_ = 0;
-	animation_a_ = 0;
-	animation_b_ = 0;
-	is_catched_ = 0;
-	ScoreLife_ = 0;
-	is_Vertical_ = 0;
-	Life_ = 0;
+	widthFrame = 0;
+	heightFrame = 0;
+	xVal = 0.0;
+	yVal = 0.0;
+	xPos = 0.0;
+	yPos = 0.0;
+	onGround = false;
+	comeBackTime = 0;
+	frame = 0;
+	animationA = 0;
+	animationB = 0;
+	isCatched = 0;
+	scoreLife = 0;
+	isVertical = 0;
+	life = 0;
 }
 
 LifeObject::~LifeObject() {
 
 }
 
-bool LifeObject::LoadImage(std::string path, SDL_Renderer* Screen) {
-	bool ret = BaseObject::LoadImage(path, Screen);
+bool LifeObject::loadImage(std::string path, SDL_Renderer* screen) {
+	bool ret = BaseObject::loadImage(path, screen);
 	if (ret) {
-		width_frame_ = Rect_.w / LIFE_FRAME_NUM;
-		height_frame_ = Rect_.h;
+		widthFrame = rect.w / LIFE_FRAME_NUM;
+		heightFrame = rect.h;
 	}
 	return ret;
 }
 
-void LifeObject::SetClips() {
-	if (width_frame_ > 0 && height_frame_ > 0) {
+void LifeObject::setClips() {
+	if (widthFrame > 0 && heightFrame > 0) {
 		for (int i = 0; i < LIFE_FRAME_NUM; ++i) {
-			frame_clip_[i].x = i * width_frame_;
-			frame_clip_[i].y = 0;
-			frame_clip_[i].w = width_frame_;
-			frame_clip_[i].h = height_frame_;
+			frameClip[i].x = i * widthFrame;
+			frameClip[i].y = 0;
+			frameClip[i].w = widthFrame;
+			frameClip[i].h = heightFrame;
 		}
 	}
 }
 
-void LifeObject::ShowImage(SDL_Renderer* des) {
-	if (come_back_time_ == 0) {
-		Rect_.x = x_pos_ - map_x_;
-		Rect_.y = y_pos_ - map_y_;
-		++frame_;
-		if (frame_ >= LIFE_FRAME_NUM) {
-			frame_ = 0;
+void LifeObject::showImage(SDL_Renderer* des) {
+	if (comeBackTime == 0) {
+		rect.x = xPos - mapX;
+		rect.y = yPos - mapY;
+		++frame;
+		if (frame >= LIFE_FRAME_NUM) {
+			frame = 0;
 		}
 
-		SDL_Rect rendQuad = { Rect_.x, Rect_.y, width_frame_, height_frame_ };
-		SDL_RenderCopy(des, Object_, &frame_clip_[frame_], &rendQuad);
+		SDL_Rect rendQuad = { rect.x, rect.y, widthFrame, heightFrame };
+		SDL_RenderCopy(des, object, &frameClip[frame], &rendQuad);
 	}
 }
 
 RingsObject::RingsObject() {
-	width_frame_ = 0;
-	height_frame_ = 0;
-	x_val_ = 0.0;
-	y_val_ = 0.0;
-	x_pos_ = 0.0;
-	y_pos_ = 0.0;
-	on_ground_ = false;
-	come_back_time_ = 0;
-	frame_ = 0;
-	animation_a_ = 0;
-	animation_b_ = 0;
-	is_catched_ = 0;
-	ScoreRing_ = 0;
-	is_Vertical_ = 0;
+	widthFrame = 0;
+	heightFrame = 0;
+	xVal = 0.0;
+	yVal = 0.0;
+	xPos = 0.0;
+	yPos = 0.0;
+	onGround = false;
+	comeBackTime = 0;
+	frame = 0;
+	animationA = 0;
+	animationB = 0;
+	isCatched = 0;
+	scoreRing = 0;
+	isVertical = 0;
 }
 
 RingsObject::~RingsObject() {
 
 }
 
-bool RingsObject::LoadImage(std::string path, SDL_Renderer* Screen) {
-	bool ret = BaseObject::LoadImage(path, Screen);
+bool RingsObject::loadImage(std::string path, SDL_Renderer* screen) {
+	bool ret = BaseObject::loadImage(path, screen);
 	if (ret) {
-		width_frame_ = Rect_.w / RINGS_FRAME_NUM;
-		height_frame_ = Rect_.h;
+		widthFrame = rect.w / RINGS_FRAME_NUM;
+		heightFrame = rect.h;
 	}
 	return ret;
 }
 
-void RingsObject::SetClips() {
-	if (width_frame_ > 0 && height_frame_ > 0) {
+void RingsObject::setClips() {
+	if (widthFrame > 0 && heightFrame > 0) {
 		for (int i = 0; i < RINGS_FRAME_NUM; ++i) {
-			frame_clip_[i].x = i * width_frame_;
-			frame_clip_[i].y = 0;
-			frame_clip_[i].w = width_frame_;
-			frame_clip_[i].h = height_frame_;
+			frameClip[i].x = i * widthFrame;
+			frameClip[i].y = 0;
+			frameClip[i].w = widthFrame;
+			frameClip[i].h = heightFrame;
 		}
 	}
 }
 
-void RingsObject::ShowImage(SDL_Renderer* des) {
-	if (come_back_time_ == 0) {
-		Rect_.x = x_pos_ - map_x_;
-		Rect_.y = y_pos_ - map_y_;
-		++frame_;
-		if (frame_ >= RINGS_FRAME_NUM) {
-			frame_ = 0;
+void RingsObject::showImage(SDL_Renderer* des) {
+	if (comeBackTime == 0) {
+		rect.x = xPos - mapX;
+		rect.y = yPos - mapY;
+		++frame;
+		if (frame >= RINGS_FRAME_NUM) {
+			frame = 0;
 		}
 
-		SDL_Rect rendQuad = { Rect_.x, Rect_.y, width_frame_, height_frame_ };
-		SDL_RenderCopy(des, Object_, &frame_clip_[frame_], &rendQuad);
+		SDL_Rect rendQuad = { rect.x, rect.y, widthFrame, heightFrame };
+		SDL_RenderCopy(des, object, &frameClip[frame], &rendQuad);
 	}
 }
 
 ScoreObject::ScoreObject() {
-	Score = 0;
+	score = 0;
 }
 
 ScoreObject::~ScoreObject() {
@@ -120,147 +120,147 @@ ScoreObject::~ScoreObject() {
 }
 
 EndpointObject::EndpointObject() {
-	width_frame_ = 0;
-	height_frame_ = 0;
-	x_val_ = 0.0;
-	y_val_ = 0.0;
-	x_pos_ = 0.0;
-	y_pos_ = 0.0;
-	on_ground_ = false;
-	come_back_time_ = 0;
-	frame_ = 0;
-	animation_a_ = 0;
-	animation_b_ = 0;
-	is_opened_ = 0;
-	ScoreEndpoint_ = 0;
+	widthFrame = 0;
+	heightFrame = 0;
+	xVal = 0.0;
+	yVal = 0.0;
+	xPos = 0.0;
+	yPos = 0.0;
+	onGround = false;
+	comeBackTime = 0;
+	frame = 0;
+	animationA = 0;
+	animationB = 0;
+	isOpened = 0;
+	scoreEndpoint = 0;
 }
 
 EndpointObject::~EndpointObject() {
 
 }
 
-bool EndpointObject::LoadImage(std::string path, SDL_Renderer* Screen) {
-	bool ret = BaseObject::LoadImage(path, Screen);
+bool EndpointObject::loadImage(std::string path, SDL_Renderer* screen) {
+	bool ret = BaseObject::loadImage(path, screen);
 	if (ret) {
-		width_frame_ = Rect_.w / ENDPOINT_FRAME_NUM;
-		height_frame_ = Rect_.h;
+		widthFrame = rect.w / ENDPOINT_FRAME_NUM;
+		heightFrame = rect.h;
 	}
 	return ret;
 }
 
-void EndpointObject::SetClips() {
-	if (width_frame_ > 0 && height_frame_ > 0) {
+void EndpointObject::setClips() {
+	if (widthFrame > 0 && heightFrame > 0) {
 		for (int i = 0; i < ENDPOINT_FRAME_NUM; ++i) {
-			frame_clip_[i].x = i * width_frame_;
-			frame_clip_[i].y = 0;
-			frame_clip_[i].w = width_frame_;
-			frame_clip_[i].h = height_frame_;
+			frameClip[i].x = i * widthFrame;
+			frameClip[i].y = 0;
+			frameClip[i].w = widthFrame;
+			frameClip[i].h = heightFrame;
 		}
 	}
 }
 
-void EndpointObject::ShowImage(SDL_Renderer* des) {
-	if (come_back_time_ == 0) {
-		Rect_.x = x_pos_ - map_x_;
-		Rect_.y = y_pos_ - map_y_;
-		++frame_;
-		if (frame_ >= ENDPOINT_FRAME_NUM) {
-			frame_ = 0;
+void EndpointObject::showImage(SDL_Renderer* des) {
+	if (comeBackTime == 0) {
+		rect.x = xPos - mapX;
+		rect.y = yPos - mapY;
+		++frame;
+		if (frame >= ENDPOINT_FRAME_NUM) {
+			frame = 0;
 		}
 
-		SDL_Rect rendQuad = { Rect_.x, Rect_.y, width_frame_, height_frame_ };
-		SDL_RenderCopy(des, Object_, &frame_clip_[frame_], &rendQuad);
+		SDL_Rect rendQuad = { rect.x, rect.y, widthFrame, heightFrame };
+		SDL_RenderCopy(des, object, &frameClip[frame], &rendQuad);
 	}
 }
 
 ThreatsObject::ThreatsObject() {
-	width_frame_ = 0;
-	height_frame_ = 0;
-	x_val_ = 0.0;
-	y_val_ = 0.0;
-	x_pos_ = 0.0;
-	y_pos_ = 0.0;
-	on_ground_ = false;
-	come_back_time_ = 0;
-	frame_ = 0;
-	animation_a_ = 0;
-	animation_b_ = 0;
-	input_type_.left_ = 0;
-	type_move_ = STATIC_THREAT;
+	widthFrame = 0;
+	heightFrame = 0;
+	xVal = 0.0;
+	yVal = 0.0;
+	xPos = 0.0;
+	yPos = 0.0;
+	onGround = false;
+	comeBackTime = 0;
+	frame = 0;
+	animationA = 0;
+	animationB = 0;
+	inputType.left = 0;
+	typeMove = STATIC_THREAT;
 }
 
 ThreatsObject::~ThreatsObject() {
 
 }
 
-bool ThreatsObject::LoadImage(std::string path, SDL_Renderer* Screen) {
-	bool ret = BaseObject::LoadImage(path, Screen);
+bool ThreatsObject::loadImage(std::string path, SDL_Renderer* screen) {
+	bool ret = BaseObject::loadImage(path, screen);
 	if (ret) {
-		width_frame_ = Rect_.w / THREAT_FRAME_NUM;
-		height_frame_ = Rect_.h;
+		widthFrame = rect.w / THREAT_FRAME_NUM;
+		heightFrame = rect.h;
 	}
 	return ret;
 }
 
-void ThreatsObject::SetClips() {
-	if (width_frame_ > 0 && height_frame_ > 0) {
+void ThreatsObject::setClips() {
+	if (widthFrame > 0 && heightFrame > 0) {
 		for (int i = 0; i < THREAT_FRAME_NUM; ++i) {
-			frame_clip_[i].x = i * width_frame_;
-			frame_clip_[i].y = 0;
-			frame_clip_[i].w = width_frame_;
-			frame_clip_[i].h = height_frame_;
+			frameClip[i].x = i * widthFrame;
+			frameClip[i].y = 0;
+			frameClip[i].w = widthFrame;
+			frameClip[i].h = heightFrame;
 		}
 	}
 }
 
-void ThreatsObject::ShowImage(SDL_Renderer* des) {
-	if (come_back_time_ == 0) {
-		Rect_.x = x_pos_ - map_x_;
-		Rect_.y = y_pos_ - map_y_;
-		++frame_;
-		if (frame_ >= THREAT_FRAME_NUM) {
-			frame_ = 0;
+void ThreatsObject::showImage(SDL_Renderer* des) {
+	if (comeBackTime == 0) {
+		rect.x = xPos - mapX;
+		rect.y = yPos - mapY;
+		++frame;
+		if (frame >= THREAT_FRAME_NUM) {
+			frame = 0;
 		}
 
-		SDL_Rect rendQuad = { Rect_.x, Rect_.y, width_frame_, height_frame_ };
-		SDL_RenderCopy(des, Object_, &frame_clip_[frame_], &rendQuad);
+		SDL_Rect rendQuad = { rect.x, rect.y, widthFrame, heightFrame };
+		SDL_RenderCopy(des, object, &frameClip[frame], &rendQuad);
 	}
 }
 
-void ThreatsObject::InitThreats() {
-	x_val_ = 0;
-	y_val_ = 0;
-	//if (y_pos_ > 256) {
-	//	y_pos_ -= 256;
-	//	animation_a_ -= 256;
-	//	animation_b_ -= 256;
+void ThreatsObject::initThreats() {
+	xVal = 0;
+	yVal = 0;
+	//if (yPos > 256) {
+	//	yPos -= 256;
+	//	animationA -= 256;
+	//	animationB -= 256;
 	//}
 	//else {
-	//	y_pos_ = 0;
+	//	yPos = 0;
 	//}
-	x_pos_ = 0;
-	come_back_time_ = 0;
-	input_type_.up_ = 1;
+	xPos = 0;
+	comeBackTime = 0;
+	inputType.up = 1;
 }
 
-void ThreatsObject::DoPlayer(Map& gMap) {
-	if (type_move_ == STATIC_THREAT) return;
-	x_val_ = 0;
-	y_val_ += THREAT_GRAVITY_SPEED;
-	if (y_val_ >= THREAT_MAX_FALL_SPEED) {
-		y_val_ = THREAT_MAX_FALL_SPEED;
+void ThreatsObject::doPlayer(Map& gMap) {
+	if (typeMove == STATIC_THREAT) return;
+	xVal = 0;
+	yVal += THREAT_GRAVITY_SPEED;
+	if (yVal >= THREAT_MAX_FALL_SPEED) {
+		yVal = THREAT_MAX_FALL_SPEED;
 	}
 
-	if (input_type_.up_ == 1) {
-		y_val_ -= THREAT_SPEED;
+	if (inputType.up == 1) {
+		yVal -= THREAT_SPEED;
 	}
-	else if (input_type_.down_ == 1) {
-		y_val_ += THREAT_SPEED;
+	else if (inputType.down == 1) {
+		yVal += THREAT_SPEED;
 	}
-	CheckToMap(gMap);
+	checkToMap(gMap);
 }
 
-void ThreatsObject::CheckToMap(Map& gMap) {
+void ThreatsObject::checkToMap(Map& gMap) {
 	int x1 = 0;
 	int x2 = 0;
 
@@ -268,296 +268,296 @@ void ThreatsObject::CheckToMap(Map& gMap) {
 	int y2 = 0;
 
 	// Check horizontal
-	int height_min = height_frame_ < TILE_SIZE ? height_frame_ : TILE_SIZE;
+	int height_min = heightFrame < TILE_SIZE ? heightFrame : TILE_SIZE;
 
-	x1 = (x_pos_ + x_val_) / TILE_SIZE;
-	x2 = (x_pos_ + x_val_ + width_frame_ - 1) / TILE_SIZE;
+	x1 = (xPos + xVal) / TILE_SIZE;
+	x2 = (xPos + xVal + widthFrame - 1) / TILE_SIZE;
 
-	y1 = (y_pos_) / TILE_SIZE;
-	y2 = (y_pos_ + height_frame_ - 1) / TILE_SIZE;
+	y1 = (yPos) / TILE_SIZE;
+	y2 = (yPos + heightFrame - 1) / TILE_SIZE;
 
 	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 <= MAX_MAP_Y) {
-		if (x_val_ > 0) {
+		if (xVal > 0) {
 			if (gMap.block[y1][x2] != BLANK_TILES || gMap.block[y2][x2] != BLANK_TILES) {
-				x_pos_ = x2 * TILE_SIZE;
-				x_pos_ -= width_frame_;
-				x_val_ = 0;
+				xPos = x2 * TILE_SIZE;
+				xPos -= widthFrame;
+				xVal = 0;
 			}
 		}
 		else {
 			if (gMap.block[y1][x1] != BLANK_TILES || gMap.block[y2][x1] != BLANK_TILES) {
-				x_pos_ = (x1 + 1) * TILE_SIZE;
-				x_val_ = 0;
+				xPos = (x1 + 1) * TILE_SIZE;
+				xVal = 0;
 			}
 		}
 	}
 
 	// Check vertical
-	int width_min = width_frame_ < TILE_SIZE ? width_frame_ : TILE_SIZE;
-	x1 = x_pos_ / TILE_SIZE;
-	x2 = (x_pos_ + width_min) / TILE_SIZE;
+	int width_min = widthFrame < TILE_SIZE ? widthFrame : TILE_SIZE;
+	x1 = xPos / TILE_SIZE;
+	x2 = (xPos + width_min) / TILE_SIZE;
 
-	y1 = (y_pos_ + y_val_) / TILE_SIZE;
-	y2 = (y_pos_ + y_val_ + height_frame_ - 1) / TILE_SIZE;
+	y1 = (yPos + yVal) / TILE_SIZE;
+	y2 = (yPos + yVal + heightFrame - 1) / TILE_SIZE;
 
 	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y) {
-		if (y_val_ > 0) {
+		if (yVal > 0) {
 			if (gMap.block[y2][x1] != BLANK_TILES || gMap.block[y2][x2] != BLANK_TILES) {
-				y_pos_ = y2 * TILE_SIZE;
-				y_pos_ -= (height_frame_);
-				y_val_ = 0;
-				on_ground_ = true;
-				if (type_move_ == TypeMove::MOVE_IN_SPACE_THREAT) {
-					input_type_.down_ = 0;
-					input_type_.up_ = 1;
+				yPos = y2 * TILE_SIZE;
+				yPos -= (heightFrame);
+				yVal = 0;
+				onGround = true;
+				if (typeMove == TypeMove::MOVE_IN_SPACE_THREAT) {
+					inputType.down = 0;
+					inputType.up = 1;
 				}
 			}
 		}
-		else if (y_val_ < 0) {
+		else if (yVal < 0) {
 			if (gMap.block[y1][x1] != BLANK_TILES || gMap.block[y1][x2] != BLANK_TILES) {
-				y_pos_ = (y1 + 1) * TILE_SIZE;
-				y_val_ = 0;
-				if (type_move_ == TypeMove::MOVE_IN_SPACE_THREAT) {
-					input_type_.down_ = 1;
-					input_type_.up_ = 0;
+				yPos = (y1 + 1) * TILE_SIZE;
+				yVal = 0;
+				if (typeMove == TypeMove::MOVE_IN_SPACE_THREAT) {
+					inputType.down = 1;
+					inputType.up = 0;
 				}
 			}
 		}
 	}
 
-	x_pos_ += x_val_;
-	y_pos_ += y_val_;
+	xPos += xVal;
+	yPos += yVal;
 
-	if (x_pos_ < 0) {
-		x_pos_ = 0;
+	if (xPos < 0) {
+		xPos = 0;
 	}
-	else if (x_pos_ + width_frame_ > gMap.max_x_) {
-		x_pos_ = gMap.max_x_ - width_frame_ - 1;
+	else if (xPos + widthFrame > gMap.maxX) {
+		xPos = gMap.maxX - widthFrame - 1;
 	}
 
-	if (y_pos_ < 0) {
-		y_pos_ = THREAT_SPEED;
-		input_type_.up_ = 0;
-		input_type_.down_ = 1;
+	if (yPos < 0) {
+		yPos = THREAT_SPEED;
+		inputType.up = 0;
+		inputType.down = 1;
 	}
-	if (y_pos_ > gMap.max_y_) {
-		come_back_time_ = 10;
+	if (yPos > gMap.maxY) {
+		comeBackTime = 10;
 	}
 }
 
-void ThreatsObject::ImpMoveType(SDL_Renderer* Screen) {
-	if (type_move_ == STATIC_THREAT) {
+void ThreatsObject::impMoveType(SDL_Renderer* screen) {
+	if (typeMove == STATIC_THREAT) {
 		;
 	}
 	else {
-		if (y_pos_ > animation_b_) {
-			input_type_.up_ = 1;
-			input_type_.down_ = 0;
-			LoadImage("img//threats//dyn_thorn.png", Screen);
+		if (yPos > animationB) {
+			inputType.up = 1;
+			inputType.down = 0;
+			loadImage("img//threats//dyn_thorn.png", screen);
 		}
-		else if (y_pos_ < animation_a_) {
-			input_type_.up_ = 0;
-			input_type_.down_ = 1;
-			LoadImage("img//threats//dyn_thorn.png", Screen);
+		else if (yPos < animationA) {
+			inputType.up = 0;
+			inputType.down = 1;
+			loadImage("img//threats//dyn_thorn.png", screen);
 		}
 	}
 }
 
 CheckpointObject::CheckpointObject() {
-	width_frame_ = 0;
-	height_frame_ = 0;
-	x_val_ = 0.0;
-	y_val_ = 0.0;
-	x_pos_ = 0.0;
-	y_pos_ = 0.0;
-	on_ground_ = false;
-	come_back_time_ = 0;
-	frame_ = 0;
-	animation_a_ = 0;
-	animation_b_ = 0;
-	is_catched_ = 0;
-	ScoreRing_ = 0;
-	is_Vertical_ = 0;
+	widthFrame = 0;
+	heightFrame = 0;
+	xVal = 0.0;
+	yVal = 0.0;
+	xPos = 0.0;
+	yPos = 0.0;
+	onGround = false;
+	comeBackTime = 0;
+	frame = 0;
+	animationA = 0;
+	animationB = 0;
+	isCatched = 0;
+	scoreRing = 0;
+	isVertical = 0;
 }
 
 CheckpointObject::~CheckpointObject() {
 
 }
 
-bool CheckpointObject::LoadImage(std::string path, SDL_Renderer* Screen) {
-	bool ret = BaseObject::LoadImage(path, Screen);
+bool CheckpointObject::loadImage(std::string path, SDL_Renderer* screen) {
+	bool ret = BaseObject::loadImage(path, screen);
 	if (ret) {
-		width_frame_ = Rect_.w / CHECKPOINT_FRAME_NUM;
-		height_frame_ = Rect_.h;
+		widthFrame = rect.w / CHECKPOINT_FRAME_NUM;
+		heightFrame = rect.h;
 	}
 	return ret;
 }
 
-void CheckpointObject::SetClips() {
-	if (width_frame_ > 0 && height_frame_ > 0) {
+void CheckpointObject::setClips() {
+	if (widthFrame > 0 && heightFrame > 0) {
 		for (int i = 0; i < CHECKPOINT_FRAME_NUM; ++i) {
-			frame_clip_[i].x = i * width_frame_;
-			frame_clip_[i].y = 0;
-			frame_clip_[i].w = width_frame_;
-			frame_clip_[i].h = height_frame_;
+			frameClip[i].x = i * widthFrame;
+			frameClip[i].y = 0;
+			frameClip[i].w = widthFrame;
+			frameClip[i].h = heightFrame;
 		}
 	}
 }
 
-void CheckpointObject::ShowImage(SDL_Renderer* des) {
-	if (come_back_time_ == 0) {
-		Rect_.x = x_pos_ - map_x_;
-		Rect_.y = y_pos_ - map_y_;
-		++frame_;
-		if (frame_ >= CHECKPOINT_FRAME_NUM) {
-			frame_ = 0;
+void CheckpointObject::showImage(SDL_Renderer* des) {
+	if (comeBackTime == 0) {
+		rect.x = xPos - mapX;
+		rect.y = yPos - mapY;
+		++frame;
+		if (frame >= CHECKPOINT_FRAME_NUM) {
+			frame = 0;
 		}
 
-		SDL_Rect rendQuad = { Rect_.x, Rect_.y, width_frame_, height_frame_ };
-		SDL_RenderCopy(des, Object_, &frame_clip_[frame_], &rendQuad);
+		SDL_Rect rendQuad = { rect.x, rect.y, widthFrame, heightFrame };
+		SDL_RenderCopy(des, object, &frameClip[frame], &rendQuad);
 	}
 }
 
 LTexture::LTexture() {
-	text_color_.r = 255;
-	text_color_.g = 255;
-	text_color_.b = 255;
-	texture_ = NULL;
-	text_val_ = "";
-	width_ = 0;
-	height_ = 0;
+	textColor.r = 255;
+	textColor.g = 255;
+	textColor.b = 255;
+	texture = NULL;
+	textVal = "";
+	width = 0;
+	height = 0;
 }
 
 LTexture::~LTexture() {
 
 }
 
-bool LTexture::LoadFromRenderText(TTF_Font* font, SDL_Renderer* Screen) {
-	CleanUp();
-	SDL_Surface* text_surface = TTF_RenderText_Solid(font, text_val_.c_str(), text_color_);
+bool LTexture::loadFromRenderText(TTF_Font* font, SDL_Renderer* screen) {
+	cleanUp();
+	SDL_Surface* text_surface = TTF_RenderText_Solid(font, textVal.c_str(), textColor);
 	if (text_surface != NULL) {
-		texture_ = SDL_CreateTextureFromSurface(Screen, text_surface);
-		width_ = text_surface->w;
-		height_ = text_surface->h;
+		texture = SDL_CreateTextureFromSurface(screen, text_surface);
+		width = text_surface->w;
+		height = text_surface->h;
 		SDL_FreeSurface(text_surface);
 	}
 	else {
-		printf("Unable to create texture from %s! SDL Error: %s\n", text_val_.c_str(), SDL_GetError());
+		printf("Unable to create texture from %s! SDL Error: %s\n", textVal.c_str(), SDL_GetError());
 	}
 	return (text_surface != NULL);
 }
 
-void LTexture::CleanUp() {
-	if (texture_ != NULL) {
-		SDL_DestroyTexture(texture_);
-		texture_ = NULL;
+void LTexture::cleanUp() {
+	if (texture != NULL) {
+		SDL_DestroyTexture(texture);
+		texture = NULL;
 	}
 }
 
-void LTexture::SetColor(Uint8 red, Uint8 green, Uint8 blue) {
-	text_color_.r = red;
-	text_color_.g = green;
-	text_color_.b = blue;
+void LTexture::setColor(Uint8 red, Uint8 green, Uint8 blue) {
+	textColor.r = red;
+	textColor.g = green;
+	textColor.b = blue;
 }
 
-void LTexture::SetColor(int type) {
+void LTexture::setColor(int type) {
 	if (type == RED_COLOR) {
 		SDL_Color color = { 255, 0, 0 };
-		text_color_ = color;
+		textColor = color;
 	}
 	if (type == ORANGE_COLOR) {
 		SDL_Color color = { 255, 165, 0 };
-		text_color_ = color;
+		textColor = color;
 	}
 	if (type == YELLOW_COLOR) {
 		SDL_Color color = { 255, 255, 0 };
-		text_color_ = color;
+		textColor = color;
 	}
 	if (type == GREEN_COLOR) {
 		SDL_Color color = { 0, 255, 0 };
-		text_color_ = color;
+		textColor = color;
 	}
 	if (type == BLUE_COLOR) {
 		SDL_Color color = { 0, 0, 255 };
-		text_color_ = color;
+		textColor = color;
 	}
 	if (type == INDIGO_COLOR) {
 		SDL_Color color = { 75, 0, 130 };
-		text_color_ = color;
+		textColor = color;
 	}
 	if (type == PURPLE_COLOR) {
 		SDL_Color color = { 128, 0, 128 };
-		text_color_ = color;
+		textColor = color;
 	}
 	if (type == WHITE_COLOR) {
 		SDL_Color color = { 255, 255, 255 };
-		text_color_ = color;
+		textColor = color;
 	}
 	if (type == BLACK_COLOR) {
 		SDL_Color color = { 0, 0, 0 };
-		text_color_ = color;
+		textColor = color;
 	}
 }
 
-void LTexture::ShowText(SDL_Renderer* Screen,
-	float x_pos_text, float y_pos_text,
+void LTexture::showText(SDL_Renderer* screen,
+	float xPosText, float yPosText,
 	SDL_Rect* clip /* = NULL */,
 	double angle /* = 0.0 */,
 	SDL_Point* center /* = NULL */,
 	SDL_RendererFlip flip /* = SDL_FLIP_NONE */) {
-	SDL_Rect renderQuad = { x_pos_text, y_pos_text, width_, height_ };
+	SDL_Rect renderQuad = { xPosText, yPosText, width, height };
 	if (clip != NULL) {
 		renderQuad.w = clip->w;
 		renderQuad.h = clip->h;
 	}
-	SDL_RenderCopyEx(Screen, texture_, clip, &renderQuad, angle, center, flip);
-	CleanUp();
+	SDL_RenderCopyEx(screen, texture, clip, &renderQuad, angle, center, flip);
+	cleanUp();
 }
 
 ButtonObject::ButtonObject() {
-	width_frame_ = 0;
-	height_frame_ = 0;
-	x_val_ = 0.0;
-	y_val_ = 0.0;
-	x_pos_ = 0.0;
-	y_pos_ = 0.0;
-	frame_ = 0;
+	widthFrame = 0;
+	heightFrame = 0;
+	xVal = 0.0;
+	yVal = 0.0;
+	xPos = 0.0;
+	yPos = 0.0;
+	frame = 0;
 }
 
 ButtonObject::~ButtonObject() {
-	CleanUp();
+	cleanUp();
 }
 
-bool ButtonObject::LoadImage(std::string path, SDL_Renderer* Screen) {
-	bool ret = BaseObject::LoadImage(path, Screen);
+bool ButtonObject::loadImage(std::string path, SDL_Renderer* screen) {
+	bool ret = BaseObject::loadImage(path, screen);
 	if (ret) {
-		width_frame_ = Rect_.w / BUTTON_FRAME_NUM;
-		height_frame_ = Rect_.h;
+		widthFrame = rect.w / BUTTON_FRAME_NUM;
+		heightFrame = rect.h;
 	}
 	return ret;
 }
 
-void ButtonObject::SetClips() {
-	if (width_frame_ > 0 && height_frame_ > 0) {
+void ButtonObject::setClips() {
+	if (widthFrame > 0 && heightFrame > 0) {
 		for (int i = 0; i < BUTTON_FRAME_NUM; ++i) {
-			frame_clip_[i].x = i * width_frame_;
-			frame_clip_[i].y = 0;
-			frame_clip_[i].w = width_frame_;
-			frame_clip_[i].h = height_frame_;
+			frameClip[i].x = i * widthFrame;
+			frameClip[i].y = 0;
+			frameClip[i].w = widthFrame;
+			frameClip[i].h = heightFrame;
 		}
 	}
 }
 
-void ButtonObject::ShowImage(SDL_Renderer* des) {
-	Rect_.x = x_pos_ - map_x_;
-	Rect_.y = y_pos_ - map_y_;
-	++frame_;
-	if (frame_ >= CHECKPOINT_FRAME_NUM) {
-		frame_ = 0;
+void ButtonObject::showImage(SDL_Renderer* des) {
+	rect.x = xPos - mapX;
+	rect.y = yPos - mapY;
+	++frame;
+	if (frame >= CHECKPOINT_FRAME_NUM) {
+		frame = 0;
 	}
 
-	SDL_Rect rendQuad = { Rect_.x, Rect_.y, width_frame_, height_frame_ };
-	SDL_RenderCopy(des, Object_, &frame_clip_[frame_], &rendQuad);
+	SDL_Rect rendQuad = { rect.x, rect.y, widthFrame, heightFrame };
+	SDL_RenderCopy(des, object, &frameClip[frame], &rendQuad);
 }
 
 InfoPlayer::InfoPlayer() {

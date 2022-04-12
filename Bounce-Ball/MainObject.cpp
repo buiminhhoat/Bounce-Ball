@@ -13,87 +13,85 @@
 using namespace std;
 
 MainObject::MainObject() {
-	frame_ = 0;
-	x_pos_ = 0;
-	y_pos_ = 0;
-	x_val_ = 0;
-	y_val_ = 0;
-	width_frame_ = 0;
-	height_frame_ = 0;
-	status_ = -1;
-	input_type_.up_ = 0;
-	input_type_.down_ = 0;
-	input_type_.left_ = 0;
-	input_type_.right_ = 0;
-	input_type_.jump_ = 0;
-	on_ground_ = false;
-	map_x_ = 0;
-	map_y_ = 0;
-	come_back_time_ = 0;
-	id_checkpoint_ = -1;
+	frame = 0;
+	xPos = 0;
+	yPos = 0;
+	xVal = 0;
+	yVal = 0;
+	widthFrame = 0;
+	heightFrame = 0;
+	status = -1;
+	inputType.up = 0;
+	inputType.down = 0;
+	inputType.left = 0;
+	inputType.right = 0;
+	inputType.jump = 0;
+	onGround = false;
+	mapX = 0;
+	mapY = 0;
+	comeBackTime = 0;
+	idCheckpoint = -1;
 }
 
 MainObject::~MainObject() {
-	CleanUp();
+	cleanUp();
 }
 
-bool MainObject::LoadImage(std::string path, SDL_Renderer* Screen) {
-	bool ret = BaseObject::LoadImage(path, Screen);
+bool MainObject::loadImage(std::string path, SDL_Renderer* screen) {
+	bool ret = BaseObject::loadImage(path, screen);
 	if (ret == true) {
-		width_frame_ = Rect_.w / TILE_LAYER;
-		height_frame_ = Rect_.h;
+		widthFrame = rect.w / TILE_LAYER;
+		heightFrame = rect.h;
 	}
 	return ret;
 }
 
-void MainObject::Set_Clips() {
-	if (width_frame_ > 0 && height_frame_ > 0) {
+void MainObject::setClips() {
+	if (widthFrame > 0 && heightFrame > 0) {
 		for (int i = 0; i < TILE_LAYER; ++i) {
-			frame_clip[i].x = i * width_frame_;
-			frame_clip[i].y = 0;
-			frame_clip[i].w = width_frame_;
-			frame_clip[i].h = height_frame_;
+			frameClip[i].x = i * widthFrame;
+			frameClip[i].y = 0;
+			frameClip[i].w = widthFrame;
+			frameClip[i].h = heightFrame;
 		}
 	}
 }
 
-void MainObject::ShowImage(SDL_Renderer* des) {
-	if (input_type_.left_ == 1 || input_type_.right_ == 1) {
-		++frame_;
+void MainObject::showImage(SDL_Renderer* des) {
+	if (inputType.left == 1 || inputType.right == 1) {
+		++frame;
 	}
 	else {
-		frame_ = 0;
+		frame = 0;
 	}
 
-	if (frame_ >= TILE_LAYER) {
-		frame_ = 0;
+	if (frame >= TILE_LAYER) {
+		frame = 0;
 	}
 
-	if (come_back_time_ == 0) {
-		Rect_.x = x_pos_ - map_x_;
-		Rect_.y = y_pos_ - map_y_;
+	if (comeBackTime == 0) {
+		rect.x = xPos - mapX;
+		rect.y = yPos - mapY;
 
-		//SDL_Rect* current_clip = &frame_clip[frame];
+		SDL_Rect renderQuad = { rect.x, rect.y, widthFrame, heightFrame };
 
-		SDL_Rect renderQuad = { Rect_.x, Rect_.y, width_frame_, height_frame_ };
-
-		SDL_RenderCopy(des, Object_, &frame_clip[frame_], &renderQuad);
+		SDL_RenderCopy(des, object, &frameClip[frame], &renderQuad);
 	}
 }
 
-void MainObject::InputAction(SDL_Event events, SDL_Renderer* Screen) {
+void MainObject::inputAction(SDL_Event events, SDL_Renderer* screen) {
 	if (events.type == SDL_KEYDOWN) {
 		switch (events.key.keysym.sym) {
 			case SDLK_RIGHT: {
-				status_ = WALK_RIGHT;
-				input_type_.right_ = 1;
-				input_type_.left_ = 0;
+				status = WALK_RIGHT;
+				inputType.right = 1;
+				inputType.left = 0;
 			}
 			break;
 			case SDLK_LEFT: {
-				status_ = WALK_LEFT;
-				input_type_.left_ = 1;
-				input_type_.right_ = 0;
+				status = WALK_LEFT;
+				inputType.left = 1;
+				inputType.right = 0;
 			}
 			break;
 		}
@@ -101,140 +99,140 @@ void MainObject::InputAction(SDL_Event events, SDL_Renderer* Screen) {
 	else if (events.type == SDL_KEYUP) {
 		switch (events.key.keysym.sym) {
 			case SDLK_RIGHT: {
-				input_type_.right_ = 0;
+				inputType.right = 0;
 			}
 			break;
 			case SDLK_LEFT: {
-				input_type_.left_ = 0;
+				inputType.left = 0;
 			}
 			break;
 		}
 	}
 
 	if (events.key.keysym.sym == SDLK_SPACE) {
-		input_type_.jump_ = 1;
+		inputType.jump = 1;
 	}
 	//if (events.type == SDL_MOUSEBUTTONDOWN) {
 	//	if (events.button.button == SDL_BUTTON_RIGHT) {
-	//		input_type_.jump_ = 1;
+	//		inputType.jump = 1;
 	//	}
 	//}
 }
 
-void MainObject::DoPlayer(Map &map_data) {
-	if (come_back_time_ == 0) {
-		x_val_ = 0;
-		y_val_ += GRAVITY_SPEED;
-		if (y_val_ >= MAX_FALL_SPEED) {
-			y_val_ = MAX_FALL_SPEED;
+void MainObject::doPlayer(Map &mapData) {
+	if (comeBackTime == 0) {
+		xVal = 0;
+		yVal += GRAVITY_SPEED;
+		if (yVal >= MAX_FALL_SPEED) {
+			yVal = MAX_FALL_SPEED;
 		}
 
-		if (input_type_.left_ == 1) {
-			x_val_ -= PLAYER_SPEED;
+		if (inputType.left == 1) {
+			xVal -= PLAYER_SPEED;
 		}
-		else if (input_type_.right_ == 1) {
-			x_val_ += PLAYER_SPEED;
+		else if (inputType.right == 1) {
+			xVal += PLAYER_SPEED;
 		}
 
-		if (input_type_.jump_ == 1) {
-			if (on_ground_ == true) {
-				y_val_ = -PLAYER_JUMP;
+		if (inputType.jump == 1) {
+			if (onGround == true) {
+				yVal = -PLAYER_JUMP;
 			}
-			on_ground_ = false;
-			input_type_.jump_ = 0;
+			onGround = false;
+			inputType.jump = 0;
 		}
-		CheckPlayerVsMap(map_data);
-		CenterEntityOnMap(map_data);
+		checkPlayerVsMap(mapData);
+		centerEntityOnMap(mapData);
 	}
 
-	if (come_back_time_ > 0) {
-		--come_back_time_;
-		if (come_back_time_ == 0) {
-			on_ground_ = false;
-			if (x_pos_ > DRAW_BACK) {
-				x_pos_ -= DRAW_BACK; // 4 tiles
-				map_x_ -= DRAW_BACK;
+	if (comeBackTime > 0) {
+		--comeBackTime;
+		if (comeBackTime == 0) {
+			onGround = false;
+			if (xPos > DRAW_BACK) {
+				xPos -= DRAW_BACK; // 4 tiles
+				mapX -= DRAW_BACK;
 			}
 			else {
-				x_pos_ = 0;
+				xPos = 0;
 			}
-			y_pos_ = 0;
-			x_val_ = 0;
-			y_val_ = 0;
+			yPos = 0;
+			xVal = 0;
+			yVal = 0;
 		}
 	}
 }
 
-void MainObject::CenterEntityOnMap(Map &map_data) {
-	map_data.start_x_ = x_pos_ - (SCREEN_WIDTH / 2);
-	if (map_data.start_x_ < 0) {
-		map_data.start_x_ = 0;
+void MainObject::centerEntityOnMap(Map &mapData) {
+	mapData.startX = xPos - (SCREEN_WIDTH / 2);
+	if (mapData.startX < 0) {
+		mapData.startX = 0;
 	}
-	else if (map_data.start_x_ + SCREEN_WIDTH >= map_data.max_x_) {
-		map_data.start_x_ = map_data.max_x_ - SCREEN_WIDTH;
+	else if (mapData.startX + SCREEN_WIDTH >= mapData.maxX) {
+		mapData.startX = mapData.maxX - SCREEN_WIDTH;
 	}
 
-	map_data.start_y_ = y_pos_ - (SCREEN_HEIGHT / 2);
-	if (map_data.start_y_ < 0) {
-		map_data.start_y_ = 0;
+	mapData.startY = yPos - (SCREEN_HEIGHT / 2);
+	if (mapData.startY < 0) {
+		mapData.startY = 0;
 	}
-	else if (map_data.start_y_ + SCREEN_HEIGHT >= map_data.max_y_) {
-		map_data.start_y_ = map_data.max_y_ - SCREEN_HEIGHT;
+	else if (mapData.startY + SCREEN_HEIGHT >= mapData.maxY) {
+		mapData.startY = mapData.maxY - SCREEN_HEIGHT;
 	}
 }
 
-void MainObject::CheckPlayerVsMap(Map& map_data) {
+void MainObject::checkPlayerVsMap(Map& mapData) {
 	int x1 = 0;
 	int x2 = 0;
 
 	int y1 = 0;
 	int y2 = 0;
 	
-	int height_min = height_frame_ < TILE_SIZE ? height_frame_ : TILE_SIZE;
+	int height_min = heightFrame < TILE_SIZE ? heightFrame : TILE_SIZE;
 
-	x1 = (x_pos_ + x_val_) / TILE_SIZE;
-	x2 = (x_pos_ + x_val_ + width_frame_) / TILE_SIZE;
+	x1 = (xPos + xVal) / TILE_SIZE;
+	x2 = (xPos + xVal + widthFrame) / TILE_SIZE;
 
-	y1 = (y_pos_) / TILE_SIZE;
-	y2 = (y_pos_ + height_frame_ - 1) / TILE_SIZE;
+	y1 = (yPos) / TILE_SIZE;
+	y2 = (yPos + heightFrame - 1) / TILE_SIZE;
 
 	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y) {
-		if (x_val_ > 0) {
-			if (map_data.block[y1][x2] != BLANK_TILES || map_data.block[y2][x2] != BLANK_TILES) {
-				x_pos_ = x2 * TILE_SIZE;
-				x_pos_ -= width_frame_;
-				x_val_ = 0;
+		if (xVal > 0) {
+			if (mapData.block[y1][x2] != BLANK_TILES || mapData.block[y2][x2] != BLANK_TILES) {
+				xPos = x2 * TILE_SIZE;
+				xPos -= widthFrame;
+				xVal = 0;
 			}
 		}
-		else if (x_val_ < 0) {
-			if (map_data.block[y1][x1] != BLANK_TILES || map_data.block[y2][x1] != BLANK_TILES) {
-				x_pos_ = (x1 + 1) * TILE_SIZE;
-				x_val_ = 0;
+		else if (xVal < 0) {
+			if (mapData.block[y1][x1] != BLANK_TILES || mapData.block[y2][x1] != BLANK_TILES) {
+				xPos = (x1 + 1) * TILE_SIZE;
+				xVal = 0;
 			}
 		}
 	}
 	else {
-		x_val_ = 0;
+		xVal = 0;
 	}
 
 	// Check vertical
-	int width_min = width_frame_ < TILE_SIZE ? width_frame_ : TILE_SIZE;
-	x1 = x_pos_ / TILE_SIZE;
-	x2 = (x_pos_ + width_min) / TILE_SIZE;
+	int width_min = widthFrame < TILE_SIZE ? widthFrame : TILE_SIZE;
+	x1 = xPos / TILE_SIZE;
+	x2 = (xPos + width_min) / TILE_SIZE;
 
-	y1 = (y_pos_ + y_val_) / TILE_SIZE;
-	y2 = (y_pos_ + y_val_ + height_frame_) / TILE_SIZE;
+	y1 = (yPos + yVal) / TILE_SIZE;
+	y2 = (yPos + yVal + heightFrame) / TILE_SIZE;
 
 	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y) {
-		float height_block1 = (x1 + 1) * TILE_SIZE - x_pos_;
-		float height_block2 = height_frame_ - height_block1;
+		float height_block1 = (x1 + 1) * TILE_SIZE - xPos;
+		float height_block2 = heightFrame - height_block1;
 		int select_block = 0;
-		if (select_block == 0 && map_data.block[y2][x1] != BLANK_TILES) {
-			if (height_block1 >= (1 - EQUILIBRIUM_RATIO) * width_frame_)
+		if (select_block == 0 && mapData.block[y2][x1] != BLANK_TILES) {
+			if (height_block1 >= (1 - EQUILIBRIUM_RATIO) * widthFrame)
 				select_block = 1;
 		}
-		if (select_block == 0 && map_data.block[y2][x2] != BLANK_TILES) {
-			if (height_block2 >= (1 - EQUILIBRIUM_RATIO) * width_frame_)
+		if (select_block == 0 && mapData.block[y2][x2] != BLANK_TILES) {
+			if (height_block2 >= (1 - EQUILIBRIUM_RATIO) * widthFrame)
 				select_block = 2;
 		}
 		if (select_block == 0) {
@@ -244,98 +242,98 @@ void MainObject::CheckPlayerVsMap(Map& map_data) {
 				select_block = 2;
 		}
 
-		if (y_val_ > 0) {
+		if (yVal > 0) {
 			if (height_block1 == TILE_SIZE) {
-				if (map_data.block[y2][x1] != BLANK_TILES) {
-					y_pos_ = y2 * TILE_SIZE;
-					y_pos_ -= height_frame_;
-					y_val_ = 0;
-					on_ground_ = true;
+				if (mapData.block[y2][x1] != BLANK_TILES) {
+					yPos = y2 * TILE_SIZE;
+					yPos -= heightFrame;
+					yVal = 0;
+					onGround = true;
 				}
 			}
 			else if (height_block2 == TILE_SIZE) {
-				if (map_data.block[y2][x2] != BLANK_TILES) {
-					y_pos_ = y2 * TILE_SIZE;
-					y_pos_ -= height_frame_;
-					y_val_ = 0;
-					on_ground_ = true;
+				if (mapData.block[y2][x2] != BLANK_TILES) {
+					yPos = y2 * TILE_SIZE;
+					yPos -= heightFrame;
+					yVal = 0;
+					onGround = true;
 				}
 			}
-			else if (map_data.block[y2][x1] != BLANK_TILES) {
-				y_pos_ = y2 * TILE_SIZE;
-				y_pos_ -= height_frame_;
-				y_val_ = 0;
-				on_ground_ = true;
-				if (height_block1 <= (1 - EQUILIBRIUM_RATIO) * width_frame_
-					&& map_data.block[y2][x2] == BLANK_TILES)
+			else if (mapData.block[y2][x1] != BLANK_TILES) {
+				yPos = y2 * TILE_SIZE;
+				yPos -= heightFrame;
+				yVal = 0;
+				onGround = true;
+				if (height_block1 <= (1 - EQUILIBRIUM_RATIO) * widthFrame
+					&& mapData.block[y2][x2] == BLANK_TILES)
 					if (height_block1 <= FREE_ROLLING_SPEED)
-						x_pos_ += height_block1;
+						xPos += height_block1;
 					else
-						x_pos_ += FREE_ROLLING_SPEED;
+						xPos += FREE_ROLLING_SPEED;
 			}
-			else if (map_data.block[y2][x2] != BLANK_TILES) {
-				y_pos_ = y2 * TILE_SIZE;
-				y_pos_ -= height_frame_;
-				y_val_ = 0;
-				on_ground_ = true;
-				if (height_block2 <= (1 - EQUILIBRIUM_RATIO) * width_frame_
-					&& map_data.block[y2][x1] == BLANK_TILES)
+			else if (mapData.block[y2][x2] != BLANK_TILES) {
+				yPos = y2 * TILE_SIZE;
+				yPos -= heightFrame;
+				yVal = 0;
+				onGround = true;
+				if (height_block2 <= (1 - EQUILIBRIUM_RATIO) * widthFrame
+					&& mapData.block[y2][x1] == BLANK_TILES)
 					if (height_block2 <= FREE_ROLLING_SPEED)
-						x_pos_ -= height_block2;
+						xPos -= height_block2;
 					else
-						x_pos_ -= FREE_ROLLING_SPEED;
+						xPos -= FREE_ROLLING_SPEED;
 			}
 		}
-		else if (y_val_ < 0) {
+		else if (yVal < 0) {
 			if (height_block1 == TILE_SIZE) {
-				if (map_data.block[y1][x1] != BLANK_TILES) {
-					y_pos_ = (y1 + 1) * TILE_SIZE;
-					y_val_ = 0;
+				if (mapData.block[y1][x1] != BLANK_TILES) {
+					yPos = (y1 + 1) * TILE_SIZE;
+					yVal = 0;
 				}
 			}
 			else if (height_block2 == TILE_SIZE) {
-				if (map_data.block[y1][x2] != BLANK_TILES) {
-					y_pos_ = (y1 + 1) * TILE_SIZE;
-					y_val_ = 0;
+				if (mapData.block[y1][x2] != BLANK_TILES) {
+					yPos = (y1 + 1) * TILE_SIZE;
+					yVal = 0;
 				}
 			}
-			else if (map_data.block[y1][x1] != BLANK_TILES) {
-				y_pos_ = (y1 + 1) * TILE_SIZE;
-				if (height_block1 <= (1 - EQUILIBRIUM_RATIO) * width_frame_
-					&& map_data.block[y1][x2] == BLANK_TILES)
+			else if (mapData.block[y1][x1] != BLANK_TILES) {
+				yPos = (y1 + 1) * TILE_SIZE;
+				if (height_block1 <= (1 - EQUILIBRIUM_RATIO) * widthFrame
+					&& mapData.block[y1][x2] == BLANK_TILES)
 					if (height_block1 <= FREE_ROLLING_SPEED)
-						x_pos_ += height_block1;
+						xPos += height_block1;
 					else
-						x_pos_ += FREE_ROLLING_SPEED;
-				y_val_ = 0;
+						xPos += FREE_ROLLING_SPEED;
+				yVal = 0;
 			}
-			else if (map_data.block[y1][x2] != BLANK_TILES) {
-				y_pos_ = (y1 + 1) * TILE_SIZE;
-				if (height_block2 <= (1 - EQUILIBRIUM_RATIO) * width_frame_
-					&& map_data.block[y1][x1] == BLANK_TILES)
+			else if (mapData.block[y1][x2] != BLANK_TILES) {
+				yPos = (y1 + 1) * TILE_SIZE;
+				if (height_block2 <= (1 - EQUILIBRIUM_RATIO) * widthFrame
+					&& mapData.block[y1][x1] == BLANK_TILES)
 					if (height_block2 <= FREE_ROLLING_SPEED)
-						x_pos_ -= height_block2;
+						xPos -= height_block2;
 					else
-						x_pos_ -= FREE_ROLLING_SPEED;
-				y_val_ = 0;
+						xPos -= FREE_ROLLING_SPEED;
+				yVal = 0;
 			}
 		}
 	}
 
-	x_pos_ += x_val_;
-	y_pos_ += y_val_;
+	xPos += xVal;
+	yPos += yVal;
 
-	if (x_pos_ < 0) {
-		x_pos_ = 0;
+	if (xPos < 0) {
+		xPos = 0;
 	}
-	else if (x_pos_ + width_frame_ > map_data.max_x_) {
-		x_pos_ = map_data.max_x_ - width_frame_;
+	else if (xPos + widthFrame > mapData.maxX) {
+		xPos = mapData.maxX - widthFrame;
 	}
 
-	if (y_pos_ < 0) {
-		y_pos_ = 0;
+	if (yPos < 0) {
+		yPos = 0;
 	}
-	if (y_pos_ > map_data.max_y_) {
-		come_back_time_ = 10;
+	if (yPos > mapData.maxY) {
+		comeBackTime = 10;
 	}
 }

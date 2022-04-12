@@ -60,20 +60,20 @@ int BounceBall::startGame() {
             }
         }
     }
-    CleanUp();
+    cleanUp();
 }
 
 void BounceBall::displayLogo() {
     BaseObject backGround;
-    backGround.LoadImage("img//Background//Background.jpg", gScreen);
-    backGround.Render(gScreen);
-    backGround.CleanUp();
+    backGround.loadImage("img//background//background.jpg", gScreen);
+    backGround.render(gScreen);
+    backGround.cleanUp();
 
     BaseObject logo; 
-    logo.LoadImage("img//logo//logo.png", gScreen);
+    logo.loadImage("img//logo//logo.png", gScreen);
     logo.setRectSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-    logo.Render(gScreen);
-    logo.CleanUp();
+    logo.render(gScreen);
+    logo.cleanUp();
     SDL_RenderPresent(gScreen);
     SDL_Delay(1000);
 }
@@ -83,28 +83,28 @@ void BounceBall::displayMenu() {
     mouse->mouseHandleEvent();
 
     BaseObject backGround;
-    backGround.LoadImage("img//Background//Background.jpg", gScreen);
-    backGround.Render(gScreen);
+    backGround.loadImage("img//background//background.jpg", gScreen);
+    backGround.render(gScreen);
 
     ButtonObject* playButton = new ButtonObject;
-    playButton->LoadImage("img//button//menu_button_play.png", gScreen);
+    playButton->loadImage("img//button//menu_button_play.png", gScreen);
     playButton->setRectPos(450, 100);
-    playButton->SetClips();
-    playButton->Render(gScreen);
+    playButton->setClips();
+    playButton->render(gScreen);
     bool typePlayButton = bool(mouse->CheckMouseInButton(playButton));
 
     ButtonObject* leaderboardButton = new ButtonObject;
-    leaderboardButton->LoadImage("img//button//menu_button_leaderboard.png", gScreen);
+    leaderboardButton->loadImage("img//button//menu_button_leaderboard.png", gScreen);
     leaderboardButton->setRectPos(450, 200);
-    leaderboardButton->SetClips();
-    leaderboardButton->Render(gScreen);
+    leaderboardButton->setClips();
+    leaderboardButton->render(gScreen);
     bool typeleaderboardButton = bool(mouse->CheckMouseInButton(leaderboardButton));
 
     ButtonObject* loginButton = new ButtonObject;
-    loginButton->LoadImage("img//button//menu_button_login.png", gScreen);
+    loginButton->loadImage("img//button//menu_button_login.png", gScreen);
     loginButton->setRectPos(450, 300);
-    loginButton->SetClips();
-    loginButton->Render(gScreen);
+    loginButton->setClips();
+    loginButton->render(gScreen);
     bool typeloginButton = bool(mouse->CheckMouseInButton(loginButton));
 
     SDL_RenderPresent(gScreen);
@@ -117,10 +117,10 @@ void BounceBall::displayMenu() {
         if (typeloginButton)
             display = 3;
     }
-    backGround.CleanUp();
-    playButton->CleanUp();
-    leaderboardButton->CleanUp();
-    loginButton->CleanUp();
+    backGround.cleanUp();
+    playButton->cleanUp();
+    leaderboardButton->cleanUp();
+    loginButton->cleanUp();
 }
 
 void BounceBall::displayPlay() {
@@ -128,8 +128,8 @@ void BounceBall::displayPlay() {
     mouse->mouseHandleEvent();
 
     BaseObject backGround;
-    backGround.LoadImage("img//Background//Background.jpg", gScreen);
-    backGround.Render(gScreen);
+    backGround.loadImage("img//background//background.jpg", gScreen);
+    backGround.render(gScreen);
 
     TTF_Font* fontGame;
     LTexture LevelText;
@@ -145,28 +145,28 @@ void BounceBall::displayPlay() {
     const int UPPER_BOUNDARY = 100;
     for (int i = 1; i <= 5; ++i) {
         for (int j = 1; j <= 10; ++j) {
-            selectLevelButton->LoadImage("img//level//select_level.png", gScreen);
+            selectLevelButton->loadImage("img//level//select_level.png", gScreen);
             selectLevelButton->setRectPos(64 * j, UPPER_BOUNDARY + 64 * i);
-            selectLevelButton->SetClips();
-            selectLevelButton->Render(gScreen);
+            selectLevelButton->setClips();
+            selectLevelButton->render(gScreen);
             bool typeleaderboardButton = bool(mouse->CheckMouseInButton(selectLevelButton));
             ++level;
             std::string strLevel = "";
             if (level < 10) strLevel += "0";
             strLevel += std::to_string(level);
-            LevelText.SetText(strLevel);
-            LevelText.LoadFromRenderText(fontGame, gScreen);
-            LevelText.ShowText(gScreen, 64 * j + 17, UPPER_BOUNDARY + 64 * i + 17);
+            LevelText.setText(strLevel);
+            LevelText.loadFromRenderText(fontGame, gScreen);
+            LevelText.showText(gScreen, 64 * j + 17, UPPER_BOUNDARY + 64 * i + 17);
             if (gEvent.type == SDL_MOUSEBUTTONDOWN && typeleaderboardButton) {
                 infoPlayer->setLevel(level);
-                Cryptosystem AddressLevel;
+                Cryptosystem addressLevel;
                 string address = "map//level";
                 if (level < 10) address += "0";
-                address += AddressLevel.ConvertNumberToString(level);
+                address += addressLevel.convertNumberToString(level);
                 address += ".map";
-                LevelGame::LoadLevelGame(address.c_str(), gScreen, gEvent, infoPlayer);
+                LevelGame::loadLevelGame(address.c_str(), gScreen, gEvent, infoPlayer);
             }
-            selectLevelButton->CleanUp();
+            selectLevelButton->cleanUp();
         } 
     }
     SDL_RenderPresent(gScreen); 
@@ -178,8 +178,8 @@ void BounceBall::displayLeaderboard() {
 
 void BounceBall::displayLogin() {
     BaseObject backGround;
-    backGround.LoadImage("img//Background//Background.jpg", gScreen);
-    backGround.Render(gScreen);
+    backGround.loadImage("img//background//background.jpg", gScreen);
+    backGround.render(gScreen);
     bool quit = false;
 
     TTF_Font* fontGame;
@@ -190,40 +190,40 @@ void BounceBall::displayLogin() {
     }
 
     ButtonObject* usernameButton = new ButtonObject;
-    usernameButton->LoadImage("img//button//login_button_username.png", gScreen);
-    usernameButton->SetClips();
-    usernameButton->Set_x_pos((SCREEN_WIDTH - usernameButton->getWidthButton()) / 2);
-    usernameButton->Set_y_pos(150);
-    usernameButton->setRectPos(usernameButton->Get_x_pos(), usernameButton->Get_y_pos());
-    usernameButton->Render(gScreen);
+    usernameButton->loadImage("img//button//login_button_username.png", gScreen);
+    usernameButton->setClips();
+    usernameButton->setXPos((SCREEN_WIDTH - usernameButton->getWidthButton()) / 2);
+    usernameButton->setYPos(150);
+    usernameButton->setRectPos(usernameButton->getXPos(), usernameButton->getYPos());
+    usernameButton->render(gScreen);
 
     ButtonObject* passwordButton = new ButtonObject;
-    passwordButton->LoadImage("img//button//login_button_password.png", gScreen);
-    passwordButton->SetClips();
-    passwordButton->Set_x_pos((SCREEN_WIDTH - passwordButton->getWidthButton()) / 2);
-    passwordButton->Set_y_pos(250);
-    passwordButton->setRectPos(passwordButton->Get_x_pos(), passwordButton->Get_y_pos());
-    passwordButton->Render(gScreen); 
+    passwordButton->loadImage("img//button//login_button_password.png", gScreen);
+    passwordButton->setClips();
+    passwordButton->setXPos((SCREEN_WIDTH - passwordButton->getWidthButton()) / 2);
+    passwordButton->setYPos(250);
+    passwordButton->setRectPos(passwordButton->getXPos(), passwordButton->getYPos());
+    passwordButton->render(gScreen); 
 
     ButtonObject* loginButton = new ButtonObject;
-    loginButton->LoadImage("img//button//login_button_login.png", gScreen);
-    loginButton->SetClips();
-    loginButton->Set_x_pos((SCREEN_WIDTH - loginButton->getWidthButton()) / 2);
-    loginButton->Set_y_pos(350);
-    loginButton->setRectPos(loginButton->Get_x_pos(), loginButton->Get_y_pos());
-    loginButton->Render(gScreen);
+    loginButton->loadImage("img//button//login_button_login.png", gScreen);
+    loginButton->setClips();
+    loginButton->setXPos((SCREEN_WIDTH - loginButton->getWidthButton()) / 2);
+    loginButton->setYPos(350);
+    loginButton->setRectPos(loginButton->getXPos(), loginButton->getYPos());
+    loginButton->render(gScreen);
 
     SDL_RenderPresent(gScreen);
 
     LTexture* gInputTextTexture;
     
     LTexture usernameTextTexture;
-    usernameTextTexture.setPosX(usernameButton->Get_x_pos() + 20);
-    usernameTextTexture.setPosY(usernameButton->Get_y_pos() + 15);
+    usernameTextTexture.setPosX(usernameButton->getXPos() + 20);
+    usernameTextTexture.setPosY(usernameButton->getYPos() + 15);
 
     LTexture passwordTextTexture;
-    passwordTextTexture.setPosX(passwordButton->Get_x_pos() + 20);
-    passwordTextTexture.setPosY(passwordButton->Get_y_pos() + 15);
+    passwordTextTexture.setPosX(passwordButton->getXPos() + 20);
+    passwordTextTexture.setPosY(passwordButton->getYPos() + 15);
 
     string usernameText = "username";
     string passwordText = "password";
@@ -318,10 +318,10 @@ void BounceBall::displayLogin() {
         SDL_SetRenderDrawColor(gScreen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
         SDL_RenderClear(gScreen);
 
-        backGround.Render(gScreen, NULL);
-        usernameButton->Render(gScreen, NULL);
-        passwordButton->Render(gScreen, NULL);
-        loginButton->Render(gScreen, NULL);
+        backGround.render(gScreen, NULL);
+        usernameButton->render(gScreen, NULL);
+        passwordButton->render(gScreen, NULL);
+        loginButton->render(gScreen, NULL);
     
         if (usernameText == "") usernameText = "username";
         if (passwordText == "") passwordText = "password";
@@ -329,16 +329,16 @@ void BounceBall::displayLogin() {
         for (int i = max(0, (int) usernameText.size() - 15); i < usernameText.size(); ++i) {
             showUsername += usernameText[i];
         }
-        usernameTextTexture.SetText(showUsername);
-        usernameTextTexture.LoadFromRenderText(fontGame, gScreen);
-        usernameTextTexture.ShowText(gScreen, usernameTextTexture.getPosX(), usernameTextTexture.getPosY());
+        usernameTextTexture.setText(showUsername);
+        usernameTextTexture.loadFromRenderText(fontGame, gScreen);
+        usernameTextTexture.showText(gScreen, usernameTextTexture.getPosX(), usernameTextTexture.getPosY());
 
         string encodePassword = "";
         for (int i = 0; i < min(15, passwordText.size()); ++i) encodePassword += "*";
         if (passwordText == "password") encodePassword = passwordText;
-        passwordTextTexture.SetText(encodePassword);
-        passwordTextTexture.LoadFromRenderText(fontGame, gScreen);
-        passwordTextTexture.ShowText(gScreen, passwordTextTexture.getPosX(), passwordTextTexture.getPosY());
+        passwordTextTexture.setText(encodePassword);
+        passwordTextTexture.loadFromRenderText(fontGame, gScreen);
+        passwordTextTexture.showText(gScreen, passwordTextTexture.getPosX(), passwordTextTexture.getPosY());
 
         SDL_RenderPresent(gScreen);
     }
@@ -369,7 +369,7 @@ bool BounceBall::initSDL() {
     return true;
 }
 
-void BounceBall::CleanUp() {
+void BounceBall::cleanUp() {
     SDL_DestroyRenderer(gScreen);
     gScreen = NULL;
 

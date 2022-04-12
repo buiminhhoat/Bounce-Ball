@@ -23,59 +23,59 @@ public:
 		WALK_LEFT = 1,
 	};
 
-	bool LoadImage(std::string path, SDL_Renderer* Screen);
-	void ShowImage(SDL_Renderer* des);
-	void InputAction(SDL_Event events, SDL_Renderer* Screen);
-	void Set_Clips();
-	void DoPlayer(Map& map_data);
-	void CheckPlayerVsMap(Map& mapdata);
-	void SetMapXY(const int map_x, const int map_y) {map_x_ = map_x;map_y_ = map_y;}
-	void CenterEntityOnMap(Map& map_data);
-	int come_back_time_;
-	float Get_x_pos() { return x_pos_; };
-	float Get_y_pos() { return y_pos_; };
+	bool loadImage(std::string path, SDL_Renderer* screen);
+	void showImage(SDL_Renderer* des);
+	void inputAction(SDL_Event events, SDL_Renderer* screen);
+	void setClips();
+	void doPlayer(Map& mapData);
+	void checkPlayerVsMap(Map& mapdata);
+	void setMapXY(const int &map_x, const int &map_y) {this->mapX = map_x;this->mapY = map_y;}
+	void centerEntityOnMap(Map& mapData);
+	float getXPos() { return this->xPos; };
+	float getYPos() { return this->yPos; };
 
 
-	float Get_width_frame() { return width_frame_; };
-	float Get_height_frame() { return height_frame_; };
-	void Set_pos(const float &pos_x, const float &pos_y) {
-		x_pos_ = pos_x;
-		y_pos_ = pos_y;
+	float getWidthFrame() { return this->widthFrame; };
+	float getHeightFrame() { return this->heightFrame; };
+	void setPos(const float & xPos, const float &yPos) {
+		this->xPos = xPos;
+		this->yPos = yPos;
 	}
 
-	void Set_pos_checkpoint(const float &pos_x, const float &pos_y) {
-		x_checkpoint_ = pos_x;
-		y_checkpoint_ = pos_y;
+	void setPosCheckpoint(const float &xPosCheckpoint, const float &yPosCheckpoint) {
+		this->xPosCheckpoint = xPosCheckpoint;
+		this->yPosCheckpoint = yPosCheckpoint;
 	}
 
-	float Get_x_pos_checkpoint() { return x_checkpoint_; };
-	float Get_y_pos_checkpoint() { return y_checkpoint_; };
+	float getXPosCheckpoint() { return this->xPosCheckpoint; };
+	float getYPosCheckpoint() { return this->yPosCheckpoint; };
 
-	int Get_id_checkpoint() { return id_checkpoint_; };
-	void Set_id_checkpoint(const int& id_checkpoint) { id_checkpoint_ = id_checkpoint; };
+	int getIdCheckpoint() { return this->idCheckpoint; };
+	void setIdCheckpoint(const int& idCheckpoint) { this->idCheckpoint = idCheckpoint; };
 private:
-	float x_val_;
-	float y_val_;
+	float xVal;
+	float yVal;
 
-	float x_pos_;
-	float y_pos_;
+	float xPos;
+	float yPos;
 
-	float x_checkpoint_;
-	float y_checkpoint_;
+	float xPosCheckpoint;
+	float yPosCheckpoint;
 
-	float width_frame_;
-	float height_frame_;
+	float widthFrame;
+	float heightFrame;
 
-	SDL_Rect frame_clip[8];
-	Input input_type_;
-	int frame_;
-	int status_;
-	int on_ground_;
+	SDL_Rect frameClip[8];
+	Input inputType;
+	int frame;
+	int status;
+	int onGround;
 
-	int map_x_;
-	int map_y_;
+	int mapX;
+	int mapY;
 
-	int id_checkpoint_;
+	int idCheckpoint;
+	int comeBackTime;
 };
 #endif
 #pragma once

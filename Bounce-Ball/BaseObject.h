@@ -9,31 +9,31 @@ public:
 	~BaseObject();
 
 	void setRectPos(const int& x, const int& y) {
-		Rect_.x = x;
-		Rect_.y = y;
+		rect.x = x;
+		rect.y = y;
 	}
 
 	void setRectSize(const int& w, const int& h) {
-		Rect_.w = w;
-		Rect_.h = h;
+		rect.w = w;
+		rect.h = h;
 	}
 
-	SDL_Rect GetRect() const {
-		return Rect_;
+	SDL_Rect getRect() const {
+		return rect;
 	}
 
-	SDL_Texture* GetObject() const {
-		return Object_;
+	SDL_Texture* getObject() const {
+		return object;
 	}
 	
-	virtual bool LoadImage(std::string path, SDL_Renderer* screen);
+	virtual bool loadImage(std::string path, SDL_Renderer* screen);
 
-	void Render(SDL_Renderer* des, const SDL_Rect* clip = NULL);
+	void render(SDL_Renderer* des, const SDL_Rect* clip = NULL);
 
-	void CleanUp();
+	void cleanUp();
 
 protected:
-	SDL_Texture* Object_;
-	SDL_Rect Rect_;
+	SDL_Texture* object;
+	SDL_Rect rect;
 };
 #endif#pragma once

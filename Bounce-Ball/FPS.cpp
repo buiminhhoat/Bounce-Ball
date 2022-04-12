@@ -2,10 +2,10 @@
 #include "CommonFunc.h"
 
 FPS::FPS() {
-	start_tick_ = 0;
-	pause_tick_ = 0;
-	is_paused_ = false;
-	is_started_ = false;
+	startTick = 0;
+	pauseTick = 0;
+	isPaused = false;
+	isStarted = false;
 }
 
 FPS::~FPS() {
@@ -13,48 +13,48 @@ FPS::~FPS() {
 }
 
 void FPS::start() {
-	is_started_ = true;
-	is_paused_ = false;
+	isStarted = true;
+	isPaused = false;
 
-	start_tick_ = SDL_GetTicks();
+	startTick = SDL_GetTicks();
 }
 
 void FPS::stop() {
-	is_paused_ = false;
-	is_started_ = false;
+	isPaused = false;
+	isStarted = false;
 }
 
 void FPS::paused() {
-	if (is_started_ == true && is_paused_ == false) {
-		is_paused_ = true;
-		pause_tick_ = SDL_GetTicks() - start_tick_;
+	if (isStarted == true && isPaused == false) {
+		isPaused = true;
+		pauseTick = SDL_GetTicks() - startTick;
 	}
 }
 
 void FPS::unpaused() {
-	if (is_paused_ == true) {
-		is_paused_ = false;
-		start_tick_ = SDL_GetTicks() - pause_tick_;
-		pause_tick_ = 0;
+	if (isPaused == true) {
+		isPaused = false;
+		startTick = SDL_GetTicks() - pauseTick;
+		pauseTick = 0;
 	}
 }
 
-int FPS::get_ticks() {
-	if (is_started_ == true) {
-		if (is_paused_ == true) {
-			return pause_tick_;
+int FPS::getTicks() {
+	if (isStarted == true) {
+		if (isPaused == true) {
+			return pauseTick;
 		}
 		else {
-			return SDL_GetTicks() - start_tick_;
+			return SDL_GetTicks() - startTick;
 		}
 	}
 	return 0;
 }
 
-bool FPS::is_started() {
-	return is_started_;
+bool FPS::getIsStarted() {
+	return isStarted;
 }
 
-bool FPS::is_paused() {
-	return is_paused_;
+bool FPS::getIsPaused() {
+	return isPaused;
 }

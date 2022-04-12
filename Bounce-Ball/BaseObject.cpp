@@ -1,19 +1,19 @@
 #include "BaseObject.h"
 
 BaseObject::BaseObject() {
-    Object_ = NULL;
-    Rect_.x = 0;
-    Rect_.y = 0;
-    Rect_.w = 0;
-    Rect_.h = 0;
+    object = NULL;
+    rect.x = 0;
+    rect.y = 0;
+    rect.w = 0;
+    rect.h = 0;
 }
 
 BaseObject::~BaseObject() {
-    CleanUp();
+    cleanUp();
 }
 
-bool BaseObject::LoadImage(std::string path, SDL_Renderer* Screen) {
-    CleanUp();
+bool BaseObject::loadImage(std::string path, SDL_Renderer* screen) {
+    cleanUp();
     SDL_Texture* newTexture = NULL;
     SDL_Surface* loadedSurface = IMG_Load(path.c_str());
     if (loadedSurface == NULL) {
@@ -22,33 +22,33 @@ bool BaseObject::LoadImage(std::string path, SDL_Renderer* Screen) {
         return false;
     }
     else {
-        newTexture = SDL_CreateTextureFromSurface(Screen, loadedSurface);
+        newTexture = SDL_CreateTextureFromSurface(screen, loadedSurface);
         if (newTexture == NULL) {
             std::cerr << "Unable to create texture from " << path << " SDL Error: "
                 << SDL_GetError() << '\n';
             return false;
         }
         else {
-            Rect_.w = loadedSurface->w;
-            Rect_.h = loadedSurface->h;
+            rect.w = loadedSurface->w;
+            rect.h = loadedSurface->h;
         }
         SDL_FreeSurface(loadedSurface);
     }
 
-    Object_ = newTexture;
-    return (Object_ != NULL);
+    object = newTexture;
+    return (object != NULL);
 }
 
-void BaseObject::Render(SDL_Renderer* des, const SDL_Rect* clip) {
-    SDL_Rect renderquad = { Rect_.x, Rect_.y, Rect_.w, Rect_.h };
-    SDL_RenderCopy(des, Object_, clip, &renderquad);
+void BaseObject::render(SDL_Renderer* des, const SDL_Rect* clip) {
+    SDL_Rect renderquad = { rect.x, rect.y, rect.w, rect.h };
+    SDL_RenderCopy(des, object, clip, &renderquad);
 }
 
-void BaseObject::CleanUp() {
-    if (Object_ != NULL) {
-        SDL_DestroyTexture(Object_);
-        Object_ = NULL;
-        Rect_.w = 0;
-        Rect_.h = 0;
+void BaseObject::cleanUp() {
+    if (object != NULL) {
+        SDL_DestroyTexture(object);
+        object = NULL;
+        rect.w = 0;
+        rect.h = 0;
     }
 }

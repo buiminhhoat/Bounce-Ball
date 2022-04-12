@@ -21,74 +21,74 @@ class ManagementObject {
 public:
 	ManagementObject();
 	~ManagementObject();
-	void LoadThreatsObject(SDL_Renderer* Screen);
-	void checkIntersectThreatsObject(SDL_Renderer* Screen);
+	void loadThreatsObject(SDL_Renderer* screen);
+	void checkIntersectThreatsObject(SDL_Renderer* screen);
 	
-	void LoadRingsObject(SDL_Renderer* Screen);
-	void checkIntersectRingsObject(SDL_Renderer* Screen);
+	void loadRingsObject(SDL_Renderer* screen);
+	void checkIntersectRingsObject(SDL_Renderer* screen);
 	
-	void LoadCheckpointObject(SDL_Renderer* Screen);
-	void checkIntersectCheckpointObject(SDL_Renderer* Screen);
+	void loadCheckpointObject(SDL_Renderer* screen);
+	void checkIntersectCheckpointObject(SDL_Renderer* screen);
 
-	void LoadLifeObject(SDL_Renderer* Screen);
-	void checkIntersectLifeObject(SDL_Renderer* Screen);
+	void loadLifeObject(SDL_Renderer* screen);
+	void checkIntersectLifeObject(SDL_Renderer* screen);
 
-	void LoadEndpointObject(SDL_Renderer* Screen);
-	void OpenAllEndpointObject(SDL_Renderer* Screen);
-	void checkIntersectEndpointObject(SDL_Renderer* Screen);
+	void loadEndpointObject(SDL_Renderer* screen);
+	void openAllEndpointObject(SDL_Renderer* screen);
+	void checkIntersectEndpointObject(SDL_Renderer* screen);
 
-	void LoadALLObject(InfoPlayer* infoPlayer, SDL_Renderer* Screen);
-	void checkIntersectALLObject(SDL_Renderer* Screen);
+	void loadAllObject(InfoPlayer* infoPlayer, SDL_Renderer* screen);
+	void checkIntersectAllObject(SDL_Renderer* screen);
 
-	int Get_is_IntersectBallVsThreats() {return is_IntersectBallVsThreats_;}
+	int getIsIntersectBallVsThreats() {return this->isIntersectBallVsThreats;}
 
-	void Set_is_IntersectBallVsThreats(const int &val_is_IntersectBallVsObject) {
-		is_IntersectBallVsThreats_ = val_is_IntersectBallVsObject;
+	void setIsIntersectBallVsThreats(const int &valIsIntersectBallVsObject) {
+		this->isIntersectBallVsThreats = valIsIntersectBallVsObject;
 	}
 
-	int Get_is_IntersectBallVsRing() { return is_IntersectBallVsRing_; }
+	int getIsIntersectBallVsRing() { return this->isIntersectBallVsRing; }
 
-	void Set_is_IntersectBallVsRing(const int & is_IntersectBallVsRing) {
-		is_IntersectBallVsRing_ = is_IntersectBallVsRing;
+	void setIsIntersectBallVsRing(const int & isIntersectBallVsRing) {
+		this->isIntersectBallVsRing = isIntersectBallVsRing;
 	}
 
-	int Get_is_IntersectBallVsEndpoint_() {
-		return is_IntersectBallVsEndpoint_;
+	int getIsIntersectBallVsEndpoint() {
+		return this->isIntersectBallVsEndpoint;
 	}
 
-	void Set_is_IntersectBallVsEndpoint_(int is_IntersectBallVsEndpoint_) {
-		this->is_IntersectBallVsEndpoint_ = 0;
+	void setIsIntersectBallVsEndpoint(int isIntersectBallVsEndpoint) {
+		this->isIntersectBallVsEndpoint = isIntersectBallVsEndpoint;
 	}
 
-	void Set_rem_Rings(const int& rem_Rings) { rem_Rings_ = rem_Rings; }
-	int Get_rem_Rings() { return rem_Rings_; };
+	void setRemRings(const int& remRings) { this->remRings = remRings; }
+	int getRemRings() { return this->remRings; };
 
-	void setAllObject(GameMap *gamemap,	MainObject *Player, ScoreObject *Score, 
-						LifeObject *Life, InfoPlayer *infoPlayer) {
-		gamemap_ = gamemap;
-		Player_ = Player;
-		Score_ = Score;
-		Life_ = Life;
-		map_data_ = gamemap->getMap();
-		this->infoPlayer_ = infoPlayer;
+	void setAllObject(GameMap *gamemap,	MainObject *player, ScoreObject *score, 
+						LifeObject *life, InfoPlayer *infoPlayer) {
+		this->gameMap = gamemap;
+		this->player = player;
+		this->score = score;
+		this->life = life;
+		this->mapData = gamemap->getMap();
+		this->infoPlayer = infoPlayer;
 	}
 private:
-	std::vector <ThreatsObject*> threats_list;
-	std::vector <RingsObject*> rings_list;
-	std::vector <CheckpointObject*> checkpoints_list;
-	std::vector <LifeObject*> lifes_list;
-	std::vector <EndpointObject*> endpoints_list;
+	std::vector <ThreatsObject*> threatsList;
+	std::vector <RingsObject*> ringsList;
+	std::vector <CheckpointObject*> checkpointsList;
+	std::vector <LifeObject*> lifesList;
+	std::vector <EndpointObject*> endpointsList;
 
-	int is_IntersectBallVsThreats_;
-	int is_IntersectBallVsRing_;
-	int is_IntersectBallVsEndpoint_;
-	int rem_Rings_;
+	int isIntersectBallVsThreats;
+	int isIntersectBallVsRing;
+	int isIntersectBallVsEndpoint;
+	int remRings;
 
-	GameMap *gamemap_;
-	MainObject *Player_;
-	Map map_data_;
-	ScoreObject *Score_;
-	LifeObject *Life_;
-	InfoPlayer* infoPlayer_;
+	GameMap *gameMap;
+	MainObject *player;
+	Map mapData;
+	ScoreObject *score;
+	LifeObject *life;
+	InfoPlayer* infoPlayer;
 };
 #endif

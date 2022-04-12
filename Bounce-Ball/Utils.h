@@ -7,9 +7,9 @@ using namespace std;
 
 class MouseEvents {
 private:
-    int mouse_x;
-    int mouse_y;
-    void setPosition(int x, int y);
+    int mouseX;
+    int mouseY;
+    void setPosition(int mouseX, int mouseY);
 public:
     void mouseHandleEvent();
     bool CheckMouseInButton(ButtonObject* button);

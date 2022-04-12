@@ -38,25 +38,25 @@ const int MAX_MAP_X = 700;
 const int MAX_MAP_Y = 50;
 
 struct Input {
-	int left_;
-	int right_;
-	int up_;
-	int down_;
-	int jump_;
+	int left;
+	int right;
+	int up;
+	int down;
+	int jump;
 };
 
 struct Map {
-	int start_x_player_;
-	int start_y_player_;
-	int start_x_;
-	int start_y_;
+	int startXPlayer;
+	int startYPlayer;
+	int startX;
+	int startY;
 
-	int max_x_;
-	int max_y_;
+	int maxX;
+	int maxY;
 
 	int block[MAX_MAP_Y][MAX_MAP_X]; 
 
-	const char* file_map;
+	const char* fileMap;
 };
 
 enum TypeBlock {

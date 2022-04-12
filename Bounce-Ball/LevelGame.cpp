@@ -23,64 +23,64 @@ LevelGame::~LevelGame() {
 
 }
 
-BaseObject Background;
+BaseObject background;
 GameMap gamemap;
-FPS fps_timer;
-MainObject Player;
-ManagementObject Object;
-ScoreObject Score;
-LifeObject Life;
+FPS fpsTimer;
+MainObject player;
+ManagementObject object;
+ScoreObject score;
+LifeObject life;
 TTF_Font *fontGame;
-LTexture ScoreText;
-LTexture LifeText;
-LTexture RemRingText;
-Map map_data;
+LTexture scoreText;
+LTexture lifeText;
+LTexture remRingText;
+Map mapData;
 
-void ShowScore(SDL_Renderer* Screen) {
-    std::string str_Score = "Score: " + std::to_string(Score.GetScore());
-    ScoreText.SetText(str_Score);
-    ScoreText.LoadFromRenderText(fontGame, Screen);
-    ScoreText.ShowText(Screen, SCREEN_WIDTH - 200, 5);
+void showScore(SDL_Renderer* screen) {
+    std::string strScore = "score: " + std::to_string(score.getScore());
+    scoreText.setText(strScore);
+    scoreText.loadFromRenderText(fontGame, screen);
+    scoreText.showText(screen, SCREEN_WIDTH - 200, 5);
 }
 
-void ShowLife(SDL_Renderer* Screen) {
-    LifeObject* gbar_life = new LifeObject;
-    gbar_life->LoadImage("img//life//gbar_life.png", Screen);
-    gbar_life->SetClips();
-    gbar_life->Set_x_pos(15);
-    gbar_life->Set_y_pos(5);
-    gbar_life->ShowImage(Screen);
-    gbar_life->CleanUp();
-    std::string str_Life = " x " + std::to_string(Life.GetLife());
-    LifeText.SetText(str_Life);
-    LifeText.LoadFromRenderText(fontGame, Screen);
-    LifeText.ShowText(Screen, 15 + gbar_life->Get_width_frame(), 5);
+void showLife(SDL_Renderer* screen) {
+    LifeObject* gbarLife = new LifeObject;
+    gbarLife->loadImage("img//life//gbar_Life.png", screen);
+    gbarLife->setClips();
+    gbarLife->setXPos(15);
+    gbarLife->setYPos(5);
+    gbarLife->showImage(screen);
+    gbarLife->cleanUp();
+    std::string strLife = " x " + std::to_string(life.getLife());
+    lifeText.setText(strLife);
+    lifeText.loadFromRenderText(fontGame, screen);
+    lifeText.showText(screen, 15 + gbarLife->getWidthFrame(), 5);
 }
 
-void ShowRemRings(SDL_Renderer* Screen) {
-    RingsObject* gbar_ring = new RingsObject;
-    gbar_ring->LoadImage("img//rings//gbar_ring.png", Screen);
-    gbar_ring->SetClips();
-    gbar_ring->Set_x_pos(325);
-    gbar_ring->Set_y_pos(5);
-    gbar_ring->ShowImage(Screen);
-    gbar_ring->CleanUp();
-    std::string str_Ring = " x " + std::to_string(Object.Get_rem_Rings());
-    RemRingText.SetText(str_Ring);
-    RemRingText.LoadFromRenderText(fontGame, Screen);
-    RemRingText.ShowText(Screen, 325 + gbar_ring->Get_width_frame(), 5);
-    //Object.Set_rem_Rings(0);
-    if (Object.Get_rem_Rings() == 0) {
-        Object.OpenAllEndpointObject(Screen);
+void showRemRings(SDL_Renderer* screen) {
+    RingsObject* gbarRing = new RingsObject;
+    gbarRing->loadImage("img//rings//gbar_Ring.png", screen);
+    gbarRing->setClips();
+    gbarRing->setXPos(325);
+    gbarRing->setYPos(5);
+    gbarRing->showImage(screen);
+    gbarRing->cleanUp();
+    std::string strRing = " x " + std::to_string(object.getRemRings());
+    remRingText.setText(strRing);
+    remRingText.loadFromRenderText(fontGame, screen);
+    remRingText.showText(screen, 325 + gbarRing->getWidthFrame(), 5);
+    //object.setRemRings(0);
+    if (object.getRemRings() == 0) {
+        object.openAllEndpointObject(screen);
     }
 }
 
-void LevelGame::LoadLevelGame(const char* NameFileMap, SDL_Renderer* Screen, 
-                                SDL_Event Event, InfoPlayer* infoPlayer) {
+void LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen, 
+                                SDL_Event event, InfoPlayer* infoPlayer) {
     cerr << infoPlayer->getUsername() << '\n';
-    Score.setScore(infoPlayer->getScore());
-    Life.SetLife(infoPlayer->getlife());
-    Background.LoadImage("img//Background//Background.jpg", Screen);
+    score.setScore(infoPlayer->getScore());
+    life.SetLife(infoPlayer->getLife());
+    background.loadImage("img//background//background.jpg", screen);
 
     if (TTF_Init() == -1) return; 
     fontGame = TTF_OpenFont("font//no_continue.ttf", 30);
@@ -88,78 +88,78 @@ void LevelGame::LoadLevelGame(const char* NameFileMap, SDL_Renderer* Screen,
         return;
     }
 
-    gamemap.LoadMap(NameFileMap);
-    gamemap.LoadIMGBlock(Screen);
+    gamemap.loadMap(nameFileMap);
+    gamemap.loadIMGBlock(screen);
 
-    Player.LoadImage("img//ball//ball.png", Screen);
-    Player.Set_Clips();
-    Player.Set_pos(gamemap.Get_start_x_player(), gamemap.Get_start_y_player());
+    player.loadImage("img//ball//ball.png", screen);
+    player.setClips();
+    player.setPos(gamemap.getStartXPlayer(), gamemap.getStartYPlayer());
 
-    ScoreText.SetColor(LTexture::WHITE_COLOR);
-    LifeText.SetColor(LTexture::WHITE_COLOR);
-    RemRingText.SetColor(LTexture::WHITE_COLOR);
+    scoreText.setColor(LTexture::WHITE_COLOR);
+    lifeText.setColor(LTexture::WHITE_COLOR);
+    remRingText.setColor(LTexture::WHITE_COLOR);
     
-    Object.setAllObject(&gamemap, &Player, &Score, &Life, infoPlayer);
-    Object.LoadALLObject(infoPlayer, Screen);
+    object.setAllObject(&gamemap, &player, &score, &life, infoPlayer);
+    object.loadAllObject(infoPlayer, screen);
 
-    gamemap.FixMap();
+    gamemap.fixMap();
 
-    bool is_quit = false;
-    while (!is_quit) {
-        fps_timer.start();
-        while (SDL_PollEvent(&Event) != 0) {
-            if (Event.type == SDL_QUIT) {
-                is_quit = true;
+    bool isQuit = false;
+    while (!isQuit) {
+        fpsTimer.start();
+        while (SDL_PollEvent(&event) != 0) {
+            if (event.type == SDL_QUIT) {
+                isQuit = true;
                 return;
             }
-            Player.InputAction(Event, Screen);
+            player.inputAction(event, screen);
         }
-        SDL_SetRenderDrawColor(Screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
-        SDL_RenderClear(Screen);
+        SDL_SetRenderDrawColor(screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
+        SDL_RenderClear(screen);
 
-        Background.Render(Screen, NULL);
+        background.render(screen, NULL);
 
-        map_data = gamemap.getMap();
+        mapData = gamemap.getMap();
 
-        Player.SetMapXY(map_data.start_x_, map_data.start_y_);
-        Player.DoPlayer(map_data);
-        Player.ShowImage(Screen);
+        player.setMapXY(mapData.startX, mapData.startY);
+        player.doPlayer(mapData);
+        player.showImage(screen);
 
-        gamemap.SetMap(map_data);
-        gamemap.DrawMap(Screen);
+        gamemap.setMap(mapData);
+        gamemap.drawMap(screen);
 
-        Object.setAllObject(&gamemap, &Player, &Score, &Life, infoPlayer);
-        Object.checkIntersectALLObject(Screen);
-        Object.setAllObject(&gamemap, &Player, &Score, &Life, infoPlayer);
+        object.setAllObject(&gamemap, &player, &score, &life, infoPlayer);
+        object.checkIntersectAllObject(screen);
+        object.setAllObject(&gamemap, &player, &score, &life, infoPlayer);
 
-        ShowScore(Screen); 
-        ShowRemRings(Screen); 
+        showScore(screen); 
+        showRemRings(screen); 
 
-        if (Object.Get_is_IntersectBallVsEndpoint_()) {
-            Object.Set_is_IntersectBallVsEndpoint_(0);
-            infoPlayer->setlife(Life.GetLife()); 
-            infoPlayer->setScore(Score.GetScore());
+        if (object.getIsIntersectBallVsEndpoint()) {
+            object.setIsIntersectBallVsEndpoint(0);
+            infoPlayer->setlife(life.getLife()); 
+            infoPlayer->setScore(score.getScore());
             infoPlayer->setLevel(infoPlayer->getLevel() + 1);
-            Cryptosystem AddressLevel;
+            Cryptosystem addressLevel;
             string address = "map//level";
             if (infoPlayer->getLevel() < 10) address += "0";
-            address += AddressLevel.ConvertNumberToString(infoPlayer->getLevel());
+            address += addressLevel.convertNumberToString(infoPlayer->getLevel());
             address += ".map";
-            LevelGame::LoadLevelGame(address.c_str(), Screen, Event, infoPlayer);
+            LevelGame::loadLevelGame(address.c_str(), screen, event, infoPlayer);
             return;
         }
 
-        if (Object.Get_is_IntersectBallVsThreats()) {
-            Player.LoadImage("img//ball//ball_pop.png", Screen);
-            Player.Set_Clips();
-            Player.ShowImage(Screen);
+        if (object.getIsIntersectBallVsThreats()) {
+            player.loadImage("img//ball//ball_pop.png", screen);
+            player.setClips();
+            player.showImage(screen);
 
-            Life.IncreaseLife(-1);
+            life.increaseLife(-1);
 
-            if (Life.GetLife() == 0) {
-                ShowLife(Screen);
+            if (life.getLife() == 0) {
+                showLife(screen);
 
-                SDL_RenderPresent(Screen);
+                SDL_RenderPresent(screen);
                 SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
                     "GameOver!!!",
                     "GameOver!!!",
@@ -167,28 +167,28 @@ void LevelGame::LoadLevelGame(const char* NameFileMap, SDL_Renderer* Screen,
                 return;
             }
             
-            ShowLife(Screen);
+            showLife(screen);
             
-            SDL_RenderPresent(Screen);
+            SDL_RenderPresent(screen);
             SDL_Delay(1000);
-            Object.Set_is_IntersectBallVsThreats(0);
-            Player.LoadImage("img//ball//ball.png", Screen);
-            Player.Set_Clips();
-            Player.ShowImage(Screen);
-            Player.Set_pos(Player.Get_x_pos_checkpoint(), Player.Get_y_pos_checkpoint());
-            SDL_RenderPresent(Screen);
+            object.setIsIntersectBallVsThreats(0);
+            player.loadImage("img//ball//ball.png", screen);
+            player.setClips();
+            player.showImage(screen);
+            player.setPos(player.getXPosCheckpoint(), player.getYPosCheckpoint());
+            SDL_RenderPresent(screen);
         }
         
-        ShowLife(Screen);
+        showLife(screen);
 
-        SDL_RenderPresent(Screen);
+        SDL_RenderPresent(screen);
 
-        int real_time = fps_timer.get_ticks();
-        int time_one_frame = 1000 / FRAME_PER_SECOND;
-        if (real_time < time_one_frame) {
-            int delay_time = time_one_frame - real_time;
-            if (delay_time >= 0)
-                SDL_Delay(delay_time);
+        int realTime = fpsTimer.getTicks();
+        int timeOneFrame = 1000 / FRAME_PER_SECOND;
+        if (realTime < timeOneFrame) {
+            int delayTime = timeOneFrame - realTime;
+            if (delayTime >= 0)
+                SDL_Delay(delayTime);
         }
     }
 }

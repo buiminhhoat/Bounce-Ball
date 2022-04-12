@@ -17,22 +17,22 @@ public:
 	GameMap() { ; }
 	~GameMap() { ; }
 
-	void LoadMap(const char* NameFileMap);
-	void LoadIMGBlock(SDL_Renderer* Screen);
-	void DrawMap(SDL_Renderer* Screen);
-	Map getMap() const { return game_map_; }
-	void SetMap(Map& map_data) {
-		game_map_ = map_data;
+	void loadMap(const char* nameFileMap);
+	void loadIMGBlock(SDL_Renderer* screen);
+	void drawMap(SDL_Renderer* screen);
+	Map getMap() const { return gameMap; }
+	void setMap(Map& gameMap) {
+		this->gameMap = gameMap;
 	}
-	Map GetMap() {
-		return game_map_;
+	Map getMap() {
+		return this->gameMap;
 	}
-	void FixMap();
-	int Get_start_x_player() { return game_map_.start_x_player_; };
-	int Get_start_y_player() { return game_map_.start_y_player_; };
+	void fixMap();
+	int getStartXPlayer() { return gameMap.startXPlayer; };
+	int getStartYPlayer() { return gameMap.startYPlayer; };
 private:
-	Map game_map_;
+	Map gameMap;
 	Block type_block[MAX_TYPE_BLOCKS];
 };
-#endif game_map__H_
+#endif __GAMEMAP__
 #pragma once

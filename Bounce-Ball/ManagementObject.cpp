@@ -37,371 +37,371 @@ typedef struct RectObject {
     float y2;
 };
 
-void ManagementObject::LoadThreatsObject(SDL_Renderer* Screen) {
-    Map c_map = gamemap_->GetMap();
-    for (int i = 0; i < c_map.max_y_ / TILE_SIZE; ++i) {
-        for (int j = 0; j < c_map.max_x_ / TILE_SIZE; ++j) {
-            if (c_map.block[i][j] == DYN_THORN) {
-                ThreatsObject* dyn_threats = new ThreatsObject;
-                if (dyn_threats != NULL) {
+void ManagementObject::loadThreatsObject(SDL_Renderer* screen) {
+    Map cMap = gameMap->getMap();
+    for (int i = 0; i < cMap.maxY / TILE_SIZE; ++i) {
+        for (int j = 0; j < cMap.maxX / TILE_SIZE; ++j) {
+            if (cMap.block[i][j] == DYN_THORN) {
+                ThreatsObject* dynThreats = new ThreatsObject;
+                if (dynThreats != NULL) {
                     int x = j * TILE_SIZE;
                     int y = i * TILE_SIZE;
-                    dyn_threats->LoadImage("img//threats//dyn_thorn.png", Screen);
-                    dyn_threats->SetClips();
-                    dyn_threats->Set_x_pos(x);
-                    dyn_threats->Set_y_pos(y);
+                    dynThreats->loadImage("img//threats//dyn_thorn.png", screen);
+                    dynThreats->setClips();
+                    dynThreats->setXPos(x);
+                    dynThreats->setYPos(y);
 
-                    int pos1 = dyn_threats->Get_y_pos() - SCREEN_HEIGHT;
-                    int pos2 = dyn_threats->Get_y_pos() + SCREEN_HEIGHT;
+                    int pos1 = dynThreats->getYPos() - SCREEN_HEIGHT;
+                    int pos2 = dynThreats->getYPos() + SCREEN_HEIGHT;
 
-                    dyn_threats->SetAnimationPos(pos1, pos2);
-                    dyn_threats->Set_input_up(1);
-                    dyn_threats->Set_type_move(ThreatsObject::MOVE_IN_SPACE_THREAT);
-                    threats_list.push_back(dyn_threats);
+                    dynThreats->setAnimationPos(pos1, pos2);
+                    dynThreats->setInputUp(1);
+                    dynThreats->setTypeMove(ThreatsObject::MOVE_IN_SPACE_THREAT);
+                    threatsList.push_back(dynThreats);
                 }
             }
         }
     }
 
-    for (int i = 0; i < c_map.max_y_ / TILE_SIZE; ++i) {
-        for (int j = 0; j < c_map.max_x_ / TILE_SIZE; ++j) {
-            if (c_map.block[i][j] == THORN) {
-                ThreatsObject* thorn_object = new ThreatsObject;
-                if (thorn_object != NULL) {
+    for (int i = 0; i < cMap.maxY / TILE_SIZE; ++i) {
+        for (int j = 0; j < cMap.maxX / TILE_SIZE; ++j) {
+            if (cMap.block[i][j] == THORN) {
+                ThreatsObject* thornObject = new ThreatsObject;
+                if (thornObject != NULL) {
                     int x = j * TILE_SIZE;
                     int y = i * TILE_SIZE;
-                    thorn_object->LoadImage("img//threats//thorn.png", Screen);
-                    thorn_object->SetClips();
-                    thorn_object->Set_x_pos(x);
-                    thorn_object->Set_y_pos(y);
-                    thorn_object->Set_type_move(ThreatsObject::STATIC_THREAT);
-                    thorn_object->Set_input_up(0);
-                    threats_list.push_back(thorn_object);
+                    thornObject->loadImage("img//threats//thorn.png", screen);
+                    thornObject->setClips();
+                    thornObject->setXPos(x);
+                    thornObject->setYPos(y);
+                    thornObject->setTypeMove(ThreatsObject::STATIC_THREAT);
+                    thornObject->setInputUp(0);
+                    threatsList.push_back(thornObject);
                 }
             }
         }
     }
 }
 
-int checkIntersectBallVsObject(const CircleObject &circle_player, const RectObject &rect_object) {
-    float px = circle_player.cx;
-    float py = circle_player.cy;
+int checkIntersectBallVsObject(const CircleObject &circlePlayer, const RectObject &rectObject) {
+    float px = circlePlayer.cx;
+    float py = circlePlayer.cy;
 
-    if (px < rect_object.x1)
-        px = rect_object.x1;
-    else if (px > rect_object.x2)
-        px = rect_object.x2;
+    if (px < rectObject.x1)
+        px = rectObject.x1;
+    else if (px > rectObject.x2)
+        px = rectObject.x2;
 
-    if (py < rect_object.y1)
-        py = rect_object.y1;
-    else if (py > rect_object.y2)
-        py = rect_object.y2;
+    if (py < rectObject.y1)
+        py = rectObject.y1;
+    else if (py > rectObject.y2)
+        py = rectObject.y2;
 
-    float dx = circle_player.cx - px;
-    float dy = circle_player.cy - py;
+    float dx = circlePlayer.cx - px;
+    float dy = circlePlayer.cy - py;
 
-    return (dx * dx + dy * dy) <= circle_player.radius * circle_player.radius;
+    return (dx * dx + dy * dy) <= circlePlayer.radius * circlePlayer.radius;
 }
 
-void ManagementObject::checkIntersectThreatsObject(SDL_Renderer* Screen) {
-    for (int i = 0; i < threats_list.size(); ++i) {
-        ThreatsObject* threats = threats_list.at(i);
+void ManagementObject::checkIntersectThreatsObject(SDL_Renderer* screen) {
+    for (int i = 0; i < threatsList.size(); ++i) {
+        ThreatsObject* threats = threatsList.at(i);
         if (threats != NULL) {
-            threats->SetMapXY(map_data_.start_x_, map_data_.start_y_);
-            threats->ImpMoveType(Screen);
-            threats->DoPlayer(map_data_);
-            threats->ShowImage(Screen);
+            threats->setMapXY(mapData.startX, mapData.startY);
+            threats->impMoveType(screen);
+            threats->doPlayer(mapData);
+            threats->showImage(screen);
 
-            float x1_threats = threats->Get_x_pos();
-            float y1_threats = threats->Get_y_pos();
-            float x2_threats = x1_threats + threats->Get_width_frame();
-            float y2_threats = y1_threats + threats->Get_height_frame();
+            float x1Threats = threats->getXPos();
+            float y1Threats = threats->getYPos();
+            float x2Threats = x1Threats + threats->getWidthFrame();
+            float y2Threats = y1Threats + threats->getHeightFrame();
 
-            float cx_player = Player_->Get_x_pos() + Player_->Get_width_frame() / 2;
-            float cy_player = Player_->Get_y_pos() + Player_->Get_height_frame() / 2;
-            float r_player = min(Player_->Get_width_frame(), Player_->Get_height_frame()) / 2 - 1;
-            RectObject rect_threat = { x1_threats, y1_threats, x2_threats, y2_threats };
-            CircleObject circle_player = { cx_player, cy_player, r_player };
-            if (checkIntersectBallVsObject(circle_player, rect_threat)) {
-                is_IntersectBallVsThreats_ = 1;
+            float cxPlayer = player->getXPos() + player->getWidthFrame() / 2;
+            float cyPlayer = player->getYPos() + player->getHeightFrame() / 2;
+            float rPlayer = min(player->getWidthFrame(), player->getHeightFrame()) / 2 - 1;
+            RectObject rect_threat = { x1Threats, y1Threats, x2Threats, y2Threats };
+            CircleObject circlePlayer = { cxPlayer, cyPlayer, rPlayer };
+            if (checkIntersectBallVsObject(circlePlayer, rect_threat)) {
+                isIntersectBallVsThreats = 1;
             }
         }
     }
 }
 
-void ManagementObject::LoadRingsObject(SDL_Renderer* Screen) {
-    Map c_map = gamemap_->GetMap();
-    for (int i = 0; i < c_map.max_y_ / TILE_SIZE; ++i) {
-        for (int j = 0; j < c_map.max_x_ / TILE_SIZE; ++j) {
-            if (c_map.block[i][j] == RING_HORIZONTAL) {
-                RingsObject* ring_object = new RingsObject;
-                if (ring_object != NULL) {
+void ManagementObject::loadRingsObject(SDL_Renderer* screen) {
+    Map cMap = gameMap->getMap();
+    for (int i = 0; i < cMap.maxY / TILE_SIZE; ++i) {
+        for (int j = 0; j < cMap.maxX / TILE_SIZE; ++j) {
+            if (cMap.block[i][j] == RING_HORIZONTAL) {
+                RingsObject* ringObject = new RingsObject;
+                if (ringObject != NULL) {
                     int x = j * TILE_SIZE;
                     int y = i * TILE_SIZE;
-                    ring_object->LoadImage("img//rings//RING_HORIZONTAL.png", Screen);
-                    ring_object->SetClips();
-                    ring_object->Set_x_pos(x);
-                    ring_object->Set_y_pos(y);
-                    ring_object->Set_ScoreRing(SCORE_RING_HORIZONTAL);
-                    ring_object->Set_is_Vertical(0);
-                    rings_list.push_back(ring_object);
-                    ++rem_Rings_;
+                    ringObject->loadImage("img//rings//RING_HORIZONTAL.png", screen);
+                    ringObject->setClips();
+                    ringObject->setXPos(x);
+                    ringObject->setYPos(y);
+                    ringObject->setScoreRing(SCORE_RING_HORIZONTAL);
+                    ringObject->setIsVertical(0);
+                    ringsList.push_back(ringObject);
+                    ++remRings;
                 }
             }
-            else if (c_map.block[i][j] == RING_VERTICAL)  {
-                RingsObject* ring_object = new RingsObject;
-                if (ring_object != NULL) {
+            else if (cMap.block[i][j] == RING_VERTICAL)  {
+                RingsObject* ringObject = new RingsObject;
+                if (ringObject != NULL) {
                     int x = j * TILE_SIZE;
                     int y = i * TILE_SIZE;
-                    ring_object->LoadImage("img//rings//RING_VERTICAL.png", Screen);
-                    ring_object->SetClips();
-                    ring_object->Set_x_pos(x);
-                    ring_object->Set_y_pos(y);
-                    ring_object->Set_ScoreRing(SCORE_RING_VERTICAL);
-                    ring_object->Set_is_Vertical(1);
-                    rings_list.push_back(ring_object);
-                    ++rem_Rings_;
+                    ringObject->loadImage("img//rings//RING_VERTICAL.png", screen);
+                    ringObject->setClips();
+                    ringObject->setXPos(x);
+                    ringObject->setYPos(y);
+                    ringObject->setScoreRing(SCORE_RING_VERTICAL);
+                    ringObject->setIsVertical(1);
+                    ringsList.push_back(ringObject);
+                    ++remRings;
                 }
             }
         }
     }
 }
 
-void ManagementObject::checkIntersectRingsObject(SDL_Renderer* Screen) {
-    for (int i = 0; i < rings_list.size(); ++i) {
-        RingsObject* ring_object = rings_list.at(i);
-        if (ring_object != NULL) {
-            ring_object->SetMapXY(map_data_.start_x_, map_data_.start_y_);
-            ring_object->ShowImage(Screen);
+void ManagementObject::checkIntersectRingsObject(SDL_Renderer* screen) {
+    for (int i = 0; i < ringsList.size(); ++i) {
+        RingsObject* ringObject = ringsList.at(i);
+        if (ringObject != NULL) {
+            ringObject->setMapXY(mapData.startX, mapData.startY);
+            ringObject->showImage(screen);
 
-            float x1_ring = ring_object->Get_x_pos();
-            float y1_ring = ring_object->Get_y_pos();
-            float x2_ring = x1_ring + ring_object->Get_width_frame();
-            float y2_ring = y1_ring + ring_object->Get_height_frame();
+            float x1Ring = ringObject->getXPos();
+            float y1Ring = ringObject->getYPos();
+            float x2Ring = x1Ring + ringObject->getWidthFrame();
+            float y2Ring = y1Ring + ringObject->getHeightFrame();
 
-            float cx_player = Player_->Get_x_pos() + Player_->Get_width_frame() / 2;
-            float cy_player = Player_->Get_y_pos() + Player_->Get_height_frame() / 2;
-            float r_player = min(Player_->Get_width_frame(), Player_->Get_height_frame()) / 2 - 1;
+            float cxPlayer = player->getXPos() + player->getWidthFrame() / 2;
+            float cyPlayer = player->getYPos() + player->getHeightFrame() / 2;
+            float rPlayer = min(player->getWidthFrame(), player->getHeightFrame()) / 2 - 1;
 
-            RectObject rect_ring = { x1_ring, y1_ring, x2_ring, y2_ring };
-            CircleObject circle_player = { cx_player, cy_player, r_player };
-            if (checkIntersectBallVsObject(circle_player, rect_ring)
-                && ring_object->Get_is_catched() == 0) {
-                is_IntersectBallVsRing_ = 1;
-                Score_->IncreaseScore(ring_object->Get_ScoreRing());
-                ring_object->Set_ScoreRing(0);
-                ring_object->Set_is_catched(1);
-                if (ring_object->Get_is_Vertical()) {
-                    ring_object->LoadImage("img//rings//RING_VERTICAL_catched.png", Screen);
-                    ring_object->SetClips();
+            RectObject rect_ring = { x1Ring, y1Ring, x2Ring, y2Ring };
+            CircleObject circlePlayer = { cxPlayer, cyPlayer, rPlayer };
+            if (checkIntersectBallVsObject(circlePlayer, rect_ring)
+                && ringObject->getIsCatched() == 0) {
+                isIntersectBallVsRing = 1;
+                score->increaseScore(ringObject->getScoreRing());
+                ringObject->setScoreRing(0);
+                ringObject->setIsCatched(1);
+                if (ringObject->getIsVertical()) {
+                    ringObject->loadImage("img//rings//RING_VERTICAL_catched.png", screen);
+                    ringObject->setClips();
                 }
                 else {
-                    ring_object->LoadImage("img//rings//RING_HORIZONTAL_catched.png", Screen);
-                    ring_object->SetClips();
+                    ringObject->loadImage("img//rings//RING_HORIZONTAL_catched.png", screen);
+                    ringObject->setClips();
                 }
-                --rem_Rings_;
+                --remRings;
             }
         }
     }
 }
 
-void ManagementObject::LoadCheckpointObject(SDL_Renderer* Screen) {
-    Map c_map = gamemap_->GetMap();
-    for (int i = 0; i < c_map.max_y_ / TILE_SIZE; ++i) {
-        for (int j = 0; j < c_map.max_x_ / TILE_SIZE; ++j) {
-            if (c_map.block[i][j] == START_POINT) {
-                Player_->Set_pos_checkpoint(j * TILE_SIZE, i * TILE_SIZE);
+void ManagementObject::loadCheckpointObject(SDL_Renderer* screen) {
+    Map cMap = gameMap->getMap();
+    for (int i = 0; i < cMap.maxY / TILE_SIZE; ++i) {
+        for (int j = 0; j < cMap.maxX / TILE_SIZE; ++j) {
+            if (cMap.block[i][j] == START_POINT) {
+                player->setPosCheckpoint(j * TILE_SIZE, i * TILE_SIZE);
             }
-            else if (c_map.block[i][j] == CHECKPOINT) {
-                CheckpointObject* checkpoint_object = new CheckpointObject;
-                if (checkpoint_object != NULL) {
+            else if (cMap.block[i][j] == CHECKPOINT) {
+                CheckpointObject* checkpointObject = new CheckpointObject;
+                if (checkpointObject != NULL) {
                     int x = j * TILE_SIZE;
                     int y = i * TILE_SIZE;
-                    checkpoint_object->LoadImage("img//checkpoint//checkpoint.png", Screen);
-                    checkpoint_object->SetClips();
-                    checkpoint_object->Set_x_pos(x);
-                    checkpoint_object->Set_y_pos(y);
-                    checkpoint_object->Set_ScoreRing(SCORE_CHECKPOINT);
-                    checkpoints_list.push_back(checkpoint_object);
+                    checkpointObject->loadImage("img//checkpoint//checkpoint.png", screen);
+                    checkpointObject->setClips();
+                    checkpointObject->setXPos(x);
+                    checkpointObject->setYPos(y);
+                    checkpointObject->setScoreRing(SCORE_CHECKPOINT);
+                    checkpointsList.push_back(checkpointObject);
                 }
             }
         }
     }
 }
 
-void ManagementObject::checkIntersectCheckpointObject(SDL_Renderer* Screen) {
-    for (int i = 0; i < checkpoints_list.size(); ++i) {
-        CheckpointObject* checkpoint_object = checkpoints_list.at(i);
-        if (checkpoint_object != NULL) {
-            checkpoint_object->SetMapXY(map_data_.start_x_, map_data_.start_y_);
-            checkpoint_object->ShowImage(Screen);
+void ManagementObject::checkIntersectCheckpointObject(SDL_Renderer* screen) {
+    for (int i = 0; i < checkpointsList.size(); ++i) {
+        CheckpointObject* checkpointObject = checkpointsList.at(i);
+        if (checkpointObject != NULL) {
+            checkpointObject->setMapXY(mapData.startX, mapData.startY);
+            checkpointObject->showImage(screen);
 
-            float x1_checkpoint = checkpoint_object->Get_x_pos();
-            float y1_checkpoint = checkpoint_object->Get_y_pos();
-            float x2_checkpoint = x1_checkpoint + checkpoint_object->Get_width_frame();
-            float y2_checkpoint = y1_checkpoint + checkpoint_object->Get_height_frame();
+            float x1Checkpoint = checkpointObject->getXPos();
+            float y1Checkpoint = checkpointObject->getYPos();
+            float x2Checkpoint = x1Checkpoint + checkpointObject->getWidthFrame();
+            float y2Checkpoint = y1Checkpoint + checkpointObject->getHeightFrame();
 
-            float cx_player = Player_->Get_x_pos() + Player_->Get_width_frame() / 2;
-            float cy_player = Player_->Get_y_pos() + Player_->Get_height_frame() / 2;
-            float r_player = min(Player_->Get_width_frame(), Player_->Get_height_frame()) / 2 - 1;
+            float cxPlayer = player->getXPos() + player->getWidthFrame() / 2;
+            float cyPlayer = player->getYPos() + player->getHeightFrame() / 2;
+            float rPlayer = min(player->getWidthFrame(), player->getHeightFrame()) / 2 - 1;
 
-            RectObject rect_checkpoint = { x1_checkpoint, y1_checkpoint, x2_checkpoint, y2_checkpoint };
-            CircleObject circle_player = { cx_player, cy_player, r_player };
-            if (checkIntersectBallVsObject(circle_player, rect_checkpoint)
-                && checkpoint_object->Get_is_catched() == 0) {
-                is_IntersectBallVsRing_ = 1;
-                Score_->IncreaseScore(checkpoint_object->Get_ScoreRing());
-                checkpoint_object->Set_ScoreRing(0);
+            RectObject rect_checkpoint = { x1Checkpoint, y1Checkpoint, x2Checkpoint, y2Checkpoint };
+            CircleObject circlePlayer = { cxPlayer, cyPlayer, rPlayer };
+            if (checkIntersectBallVsObject(circlePlayer, rect_checkpoint)
+                && checkpointObject->getIsCatched() == 0) {
+                isIntersectBallVsRing = 1;
+                score->increaseScore(checkpointObject->getScoreRing());
+                checkpointObject->setScoreRing(0);
                 
-                int id_checkpoint = Player_->Get_id_checkpoint();
+                int id_checkpoint = player->getIdCheckpoint();
                 if (id_checkpoint != -1) {
-                    CheckpointObject* last_checkpoint = checkpoints_list.at(id_checkpoint);
-                    last_checkpoint->LoadImage("img//checkpoint//checkpoint_clear.png", Screen);
-                    last_checkpoint->SetClips();
+                    CheckpointObject* last_checkpoint = checkpointsList.at(id_checkpoint);
+                    last_checkpoint->loadImage("img//checkpoint//checkpoint_clear.png", screen);
+                    last_checkpoint->setClips();
                 }
-                checkpoint_object->Set_is_catched(1);
-                Player_->Set_pos_checkpoint(x1_checkpoint, y1_checkpoint);
-                Player_->Set_id_checkpoint(i);
-                checkpoint_object->LoadImage("img//checkpoint//checkpoint_catched.png", Screen);
-                checkpoint_object->SetClips();
+                checkpointObject->setIsCatched(1);
+                player->setPosCheckpoint(x1Checkpoint, y1Checkpoint);
+                player->setIdCheckpoint(i);
+                checkpointObject->loadImage("img//checkpoint//checkpoint_catched.png", screen);
+                checkpointObject->setClips();
             }
         }
     }
 }
 
-void ManagementObject::LoadLifeObject(SDL_Renderer* Screen) {
-    Map c_map = gamemap_->GetMap();
-    for (int i = 0; i < c_map.max_y_ / TILE_SIZE; ++i) {
-        for (int j = 0; j < c_map.max_x_ / TILE_SIZE; ++j) {
-            if (c_map.block[i][j] == LIFE) {
-                LifeObject* life_object = new LifeObject;
-                if (life_object != NULL) {
+void ManagementObject::loadLifeObject(SDL_Renderer* screen) {
+    Map cMap = gameMap->getMap();
+    for (int i = 0; i < cMap.maxY / TILE_SIZE; ++i) {
+        for (int j = 0; j < cMap.maxX / TILE_SIZE; ++j) {
+            if (cMap.block[i][j] == LIFE) {
+                LifeObject* lifeObject = new LifeObject;
+                if (lifeObject != NULL) {
                     int x = j * TILE_SIZE;
                     int y = i * TILE_SIZE;
-                    life_object->LoadImage("img//life//life.png", Screen);
-                    life_object->SetClips();
-                    life_object->Set_x_pos(x);
-                    life_object->Set_y_pos(y);
-                    life_object->Set_ScoreLife(SCORE_LIFE);
-                    lifes_list.push_back(life_object);
+                    lifeObject->loadImage("img//life//life.png", screen);
+                    lifeObject->setClips();
+                    lifeObject->setXPos(x);
+                    lifeObject->setYPos(y);
+                    lifeObject->setScoreLife(SCORE_LIFE);
+                    lifesList.push_back(lifeObject);
                 }
             }
         }
     }
 }
 
-void ManagementObject::checkIntersectLifeObject(SDL_Renderer* Screen) {
-    for (int i = 0; i < lifes_list.size(); ++i) {
-        LifeObject* life_object = lifes_list.at(i);
-        if (life_object != NULL) {
-            life_object->SetMapXY(map_data_.start_x_, map_data_.start_y_);
-            life_object->ShowImage(Screen);
+void ManagementObject::checkIntersectLifeObject(SDL_Renderer* screen) {
+    for (int i = 0; i < lifesList.size(); ++i) {
+        LifeObject* lifeObject = lifesList.at(i);
+        if (lifeObject != NULL) {
+            lifeObject->setMapXY(mapData.startX, mapData.startY);
+            lifeObject->showImage(screen);
 
-            float x1_checkpoint = life_object->Get_x_pos();
-            float y1_checkpoint = life_object->Get_y_pos();
-            float x2_checkpoint = x1_checkpoint + life_object->Get_width_frame();
-            float y2_checkpoint = y1_checkpoint + life_object->Get_height_frame();
+            float x1Checkpoint = lifeObject->getXPos();
+            float y1Checkpoint = lifeObject->getYPos();
+            float x2Checkpoint = x1Checkpoint + lifeObject->getWidthFrame();
+            float y2Checkpoint = y1Checkpoint + lifeObject->getHeightFrame();
 
-            float cx_player = Player_->Get_x_pos() + Player_->Get_width_frame() / 2;
-            float cy_player = Player_->Get_y_pos() + Player_->Get_height_frame() / 2;
-            float r_player = min(Player_->Get_width_frame(), Player_->Get_height_frame()) / 2 - 1;
+            float cxPlayer = player->getXPos() + player->getWidthFrame() / 2;
+            float cyPlayer = player->getYPos() + player->getHeightFrame() / 2;
+            float rPlayer = min(player->getWidthFrame(), player->getHeightFrame()) / 2 - 1;
 
-            RectObject rect_checkpoint = { x1_checkpoint, y1_checkpoint, x2_checkpoint, y2_checkpoint };
-            CircleObject circle_player = { cx_player, cy_player, r_player };
+            RectObject rect_checkpoint = { x1Checkpoint, y1Checkpoint, x2Checkpoint, y2Checkpoint };
+            CircleObject circlePlayer = { cxPlayer, cyPlayer, rPlayer };
 
-            if (checkIntersectBallVsObject(circle_player, rect_checkpoint)
-                && life_object->Get_is_catched() == 0) {
-                is_IntersectBallVsRing_ = 1;
-                Score_->IncreaseScore(life_object->Get_ScoreLife());
-                Life_->IncreaseLife(1);
-                life_object->Set_ScoreLife(0);
-                life_object->Set_is_catched(1);
-                life_object->LoadImage("img//life//life_clear.png", Screen);
-                life_object->SetClips();
+            if (checkIntersectBallVsObject(circlePlayer, rect_checkpoint)
+                && lifeObject->getIsCatched() == 0) {
+                isIntersectBallVsRing = 1;
+                score->increaseScore(lifeObject->getScoreLife());
+                life->increaseLife(1);
+                lifeObject->setScoreLife(0);
+                lifeObject->setIsCatched(1);
+                lifeObject->loadImage("img//life//life_clear.png", screen);
+                lifeObject->setClips();
             }
         }
     }
 }
 
-void ManagementObject::LoadEndpointObject(SDL_Renderer* Screen) {
-    Map c_map = gamemap_->GetMap();
-    for (int i = 0; i < c_map.max_y_ / TILE_SIZE; ++i) {
-        for (int j = 0; j < c_map.max_x_ / TILE_SIZE; ++j) {
-            if (c_map.block[i][j] == ENDPOINT) {
-                EndpointObject* endpoint_object = new EndpointObject;
-                if (endpoint_object != NULL) {
+void ManagementObject::loadEndpointObject(SDL_Renderer* screen) {
+    Map cMap = gameMap->getMap();
+    for (int i = 0; i < cMap.maxY / TILE_SIZE; ++i) {
+        for (int j = 0; j < cMap.maxX / TILE_SIZE; ++j) {
+            if (cMap.block[i][j] == ENDPOINT) {
+                EndpointObject* endpointObject = new EndpointObject;
+                if (endpointObject != NULL) {
                     int x = j * TILE_SIZE;
                     int y = i * TILE_SIZE;
-                    endpoint_object->LoadImage("img//ENDPOINT//ENDPOINT.png", Screen);
-                    endpoint_object->SetClips();
-                    endpoint_object->Set_x_pos(x);
-                    endpoint_object->Set_y_pos(y);
-                    endpoint_object->Set_ScoreEndpoint(SCORE_ENDPOINT);
-                    endpoints_list.push_back(endpoint_object);
+                    endpointObject->loadImage("img//ENDPOINT//ENDPOINT.png", screen);
+                    endpointObject->setClips();
+                    endpointObject->setXPos(x);
+                    endpointObject->setYPos(y);
+                    endpointObject->setScoreEndpoint(SCORE_ENDPOINT);
+                    endpointsList.push_back(endpointObject);
                 }
             }
         }
     }
 }
 
-void ManagementObject::OpenAllEndpointObject(SDL_Renderer* Screen) {
-    for (int i = 0; i < endpoints_list.size(); ++i) {
-        EndpointObject* endpoint_object = endpoints_list.at(i);
-        if (endpoint_object != NULL) {
-            endpoint_object->Set_is_opened(1);
-            endpoint_object->LoadImage("img//ENDPOINT//ENDPOINT_opened.png", Screen);
-            endpoint_object->ShowImage(Screen);
+void ManagementObject::openAllEndpointObject(SDL_Renderer* screen) {
+    for (int i = 0; i < endpointsList.size(); ++i) {
+        EndpointObject* endpointObject = endpointsList.at(i);
+        if (endpointObject != NULL) {
+            endpointObject->setIsOpened(1);
+            endpointObject->loadImage("img//ENDPOINT//ENDPOINT_opened.png", screen);
+            endpointObject->showImage(screen);
         }
     }
 }
 
-void ManagementObject::checkIntersectEndpointObject(SDL_Renderer* Screen) {
-    for (int i = 0; i < endpoints_list.size(); ++i) {
-        EndpointObject* endpoint_object = endpoints_list.at(i);
-        if (endpoint_object != NULL) {
-            endpoint_object->SetMapXY(map_data_.start_x_, map_data_.start_y_);
-            endpoint_object->ShowImage(Screen);
+void ManagementObject::checkIntersectEndpointObject(SDL_Renderer* screen) {
+    for (int i = 0; i < endpointsList.size(); ++i) {
+        EndpointObject* endpointObject = endpointsList.at(i);
+        if (endpointObject != NULL) {
+            endpointObject->setMapXY(mapData.startX, mapData.startY);
+            endpointObject->showImage(screen);
 
-            float x1_checkpoint = endpoint_object->Get_x_pos();
-            float y1_checkpoint = endpoint_object->Get_y_pos();
-            float x2_checkpoint = x1_checkpoint + endpoint_object->Get_width_frame();
-            float y2_checkpoint = y1_checkpoint + endpoint_object->Get_height_frame();
+            float x1Checkpoint = endpointObject->getXPos();
+            float y1Checkpoint = endpointObject->getYPos();
+            float x2Checkpoint = x1Checkpoint + endpointObject->getWidthFrame();
+            float y2Checkpoint = y1Checkpoint + endpointObject->getHeightFrame();
 
-            float cx_player = Player_->Get_x_pos() + Player_->Get_width_frame() / 2;
-            float cy_player = Player_->Get_y_pos() + Player_->Get_height_frame() / 2;
-            float r_player = min(Player_->Get_width_frame(), Player_->Get_height_frame()) / 2 - 1;
+            float cxPlayer = player->getXPos() + player->getWidthFrame() / 2;
+            float cyPlayer = player->getYPos() + player->getHeightFrame() / 2;
+            float rPlayer = min(player->getWidthFrame(), player->getHeightFrame()) / 2 - 1;
 
-            RectObject rect_checkpoint = { x1_checkpoint, y1_checkpoint, x2_checkpoint, y2_checkpoint };
-            CircleObject circle_player = { cx_player, cy_player, r_player };
+            RectObject rect_checkpoint = { x1Checkpoint, y1Checkpoint, x2Checkpoint, y2Checkpoint };
+            CircleObject circlePlayer = { cxPlayer, cyPlayer, rPlayer };
 
-            if (checkIntersectBallVsObject(circle_player, rect_checkpoint)) {
-                if (endpoint_object->Get_is_opened() == 0)
-                    Player_->Set_pos(Player_->Get_x_pos() - 64, Player_->Get_y_pos());
+            if (checkIntersectBallVsObject(circlePlayer, rect_checkpoint)) {
+                if (endpointObject->getIsOpened() == 0)
+                    player->setPos(player->getXPos() - 64, player->getYPos());
                 else
-                    is_IntersectBallVsEndpoint_ = 1;
+                    isIntersectBallVsEndpoint = 1;
             }
         }
     }
 }
 
-void ManagementObject::LoadALLObject(InfoPlayer *infoPlayer, SDL_Renderer* Screen) {
-    threats_list.clear();
-    rings_list.clear();
-    checkpoints_list.clear();
-    lifes_list.clear();
-    endpoints_list.clear();
-    rem_Rings_ = 0;
-    LoadThreatsObject(Screen);
-    LoadRingsObject(Screen);
-    LoadCheckpointObject(Screen);
-    LoadLifeObject(Screen);
-    LoadEndpointObject(Screen);
+void ManagementObject::loadAllObject(InfoPlayer *infoPlayer, SDL_Renderer* screen) {
+    threatsList.clear();
+    ringsList.clear();
+    checkpointsList.clear();
+    lifesList.clear();
+    endpointsList.clear();
+    remRings = 0;
+    loadThreatsObject(screen);
+    loadRingsObject(screen);
+    loadCheckpointObject(screen);
+    loadLifeObject(screen);
+    loadEndpointObject(screen);
 }
 
-void ManagementObject::checkIntersectALLObject(SDL_Renderer* Screen) {
-    checkIntersectThreatsObject(Screen);
-    checkIntersectRingsObject(Screen);
-    checkIntersectCheckpointObject(Screen);
-    checkIntersectLifeObject(Screen);
-    checkIntersectEndpointObject(Screen);
+void ManagementObject::checkIntersectAllObject(SDL_Renderer* screen) {
+    checkIntersectThreatsObject(screen);
+    checkIntersectRingsObject(screen);
+    checkIntersectCheckpointObject(screen);
+    checkIntersectLifeObject(screen);
+    checkIntersectEndpointObject(screen);
 }

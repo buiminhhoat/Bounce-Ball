@@ -13,15 +13,15 @@ class Cryptosystem {
 public:
 	Cryptosystem();
 	~Cryptosystem();
-	string ConvertNumberToString(int Number);
-	void setNumber(int Number) {
-		this->Number = Number;
+	string convertNumberToString(int number);
+	void setNumber(int number) {
+		this->number = number;
 	}
 
 	int getNumber() {
-		return Number;
+		return number;
 	}
 private:
-	int Number;
+	int number;
 };
 #endif // __CRYPTOSYSTEM__

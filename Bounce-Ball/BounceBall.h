@@ -24,7 +24,7 @@ public:
 	~BounceBall();
 	int startGame();
 	bool initSDL();
-	void CleanUp();
+	void cleanUp();
 	void displayLogo();
 	void displayMenu();  
 	void displayPlay();
