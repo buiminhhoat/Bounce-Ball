@@ -28,8 +28,7 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
     BounceBall* bounceBall = new BounceBall;
-    bounceBall->startGame();
-
+    bounceBall->startGame();  
     return 0;
 }
 

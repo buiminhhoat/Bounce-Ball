@@ -20,13 +20,21 @@ public:
 		ACCOUNT = 1,
 		PASSWORD = 2,
 	};
+
+	enum showDisplay {
+		MENU = 0,
+		PLAY = 1,
+		LEADERBOARD = 2,
+		LOGIN = 3,
+		HIDE_LOGIN = 4, 
+		RE_MENU = 5,
+	};
 	BounceBall();
 	~BounceBall();
 	int startGame();
 	bool initSDL();
 	void cleanUp();
 	void displayLogo();
-	void displayMenu();  
 	void displayPlay();
 	void displayLeaderboard();
 	bool checkInfoLogin(string username, string password);

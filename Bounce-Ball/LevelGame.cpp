@@ -43,7 +43,7 @@ void showScore(SDL_Renderer* screen) {
     scoreText.showText(screen, SCREEN_WIDTH - 200, 5);
 }
 
-void showLife(SDL_Renderer* screen) {
+void showLife(SDL_Renderer* screen) { 
     LifeObject* gbarLife = new LifeObject;
     gbarLife->loadImage("img//life//gbar_Life.png", screen);
     gbarLife->setClips();

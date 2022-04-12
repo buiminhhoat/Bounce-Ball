@@ -7,11 +7,11 @@ void MouseEvents::mouseHandleEvent() {
 }
 
 void MouseEvents::setPosition(int mouseX, int mouseY) {
-    this->mouseX = mouseX;
+    this->mouseX = mouseX; 
     this->mouseY = mouseY;
 }
 
-bool MouseEvents::CheckMouseInButton(ButtonObject* button) {
+bool MouseEvents::checkMouseInButton(ButtonObject* button) {
     SDL_Rect rect = button->getRect();
 
     if (mouseX < rect.x

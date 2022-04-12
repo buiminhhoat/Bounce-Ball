@@ -29,37 +29,83 @@ BounceBall::~BounceBall() {
 InfoPlayer* infoPlayer = new InfoPlayer;
 
 int BounceBall::startGame() {
-    if (!initSDL())
-        return -1;
+    if (display == showDisplay::MENU) {
+        if (!initSDL())
+                return -1;
+        displayLogo();
+    }
 
-    //displayLogo();
+    BaseObject backGround;
+    backGround.loadImage("img//background//background.jpg", gScreen);
+    backGround.render(gScreen);
+
+    ButtonObject* playButton = new ButtonObject;
+    playButton->loadImage("img//button//menu_button_play.png", gScreen);
+    playButton->setRectPos(450, 100);
+    playButton->setClips();
+    playButton->render(gScreen);
+
+    ButtonObject* leaderboardButton = new ButtonObject;
+    leaderboardButton->loadImage("img//button//menu_button_leaderboard.png", gScreen);
+    leaderboardButton->setRectPos(450, 200);
+    leaderboardButton->setClips();
+    leaderboardButton->render(gScreen);
+
+    ButtonObject* loginButton = new ButtonObject;
+    if (display != showDisplay::HIDE_LOGIN) {
+        loginButton->loadImage("img//button//menu_button_login.png", gScreen);
+        loginButton->setRectPos(450, 300);
+        loginButton->setClips();
+        loginButton->render(gScreen);
+    }
+    SDL_RenderPresent(gScreen);
+
+    bool quit = false;
+    MouseEvents* mouse = new MouseEvents;
 
     display = 0;
 
-    bool quit = false;
     while (!quit) {
         while (SDL_PollEvent(&gEvent)) {
             if (gEvent.type == SDL_QUIT) {
                 quit = true;
-                break;
+                exit(0);
             }
-
-            switch (display) {
-            case 0:
-                displayMenu();
+            if (gEvent.type == SDL_MOUSEBUTTONDOWN) {
+                mouse->mouseHandleEvent();
+                bool typePlayButton = bool(mouse->checkMouseInButton(playButton));
+                bool typeLeaderboardButton = bool(mouse->checkMouseInButton(leaderboardButton));
+                bool typeloginButton = bool(mouse->checkMouseInButton(loginButton));
+                if (typePlayButton)
+                    display = showDisplay::PLAY;
+                if (typeLeaderboardButton)
+                    display = showDisplay::LEADERBOARD;
+                if (typeloginButton)
+                    display = showDisplay::LOGIN;
+            }
+        }  
+        switch (display) {
+            case showDisplay::RE_MENU:
+                startGame();
                 break;
-            case 1:
+            case showDisplay::PLAY:
                 displayPlay();
                 break;
-            case 2:
+            case showDisplay::LEADERBOARD:
                 displayLeaderboard();
                 break;
-            case 3:
+            case showDisplay::LOGIN:
                 displayLogin();
                 break;
-            }
+            case showDisplay::HIDE_LOGIN:
+                startGame();
+                break;
         }
     }
+    backGround.cleanUp();
+    playButton->cleanUp();
+    leaderboardButton->cleanUp();
+    loginButton->cleanUp();
     cleanUp();
 }
 
@@ -78,55 +124,8 @@ void BounceBall::displayLogo() {
     SDL_Delay(1000);
 }
 
-void BounceBall::displayMenu() {
-    MouseEvents* mouse = new MouseEvents;
-    mouse->mouseHandleEvent();
-
-    BaseObject backGround;
-    backGround.loadImage("img//background//background.jpg", gScreen);
-    backGround.render(gScreen);
-
-    ButtonObject* playButton = new ButtonObject;
-    playButton->loadImage("img//button//menu_button_play.png", gScreen);
-    playButton->setRectPos(450, 100);
-    playButton->setClips();
-    playButton->render(gScreen);
-    bool typePlayButton = bool(mouse->CheckMouseInButton(playButton));
-
-    ButtonObject* leaderboardButton = new ButtonObject;
-    leaderboardButton->loadImage("img//button//menu_button_leaderboard.png", gScreen);
-    leaderboardButton->setRectPos(450, 200);
-    leaderboardButton->setClips();
-    leaderboardButton->render(gScreen);
-    bool typeleaderboardButton = bool(mouse->CheckMouseInButton(leaderboardButton));
-
-    ButtonObject* loginButton = new ButtonObject;
-    loginButton->loadImage("img//button//menu_button_login.png", gScreen);
-    loginButton->setRectPos(450, 300);
-    loginButton->setClips();
-    loginButton->render(gScreen);
-    bool typeloginButton = bool(mouse->CheckMouseInButton(loginButton));
-
-    SDL_RenderPresent(gScreen);
-
-    if (gEvent.type == SDL_MOUSEBUTTONDOWN) {
-        if (typePlayButton) 
-            display = 1;
-        if (typeleaderboardButton)
-            display = 2;
-        if (typeloginButton)
-            display = 3;
-    }
-    backGround.cleanUp();
-    playButton->cleanUp();
-    leaderboardButton->cleanUp();
-    loginButton->cleanUp();
-}
-
 void BounceBall::displayPlay() {
     MouseEvents* mouse = new MouseEvents;
-    mouse->mouseHandleEvent();
-
     BaseObject backGround;
     backGround.loadImage("img//background//background.jpg", gScreen);
     backGround.render(gScreen);
@@ -141,15 +140,15 @@ void BounceBall::displayPlay() {
     }
 
     int level = 0;
-    ButtonObject* selectLevelButton = new ButtonObject;
+    ButtonObject selectLevelButton[6][11];
+
     const int UPPER_BOUNDARY = 100;
     for (int i = 1; i <= 5; ++i) {
         for (int j = 1; j <= 10; ++j) {
-            selectLevelButton->loadImage("img//level//select_level.png", gScreen);
-            selectLevelButton->setRectPos(64 * j, UPPER_BOUNDARY + 64 * i);
-            selectLevelButton->setClips();
-            selectLevelButton->render(gScreen);
-            bool typeleaderboardButton = bool(mouse->CheckMouseInButton(selectLevelButton));
+            selectLevelButton[i][j].loadImage("img//level//select_level.png", gScreen);
+            selectLevelButton[i][j].setRectPos(64 * j, UPPER_BOUNDARY + 64 * i);
+            selectLevelButton[i][j].setClips();
+            selectLevelButton[i][j].render(gScreen);
             ++level;
             std::string strLevel = "";
             if (level < 10) strLevel += "0";
@@ -157,19 +156,40 @@ void BounceBall::displayPlay() {
             LevelText.setText(strLevel);
             LevelText.loadFromRenderText(fontGame, gScreen);
             LevelText.showText(gScreen, 64 * j + 17, UPPER_BOUNDARY + 64 * i + 17);
-            if (gEvent.type == SDL_MOUSEBUTTONDOWN && typeleaderboardButton) {
-                infoPlayer->setLevel(level);
-                Cryptosystem addressLevel;
-                string address = "map//level";
-                if (level < 10) address += "0";
-                address += addressLevel.convertNumberToString(level);
-                address += ".map";
-                LevelGame::loadLevelGame(address.c_str(), gScreen, gEvent, infoPlayer);
-            }
-            selectLevelButton->cleanUp();
         } 
     }
+
     SDL_RenderPresent(gScreen); 
+    bool quit = false;
+    while (!quit) {
+        while (SDL_PollEvent(&gEvent)) {
+            if (gEvent.type == SDL_QUIT) {
+                quit = true;
+                display = showDisplay::RE_MENU;
+                SDL_RenderPresent(gScreen);
+                break;
+            }
+            int level = 0;
+            for (int i = 1; i <= 5; ++i) {
+                for (int j = 1; j <= 10; ++j) {
+                    mouse->mouseHandleEvent();
+                    bool typeLeaderboardButton = bool(mouse->checkMouseInButton(&selectLevelButton[i][j]));
+                    ++level;
+                    if (gEvent.type == SDL_MOUSEBUTTONDOWN && typeLeaderboardButton) {
+                        infoPlayer->setLevel(level);
+                        Cryptosystem addressLevel;
+                        string address = "map//level";
+                        if (level < 10) address += "0";
+                        address += addressLevel.convertNumberToString(level);
+                        address += ".map";
+                        LevelGame::loadLevelGame(address.c_str(), gScreen, gEvent, infoPlayer);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+    backGround.cleanUp();
 }
 
 void BounceBall::displayLeaderboard() {
@@ -225,7 +245,7 @@ void BounceBall::displayLogin() {
     passwordTextTexture.setPosX(passwordButton->getXPos() + 20);
     passwordTextTexture.setPosY(passwordButton->getYPos() + 15);
 
-    string usernameText = "username";
+    string usernameText = "username"; 
     string passwordText = "password";
 
     int selectText = selectInput::ACCOUNT;
@@ -236,10 +256,15 @@ void BounceBall::displayLogin() {
     while (!quit) {
         MouseEvents* mouse = new MouseEvents;
         mouse->mouseHandleEvent();
-        bool selectUsernameButton = bool(mouse->CheckMouseInButton(usernameButton));
-        bool selectPasswordButton = bool(mouse->CheckMouseInButton(passwordButton));
-        bool selectLoginButton = bool(mouse->CheckMouseInButton(loginButton));
+        bool selectUsernameButton = bool(mouse->checkMouseInButton(usernameButton));
+        bool selectPasswordButton = bool(mouse->checkMouseInButton(passwordButton));
+        bool selectLoginButton = bool(mouse->checkMouseInButton(loginButton));
         while (SDL_PollEvent(&gEvent) != 0) {
+            if (gEvent.type == SDL_QUIT) {
+                quit = true;
+                display = showDisplay::RE_MENU;
+                return;
+            }
             if (gEvent.type == SDL_MOUSEBUTTONDOWN) {
                 if (selectUsernameButton)
                     selectText = selectInput::ACCOUNT;
@@ -247,7 +272,7 @@ void BounceBall::displayLogin() {
                     selectText = selectInput::PASSWORD;
                 if (selectLoginButton) {
                     if (checkInfoLogin(usernameText, passwordText)) {
-                        display = 0;
+                        display = 4;
                         infoPlayer->setUsername(usernameText);
                         return;
                     }

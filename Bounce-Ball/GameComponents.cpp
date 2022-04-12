@@ -19,7 +19,7 @@ LifeObject::LifeObject() {
 }
 
 LifeObject::~LifeObject() {
-
+	cleanUp();
 }
 
 bool LifeObject::loadImage(std::string path, SDL_Renderer* screen) {
@@ -74,7 +74,7 @@ RingsObject::RingsObject() {
 }
 
 RingsObject::~RingsObject() {
-
+	cleanUp();
 }
 
 bool RingsObject::loadImage(std::string path, SDL_Renderer* screen) {
@@ -116,7 +116,7 @@ ScoreObject::ScoreObject() {
 }
 
 ScoreObject::~ScoreObject() {
-
+	cleanUp();
 }
 
 EndpointObject::EndpointObject() {
@@ -136,7 +136,7 @@ EndpointObject::EndpointObject() {
 }
 
 EndpointObject::~EndpointObject() {
-
+	cleanUp();
 }
 
 bool EndpointObject::loadImage(std::string path, SDL_Renderer* screen) {
@@ -190,7 +190,7 @@ ThreatsObject::ThreatsObject() {
 }
 
 ThreatsObject::~ThreatsObject() {
-
+	cleanUp();
 }
 
 bool ThreatsObject::loadImage(std::string path, SDL_Renderer* screen) {
@@ -381,7 +381,7 @@ CheckpointObject::CheckpointObject() {
 }
 
 CheckpointObject::~CheckpointObject() {
-
+	cleanUp();
 }
 
 bool CheckpointObject::loadImage(std::string path, SDL_Renderer* screen) {
@@ -429,7 +429,7 @@ LTexture::LTexture() {
 }
 
 LTexture::~LTexture() {
-
+	cleanUp();
 }
 
 bool LTexture::loadFromRenderText(TTF_Font* font, SDL_Renderer* screen) {
@@ -567,5 +567,5 @@ InfoPlayer::InfoPlayer() {
 }
 
 InfoPlayer::~InfoPlayer() {
-
+	
 }
