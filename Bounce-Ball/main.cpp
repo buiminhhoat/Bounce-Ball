@@ -27,6 +27,7 @@ using namespace std;
 #define debug4l(a, b, c, d) cout << #a << " = " << a << "; " << #b << " = " << b << "; " << #c << " = " << c << "; " << #d << " = " << d << "; " << '\n'
 
 int main(int argc, char* argv[]) {
+    srand(time(NULL));
     BounceBall* bounceBall = new BounceBall;
     bounceBall->startGame();  
     return 0;

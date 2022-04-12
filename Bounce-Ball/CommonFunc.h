@@ -16,6 +16,7 @@
 static SDL_Window* gWindow = NULL;
 static SDL_Renderer* gScreen = NULL;
 static SDL_Event gEvent;
+//static Mix_Music* gMusic = NULL;
 
 /* SCREEN */
 const int SCREEN_WIDTH = 768;

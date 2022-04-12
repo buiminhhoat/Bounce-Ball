@@ -373,8 +373,10 @@ bool BounceBall::checkInfoLogin(string username, string password) {
     return 1;
 }
 bool BounceBall::initSDL() {
-    int init = SDL_Init(SDL_INIT_VIDEO);
-    if (init < 0) return false;
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
+        printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
+        return false;
+    }
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
     gWindow = SDL_CreateWindow(WINDOW_TITLE.c_str(),
@@ -390,6 +392,11 @@ bool BounceBall::initSDL() {
         SDL_SetRenderDrawColor(gScreen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
         int imgFlags = IMG_INIT_PNG;
         if (!(IMG_Init(imgFlags) && imgFlags)) return false;
+        if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+        {
+            printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+            return false;
+        }
     }
     return true;
 }
@@ -402,5 +409,6 @@ void BounceBall::cleanUp() {
     gWindow = NULL;
 
     IMG_Quit();
+    Mix_Quit();
     SDL_Quit();
 }

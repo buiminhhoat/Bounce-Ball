@@ -158,12 +158,8 @@ void LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
 
             if (life.getLife() == 0) {
                 showLife(screen);
-
                 SDL_RenderPresent(screen);
-                SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
-                    "GameOver!!!",
-                    "GameOver!!!",
-                    NULL);
+                SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "GameOver!!!", "GameOver!!!", NULL);
                 return;
             }
             

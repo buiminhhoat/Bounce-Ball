@@ -17,11 +17,18 @@
 using namespace std;
 
 ManagementObject::ManagementObject() {
-
+    Mix_Chunk* ballPop = NULL;
+    Mix_Chunk* intersectObject1 = NULL;
+    Mix_Chunk* intersectObject2 = NULL;
 }
 
 ManagementObject::~ManagementObject() {
-
+    Mix_FreeChunk(ballPop);
+    Mix_FreeChunk(intersectObject1);
+    Mix_FreeChunk(intersectObject2);
+    ballPop = NULL;
+    intersectObject1 = NULL;
+    intersectObject2 = NULL;
 }
 
 typedef struct CircleObject {
@@ -124,6 +131,7 @@ void ManagementObject::checkIntersectThreatsObject(SDL_Renderer* screen) {
             CircleObject circlePlayer = { cxPlayer, cyPlayer, rPlayer };
             if (checkIntersectBallVsObject(circlePlayer, rect_threat)) {
                 isIntersectBallVsThreats = 1;
+                Mix_PlayChannel(-1, ballPop, 0);
             }
         }
     }
@@ -187,6 +195,9 @@ void ManagementObject::checkIntersectRingsObject(SDL_Renderer* screen) {
             CircleObject circlePlayer = { cxPlayer, cyPlayer, rPlayer };
             if (checkIntersectBallVsObject(circlePlayer, rect_ring)
                 && ringObject->getIsCatched() == 0) {
+                if (rand() % 2) Mix_PlayChannel(-1, intersectObject1, 0);
+                else Mix_PlayChannel(-1, intersectObject2, 0);
+
                 isIntersectBallVsRing = 1;
                 score->increaseScore(ringObject->getScoreRing());
                 ringObject->setScoreRing(0);
@@ -250,6 +261,8 @@ void ManagementObject::checkIntersectCheckpointObject(SDL_Renderer* screen) {
             if (checkIntersectBallVsObject(circlePlayer, rect_checkpoint)
                 && checkpointObject->getIsCatched() == 0) {
                 isIntersectBallVsRing = 1;
+                if (rand() % 2) Mix_PlayChannel(-1, intersectObject1, 0);
+                else Mix_PlayChannel(-1, intersectObject2, 0);
                 score->increaseScore(checkpointObject->getScoreRing());
                 checkpointObject->setScoreRing(0);
                 
@@ -311,6 +324,8 @@ void ManagementObject::checkIntersectLifeObject(SDL_Renderer* screen) {
 
             if (checkIntersectBallVsObject(circlePlayer, rect_checkpoint)
                 && lifeObject->getIsCatched() == 0) {
+                if (rand() % 2) Mix_PlayChannel(-1, intersectObject1, 0);
+                else Mix_PlayChannel(-1, intersectObject2, 0);
                 isIntersectBallVsRing = 1;
                 score->increaseScore(lifeObject->getScoreLife());
                 life->increaseLife(1);
@@ -385,6 +400,24 @@ void ManagementObject::checkIntersectEndpointObject(SDL_Renderer* screen) {
 }
 
 void ManagementObject::loadAllObject(InfoPlayer *infoPlayer, SDL_Renderer* screen) {
+    ballPop = Mix_LoadWAV("sound//Ballpop.wav");
+    if (ballPop == NULL) {
+        printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());
+        return;
+    }
+
+    intersectObject1 = Mix_LoadWAV("sound//IntersectObject1.wav");
+    if (intersectObject1 == NULL) {
+        printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());
+        return;
+    }
+
+    intersectObject2 = Mix_LoadWAV("sound//IntersectObject2.wav");
+    if (intersectObject2 == NULL) {
+        printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());
+        return;
+    }
+
     threatsList.clear();
     ringsList.clear();
     checkpointsList.clear();
@@ -395,7 +428,7 @@ void ManagementObject::loadAllObject(InfoPlayer *infoPlayer, SDL_Renderer* scree
     loadRingsObject(screen);
     loadCheckpointObject(screen);
     loadLifeObject(screen);
-    loadEndpointObject(screen);
+    loadEndpointObject(screen); 
 }
 
 void ManagementObject::checkIntersectAllObject(SDL_Renderer* screen) {

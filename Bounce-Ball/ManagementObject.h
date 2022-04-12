@@ -90,5 +90,9 @@ private:
 	ScoreObject *score;
 	LifeObject *life;
 	InfoPlayer* infoPlayer;
+
+	Mix_Chunk* ballPop;
+	Mix_Chunk* intersectObject1;
+	Mix_Chunk* intersectObject2;
 };
 #endif
