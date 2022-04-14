@@ -38,26 +38,15 @@ const int TILE_LAYER = 1;
 const int MAX_MAP_X = 700;
 const int MAX_MAP_Y = 50;
 
+/* LEVEL */
+const int MAX_LEVEL = 50;
+
 struct Input {
 	int left;
 	int right;
 	int up;
 	int down;
 	int jump;
-};
-
-struct Map {
-	int startXPlayer;
-	int startYPlayer;
-	int startX;
-	int startY;
-
-	int maxX;
-	int maxY;
-
-	int block[MAX_MAP_Y][MAX_MAP_X]; 
-
-	const char* fileMap;
 };
 
 enum TypeBlock {

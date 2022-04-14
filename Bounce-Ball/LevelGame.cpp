@@ -15,35 +15,33 @@
 
 using namespace std;
 
+TTF_Font* fontGame;
+LTexture scoreText;
+LTexture yourHighScoreText;
+LTexture lifeText;
+LTexture remRingText;
+
 LevelGame::LevelGame() {
 
 }
 
 LevelGame::~LevelGame() {
-
+    
 }
 
-BaseObject background;
-GameMap gamemap;
-FPS fpsTimer;
-MainObject player;
-ManagementObject object;
-ScoreObject score;
-LifeObject life;
-TTF_Font *fontGame;
-LTexture scoreText;
-LTexture lifeText;
-LTexture remRingText;
-Map mapData;
-
-void showScore(SDL_Renderer* screen) {
+void showScore(ScoreObject score, SDL_Renderer* screen) {
     std::string strScore = "score: " + std::to_string(score.getScore());
     scoreText.setText(strScore);
     scoreText.loadFromRenderText(fontGame, screen);
     scoreText.showText(screen, SCREEN_WIDTH - 200, 5);
+    
+    std::string strYourScore = "Your Highscore: " + std::to_string(score.getYourHighScore());
+    yourHighScoreText.setText(strYourScore);
+    yourHighScoreText.loadFromRenderText(fontGame, screen);
+    yourHighScoreText.showText(screen, SCREEN_WIDTH - 320, 35);
 }
 
-void showLife(SDL_Renderer* screen) { 
+void showLife(LifeObject life, SDL_Renderer* screen) {
     LifeObject* gbarLife = new LifeObject;
     gbarLife->loadImage("img//life//gbar_Life.png", screen);
     gbarLife->setClips();
@@ -57,7 +55,7 @@ void showLife(SDL_Renderer* screen) {
     lifeText.showText(screen, 15 + gbarLife->getWidthFrame(), 5);
 }
 
-void showRemRings(SDL_Renderer* screen) {
+void showRemRings(ManagementObject &object, SDL_Renderer* screen) {
     RingsObject* gbarRing = new RingsObject;
     gbarRing->loadImage("img//rings//gbar_Ring.png", screen);
     gbarRing->setClips();
@@ -75,17 +73,27 @@ void showRemRings(SDL_Renderer* screen) {
     }
 }
 
-void LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen, 
+int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen, 
                                 SDL_Event event, InfoPlayer* infoPlayer) {
+    BaseObject background;
+    FPS fpsTimer;
+    MainObject player;
+    GameMap gamemap;
+    Map *mapData;
+    ManagementObject object;
+    ScoreObject score;
+    LifeObject life;
     cerr << infoPlayer->getUsername() << '\n';
     score.setScore(infoPlayer->getScore());
+    score.setYourHighScore(infoPlayer->getYourHighScore());
     life.SetLife(infoPlayer->getLife());
     background.loadImage("img//background//background.jpg", screen);
 
-    if (TTF_Init() == -1) return; 
+    if (TTF_Init() == -1) return BounceBall::typeLevel::ERROR_GAME;
+
     fontGame = TTF_OpenFont("font//no_continue.ttf", 30);
     if (fontGame == NULL) {
-        return;
+        return BounceBall::typeLevel::ERROR_GAME;
     }
 
     gamemap.loadMap(nameFileMap);
@@ -97,12 +105,15 @@ void LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
 
     scoreText.setColor(LTexture::WHITE_COLOR);
     lifeText.setColor(LTexture::WHITE_COLOR);
+    yourHighScoreText.setColor(LTexture::WHITE_COLOR);
     remRingText.setColor(LTexture::WHITE_COLOR);
-    
+
     object.setAllObject(&gamemap, &player, &score, &life, infoPlayer);
+
     object.loadAllObject(infoPlayer, screen);
 
     gamemap.fixMap();
+    mapData = gamemap.getMap();
 
     bool isQuit = false;
     while (!isQuit) {
@@ -110,7 +121,7 @@ void LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
         while (SDL_PollEvent(&event) != 0) {
             if (event.type == SDL_QUIT) {
                 isQuit = true;
-                return;
+                return BounceBall::typeLevel::QUIT_GAME;
             }
             player.inputAction(event, screen);
         }
@@ -119,9 +130,7 @@ void LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
 
         background.render(screen, NULL);
 
-        mapData = gamemap.getMap();
-
-        player.setMapXY(mapData.startX, mapData.startY);
+        player.setMapXY(mapData->startX, mapData->startY);
         player.doPlayer(mapData);
         player.showImage(screen);
 
@@ -132,24 +141,28 @@ void LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
         object.checkIntersectAllObject(screen);
         object.setAllObject(&gamemap, &player, &score, &life, infoPlayer);
 
-        showScore(screen); 
-        showRemRings(screen); 
+        if (score.getYourHighScore() < score.getScore()) {
+            score.setYourHighScore(score.getScore());
+        }
+        showScore(score, screen); 
+        showRemRings(object, screen); 
 
         if (object.getIsIntersectBallVsEndpoint()) {
             object.setIsIntersectBallVsEndpoint(0);
             infoPlayer->setlife(life.getLife()); 
             infoPlayer->setScore(score.getScore());
             infoPlayer->setLevel(infoPlayer->getLevel() + 1);
+            infoPlayer->setYourHighScore(score.getYourHighScore());
             Cryptosystem addressLevel;
             string address = "map//level";
             if (infoPlayer->getLevel() < 10) address += "0";
             address += addressLevel.convertNumberToString(infoPlayer->getLevel());
             address += ".map";
-            LevelGame::loadLevelGame(address.c_str(), screen, event, infoPlayer);
-            return;
+            return BounceBall::typeLevel::NEXT_LEVEL;
         }
 
         if (object.getIsIntersectBallVsThreats()) {
+            //return BounceBall::typeLevel::NEXT_LEVEL;
             player.loadImage("img//ball//ball_pop.png", screen);
             player.setClips();
             player.showImage(screen);
@@ -157,13 +170,13 @@ void LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
             life.increaseLife(-1);
 
             if (life.getLife() == 0) {
-                showLife(screen);
+                showLife(life, screen);
                 SDL_RenderPresent(screen);
                 SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "GameOver!!!", "GameOver!!!", NULL);
-                return;
+                return BounceBall::typeLevel::GAME_OVER;
             }
             
-            showLife(screen);
+            showLife(life, screen);
             
             SDL_RenderPresent(screen);
             SDL_Delay(1000);
@@ -175,7 +188,7 @@ void LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
             SDL_RenderPresent(screen);
         }
         
-        showLife(screen);
+        showLife(life, screen);
 
         SDL_RenderPresent(screen);
 

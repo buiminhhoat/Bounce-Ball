@@ -4,6 +4,7 @@
 #include <vector>
 #include "CommonFunc.h"
 #include "BaseObject.h"
+#include "GameMap.h"
 
 #define GRAVITY_SPEED 0.8
 #define MAX_FALL_SPEED 10
@@ -27,10 +28,10 @@ public:
 	void showImage(SDL_Renderer* des);
 	void inputAction(SDL_Event events, SDL_Renderer* screen);
 	void setClips();
-	void doPlayer(Map& mapData);
-	void checkPlayerVsMap(Map& mapdata);
+	void doPlayer(Map* mapData);
+	void checkPlayerVsMap(Map* mapdata);
 	void setMapXY(const int &map_x, const int &map_y) {this->mapX = map_x;this->mapY = map_y;}
-	void centerEntityOnMap(Map& mapData);
+	void centerEntityOnMap(Map* mapData);
 	float getXPos() { return this->xPos; };
 	float getYPos() { return this->yPos; };
 

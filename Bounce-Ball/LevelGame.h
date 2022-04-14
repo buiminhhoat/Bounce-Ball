@@ -5,7 +5,7 @@ class LevelGame {
 public:
 	LevelGame();
 	~LevelGame();
-	static void loadLevelGame(const char* nameFileMap, SDL_Renderer* screen, 
+	int loadLevelGame(const char* nameFileMap, SDL_Renderer* screen, 
 								SDL_Event event, InfoPlayer *infoPlayer);
 private:
 

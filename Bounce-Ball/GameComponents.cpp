@@ -243,7 +243,7 @@ void ThreatsObject::initThreats() {
 	inputType.up = 1;
 }
 
-void ThreatsObject::doPlayer(Map& gMap) {
+void ThreatsObject::doPlayer(Map* gMap) {
 	if (typeMove == STATIC_THREAT) return;
 	xVal = 0;
 	yVal += THREAT_GRAVITY_SPEED;
@@ -260,7 +260,7 @@ void ThreatsObject::doPlayer(Map& gMap) {
 	checkToMap(gMap);
 }
 
-void ThreatsObject::checkToMap(Map& gMap) {
+void ThreatsObject::checkToMap(Map* gMap) {
 	int x1 = 0;
 	int x2 = 0;
 
@@ -278,14 +278,14 @@ void ThreatsObject::checkToMap(Map& gMap) {
 
 	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 <= MAX_MAP_Y) {
 		if (xVal > 0) {
-			if (gMap.block[y1][x2] != BLANK_TILES || gMap.block[y2][x2] != BLANK_TILES) {
+			if (gMap->block[y1][x2] != BLANK_TILES || gMap->block[y2][x2] != BLANK_TILES) {
 				xPos = x2 * TILE_SIZE;
 				xPos -= widthFrame;
 				xVal = 0;
 			}
 		}
 		else {
-			if (gMap.block[y1][x1] != BLANK_TILES || gMap.block[y2][x1] != BLANK_TILES) {
+			if (gMap->block[y1][x1] != BLANK_TILES || gMap->block[y2][x1] != BLANK_TILES) {
 				xPos = (x1 + 1) * TILE_SIZE;
 				xVal = 0;
 			}
@@ -302,7 +302,7 @@ void ThreatsObject::checkToMap(Map& gMap) {
 
 	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y) {
 		if (yVal > 0) {
-			if (gMap.block[y2][x1] != BLANK_TILES || gMap.block[y2][x2] != BLANK_TILES) {
+			if (gMap->block[y2][x1] != BLANK_TILES || gMap->block[y2][x2] != BLANK_TILES) {
 				yPos = y2 * TILE_SIZE;
 				yPos -= (heightFrame);
 				yVal = 0;
@@ -314,7 +314,7 @@ void ThreatsObject::checkToMap(Map& gMap) {
 			}
 		}
 		else if (yVal < 0) {
-			if (gMap.block[y1][x1] != BLANK_TILES || gMap.block[y1][x2] != BLANK_TILES) {
+			if (gMap->block[y1][x1] != BLANK_TILES || gMap->block[y1][x2] != BLANK_TILES) {
 				yPos = (y1 + 1) * TILE_SIZE;
 				yVal = 0;
 				if (typeMove == TypeMove::MOVE_IN_SPACE_THREAT) {
@@ -331,8 +331,8 @@ void ThreatsObject::checkToMap(Map& gMap) {
 	if (xPos < 0) {
 		xPos = 0;
 	}
-	else if (xPos + widthFrame > gMap.maxX) {
-		xPos = gMap.maxX - widthFrame - 1;
+	else if (xPos + widthFrame > gMap->maxX) {
+		xPos = gMap->maxX - widthFrame - 1;
 	}
 
 	if (yPos < 0) {
@@ -340,7 +340,7 @@ void ThreatsObject::checkToMap(Map& gMap) {
 		inputType.up = 0;
 		inputType.down = 1;
 	}
-	if (yPos > gMap.maxY) {
+	if (yPos > gMap->maxY) {
 		comeBackTime = 10;
 	}
 }
@@ -562,10 +562,14 @@ void ButtonObject::showImage(SDL_Renderer* des) {
 
 InfoPlayer::InfoPlayer() {
 	username = "";
+	password = "";
 	score = 0;
+	yourHighScore = 0;
+	level = 0;
 	life = ORIGINAL_LIFE;
+	for (int i = 0; i < 55; ++i) unlockLevel[i] = 0;
 }
 
 InfoPlayer::~InfoPlayer() {
-	
+
 }

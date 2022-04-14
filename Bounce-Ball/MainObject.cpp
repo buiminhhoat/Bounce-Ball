@@ -119,7 +119,7 @@ void MainObject::inputAction(SDL_Event events, SDL_Renderer* screen) {
 	//}
 }
 
-void MainObject::doPlayer(Map &mapData) {
+void MainObject::doPlayer(Map *mapData) {
 	if (comeBackTime == 0) {
 		xVal = 0;
 		yVal += GRAVITY_SPEED;
@@ -163,25 +163,25 @@ void MainObject::doPlayer(Map &mapData) {
 	}
 }
 
-void MainObject::centerEntityOnMap(Map &mapData) {
-	mapData.startX = xPos - (SCREEN_WIDTH / 2);
-	if (mapData.startX < 0) {
-		mapData.startX = 0;
+void MainObject::centerEntityOnMap(Map *mapData) {
+	mapData->startX = xPos - (SCREEN_WIDTH / 2);
+	if (mapData->startX < 0) {
+		mapData->startX = 0;
 	}
-	else if (mapData.startX + SCREEN_WIDTH >= mapData.maxX) {
-		mapData.startX = mapData.maxX - SCREEN_WIDTH;
+	else if (mapData->startX + SCREEN_WIDTH >= mapData->maxX) {
+		mapData->startX = mapData->maxX - SCREEN_WIDTH;
 	}
 
-	mapData.startY = yPos - (SCREEN_HEIGHT / 2);
-	if (mapData.startY < 0) {
-		mapData.startY = 0;
+	mapData->startY = yPos - (SCREEN_HEIGHT / 2);
+	if (mapData->startY < 0) {
+		mapData->startY = 0;
 	}
-	else if (mapData.startY + SCREEN_HEIGHT >= mapData.maxY) {
-		mapData.startY = mapData.maxY - SCREEN_HEIGHT;
+	else if (mapData->startY + SCREEN_HEIGHT >= mapData->maxY) {
+		mapData->startY = mapData->maxY - SCREEN_HEIGHT;
 	}
 }
 
-void MainObject::checkPlayerVsMap(Map& mapData) {
+void MainObject::checkPlayerVsMap(Map* mapData) {
 	int x1 = 0;
 	int x2 = 0;
 
@@ -198,14 +198,14 @@ void MainObject::checkPlayerVsMap(Map& mapData) {
 
 	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y) {
 		if (xVal > 0) {
-			if (mapData.block[y1][x2] != BLANK_TILES || mapData.block[y2][x2] != BLANK_TILES) {
+			if (mapData->block[y1][x2] != BLANK_TILES || mapData->block[y2][x2] != BLANK_TILES) {
 				xPos = x2 * TILE_SIZE;
 				xPos -= widthFrame;
 				xVal = 0;
 			}
 		}
 		else if (xVal < 0) {
-			if (mapData.block[y1][x1] != BLANK_TILES || mapData.block[y2][x1] != BLANK_TILES) {
+			if (mapData->block[y1][x1] != BLANK_TILES || mapData->block[y2][x1] != BLANK_TILES) {
 				xPos = (x1 + 1) * TILE_SIZE;
 				xVal = 0;
 			}
@@ -227,11 +227,11 @@ void MainObject::checkPlayerVsMap(Map& mapData) {
 		float height_block1 = (x1 + 1) * TILE_SIZE - xPos;
 		float height_block2 = heightFrame - height_block1;
 		int select_block = 0;
-		if (select_block == 0 && mapData.block[y2][x1] != BLANK_TILES) {
+		if (select_block == 0 && mapData->block[y2][x1] != BLANK_TILES) {
 			if (height_block1 >= (1 - EQUILIBRIUM_RATIO) * widthFrame)
 				select_block = 1;
 		}
-		if (select_block == 0 && mapData.block[y2][x2] != BLANK_TILES) {
+		if (select_block == 0 && mapData->block[y2][x2] != BLANK_TILES) {
 			if (height_block2 >= (1 - EQUILIBRIUM_RATIO) * widthFrame)
 				select_block = 2;
 		}
@@ -244,7 +244,7 @@ void MainObject::checkPlayerVsMap(Map& mapData) {
 
 		if (yVal > 0) {
 			if (height_block1 == TILE_SIZE) {
-				if (mapData.block[y2][x1] != BLANK_TILES) {
+				if (mapData->block[y2][x1] != BLANK_TILES) {
 					yPos = y2 * TILE_SIZE;
 					yPos -= heightFrame;
 					yVal = 0;
@@ -252,32 +252,32 @@ void MainObject::checkPlayerVsMap(Map& mapData) {
 				}
 			}
 			else if (height_block2 == TILE_SIZE) {
-				if (mapData.block[y2][x2] != BLANK_TILES) {
+				if (mapData->block[y2][x2] != BLANK_TILES) {
 					yPos = y2 * TILE_SIZE;
 					yPos -= heightFrame;
 					yVal = 0;
 					onGround = true;
 				}
 			}
-			else if (mapData.block[y2][x1] != BLANK_TILES) {
+			else if (mapData->block[y2][x1] != BLANK_TILES) {
 				yPos = y2 * TILE_SIZE;
 				yPos -= heightFrame;
 				yVal = 0;
 				onGround = true;
 				if (height_block1 <= (1 - EQUILIBRIUM_RATIO) * widthFrame
-					&& mapData.block[y2][x2] == BLANK_TILES)
+					&& mapData->block[y2][x2] == BLANK_TILES)
 					if (height_block1 <= FREE_ROLLING_SPEED)
 						xPos += height_block1;
 					else
 						xPos += FREE_ROLLING_SPEED;
 			}
-			else if (mapData.block[y2][x2] != BLANK_TILES) {
+			else if (mapData->block[y2][x2] != BLANK_TILES) {
 				yPos = y2 * TILE_SIZE;
 				yPos -= heightFrame;
 				yVal = 0;
 				onGround = true;
 				if (height_block2 <= (1 - EQUILIBRIUM_RATIO) * widthFrame
-					&& mapData.block[y2][x1] == BLANK_TILES)
+					&& mapData->block[y2][x1] == BLANK_TILES)
 					if (height_block2 <= FREE_ROLLING_SPEED)
 						xPos -= height_block2;
 					else
@@ -286,31 +286,31 @@ void MainObject::checkPlayerVsMap(Map& mapData) {
 		}
 		else if (yVal < 0) {
 			if (height_block1 == TILE_SIZE) {
-				if (mapData.block[y1][x1] != BLANK_TILES) {
+				if (mapData->block[y1][x1] != BLANK_TILES) {
 					yPos = (y1 + 1) * TILE_SIZE;
 					yVal = 0;
 				}
 			}
 			else if (height_block2 == TILE_SIZE) {
-				if (mapData.block[y1][x2] != BLANK_TILES) {
+				if (mapData->block[y1][x2] != BLANK_TILES) {
 					yPos = (y1 + 1) * TILE_SIZE;
 					yVal = 0;
 				}
 			}
-			else if (mapData.block[y1][x1] != BLANK_TILES) {
+			else if (mapData->block[y1][x1] != BLANK_TILES) {
 				yPos = (y1 + 1) * TILE_SIZE;
 				if (height_block1 <= (1 - EQUILIBRIUM_RATIO) * widthFrame
-					&& mapData.block[y1][x2] == BLANK_TILES)
+					&& mapData->block[y1][x2] == BLANK_TILES)
 					if (height_block1 <= FREE_ROLLING_SPEED)
 						xPos += height_block1;
 					else
 						xPos += FREE_ROLLING_SPEED;
 				yVal = 0;
 			}
-			else if (mapData.block[y1][x2] != BLANK_TILES) {
+			else if (mapData->block[y1][x2] != BLANK_TILES) {
 				yPos = (y1 + 1) * TILE_SIZE;
 				if (height_block2 <= (1 - EQUILIBRIUM_RATIO) * widthFrame
-					&& mapData.block[y1][x1] == BLANK_TILES)
+					&& mapData->block[y1][x1] == BLANK_TILES)
 					if (height_block2 <= FREE_ROLLING_SPEED)
 						xPos -= height_block2;
 					else
@@ -326,14 +326,14 @@ void MainObject::checkPlayerVsMap(Map& mapData) {
 	if (xPos < 0) {
 		xPos = 0;
 	}
-	else if (xPos + widthFrame > mapData.maxX) {
-		xPos = mapData.maxX - widthFrame;
+	else if (xPos + widthFrame > mapData->maxX) {
+		xPos = mapData->maxX - widthFrame;
 	}
 
 	if (yPos < 0) {
 		yPos = 0;
 	}
-	if (yPos > mapData.maxY) {
+	if (yPos > mapData->maxY) {
 		comeBackTime = 10;
 	}
 }

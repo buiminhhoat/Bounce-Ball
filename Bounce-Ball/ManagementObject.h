@@ -86,7 +86,7 @@ private:
 
 	GameMap *gameMap;
 	MainObject *player;
-	Map mapData;
+	Map *mapData;
 	ScoreObject *score;
 	LifeObject *life;
 	InfoPlayer* infoPlayer;

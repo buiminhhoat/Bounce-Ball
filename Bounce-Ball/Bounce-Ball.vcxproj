@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="BounceBall.cpp" />
+    <ClCompile Include="Database.cpp" />
     <ClCompile Include="GameComponents.cpp" />
     <ClCompile Include="LevelGame.cpp" />
     <ClCompile Include="MainObject.cpp" />
@@ -158,6 +159,7 @@
   <ItemGroup>
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="BounceBall.h" />
+    <ClInclude Include="Database.h" />
     <ClInclude Include="GameComponents.h" />
     <ClInclude Include="LevelGame.h" />
     <ClInclude Include="MainObject.h" />

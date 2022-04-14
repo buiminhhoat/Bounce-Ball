@@ -2,6 +2,7 @@
 #define __GAMECOMPONENTS__
 
 #include "BaseObject.h"
+#include "GameMap.h"
 
 using namespace std;
 
@@ -151,8 +152,12 @@ public:
 	};
 	int getScore() { return this->score; };
 	void setScore(const int &score) { this->score = score; }
+
+	void setYourHighScore(int yourHighscore) { this->yourHighscore = yourHighscore; };
+	int getYourHighScore() { return this->yourHighscore; };
 private:
 	int score;
+	int yourHighscore;
 };
 
 class EndpointObject : public BaseObject {
@@ -248,8 +253,8 @@ public:
 	int getWidthFrame() const { return widthFrame; };
 	int getHeightFrame() const { return heightFrame; };
 
-	void doPlayer(Map& gMap);
-	void checkToMap(Map& gMap);
+	void doPlayer(Map* gMap);
+	void checkToMap(Map* gMap);
 	void initThreats();
 	void setTypeMove(const int& typeMove) { this->typeMove = typeMove; };
 	void setAnimationPos(const int& animationA, const int& animationB) {
@@ -440,14 +445,14 @@ public:
 	void setScore(int score) {
 		this->score = score;
 	}
-	
+
 	int getScore() { return this->score; };
 
 	void setlife(int life) {
 		this->life = life;
 	}
 
-	int getLife() { return this->life; };	
+	int getLife() { return this->life; };
 
 	void setLevel(int level) {
 		this->level = level;
@@ -459,12 +464,20 @@ public:
 
 	void setUsername(string username) { this->username = username; };
 	string getUsername() { return this->username; };
+	void setPassword(string password) { this->password = password; };
+	string getPassword() { return this->password; };
+	void setYourHighScore(int yourHighScore) { this->yourHighScore = yourHighScore; };
+	int getYourHighScore() { return this->yourHighScore; };
+	void setUnlockLevel(int level, int value) { unlockLevel[level] = value; };
+	int getUnlockLevel(int level) { return unlockLevel[level]; };
 private:
 	string username;
+	string password;
 	int score;
 	int life;
 	int level;
-	int highScore;
+	int yourHighScore;
+	int unlockLevel[55];
 };
 
 #endif

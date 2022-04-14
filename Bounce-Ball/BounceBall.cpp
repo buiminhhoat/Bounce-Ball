@@ -29,10 +29,12 @@ BounceBall::~BounceBall() {
 InfoPlayer* infoPlayer = new InfoPlayer;
 
 int BounceBall::startGame() {
+    string importDatabase = "database//database.txt";
+    databaseGame.importDatabase(importDatabase.c_str());
     if (display == showDisplay::MENU) {
         if (!initSDL())
                 return -1;
-        displayLogo();
+        //displayLogo();
     }
 
     BaseObject backGround;
@@ -182,7 +184,19 @@ void BounceBall::displayPlay() {
                         if (level < 10) address += "0";
                         address += addressLevel.convertNumberToString(level);
                         address += ".map";
-                        LevelGame::loadLevelGame(address.c_str(), gScreen, gEvent, infoPlayer);
+                        LevelGame levelGame;
+                        int nextAction = levelGame.loadLevelGame(address.c_str(), gScreen, gEvent, infoPlayer);
+                        while (nextAction == typeLevel::NEXT_LEVEL && level < 50) {
+                            infoPlayer->setUnlockLevel(level, 1);
+                            string exportDatabase = "database//database.txt";
+                            databaseGame.exportDatabase(exportDatabase.c_str());
+                            ++level;
+                            address = "map//level";
+                            if (level < 10) address += "0";
+                            address += addressLevel.convertNumberToString(level);
+                            address += ".map";
+                            nextAction = levelGame.loadLevelGame(address.c_str(), gScreen, gEvent, infoPlayer);
+                        }
                         return;
                     }
                 }
@@ -271,10 +285,19 @@ void BounceBall::displayLogin() {
                 if (selectPasswordButton)
                     selectText = selectInput::PASSWORD;
                 if (selectLoginButton) {
-                    if (checkInfoLogin(usernameText, passwordText)) {
+                    if (checkInfoLogin(usernameText, passwordText, infoPlayer)) {
                         display = 4;
-                        infoPlayer->setUsername(usernameText);
+                        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
+                            "Login successfully",
+                            "Dang nhap thanh cong",
+                            NULL);
                         return;
+                    }
+                    else {
+                        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
+                            "Failed to Login",
+                            "Wrong account or password",
+                            NULL);
                     }
                 }
             }
@@ -317,8 +340,7 @@ void BounceBall::displayLogin() {
                 else if (gEvent.key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL) {
                     (*inputText) = SDL_GetClipboardText();
                 }
-                else if (gEvent.key.keysym.sym == SDLK_KP_ENTER 
-                    || gEvent.key.keysym.sym == SDLK_RETURN) {
+                else if (gEvent.key.keysym.sym == SDLK_TAB) {
                     if (selectText == selectInput::ACCOUNT) {
                         selectText = selectInput::PASSWORD;
                         inputText = &passwordText;
@@ -328,6 +350,22 @@ void BounceBall::displayLogin() {
                         selectText = selectInput::ACCOUNT;
                         inputText = &passwordText;
                         gInputTextTexture = &passwordTextTexture;
+                    }
+                }
+                else if (gEvent.key.keysym.sym == SDLK_RETURN) {
+                    if (checkInfoLogin(usernameText, passwordText, infoPlayer)) {
+                        display = 4;
+                        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
+                            "Login successfully",
+                            "Dang nhap thanh cong",
+                            NULL);
+                        return;
+                    }
+                    else {
+                        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
+                            "Failed to Login",
+                            "Wrong account or password",
+                            NULL);
                     }
                 }
             }
@@ -369,9 +407,19 @@ void BounceBall::displayLogin() {
     }
 }
 
-bool BounceBall::checkInfoLogin(string username, string password) {
-    return 1;
+bool BounceBall::checkInfoLogin(string username, string password, InfoPlayer *infoPlayer) {
+    InfoPlayer info = databaseGame.getDatabaseUsername(username);
+    infoPlayer->setUsername(info.getUsername());
+    infoPlayer->setPassword(info.getPassword());
+    infoPlayer->setYourHighScore(info.getYourHighScore());
+    for (int level = 1; level <= MAX_LEVEL; ++level)
+        infoPlayer->setUnlockLevel(level, info.getUnlockLevel(level));
+    if (info.getPassword() == password)
+        return true;
+    else
+        return false;
 }
+
 bool BounceBall::initSDL() {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
         printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
