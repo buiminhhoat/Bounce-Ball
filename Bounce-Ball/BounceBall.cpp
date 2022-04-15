@@ -78,8 +78,10 @@ int BounceBall::startGame() {
                 bool typePlayButton = bool(mouse->checkMouseInButton(playButton));
                 bool typeLeaderboardButton = bool(mouse->checkMouseInButton(leaderboardButton));
                 bool typeloginButton = bool(mouse->checkMouseInButton(loginButton));
-                if (typePlayButton)
+                if (typePlayButton) {
                     display = showDisplay::PLAY;
+                    if (infoPlayer->getUsername() == "") display = showDisplay::LOGIN;
+                } 
                 if (typeLeaderboardButton)
                     display = showDisplay::LEADERBOARD;
                 if (typeloginButton)
@@ -144,14 +146,28 @@ void BounceBall::displayPlay() {
     int level = 0;
     ButtonObject selectLevelButton[6][11];
 
+    BaseObject logo;
+    logo.loadImage("img//logo//logo_small.png", gScreen);
+    logo.setRectSize(192, 145);
+    logo.setRectPos((SCREEN_WIDTH - logo.getRect().w) / 2, 5);
+    logo.render(gScreen);
+    logo.cleanUp();
+
     const int UPPER_BOUNDARY = 100;
     for (int i = 1; i <= 5; ++i) {
         for (int j = 1; j <= 10; ++j) {
-            selectLevelButton[i][j].loadImage("img//level//select_level.png", gScreen);
+            ++level;
+            if (infoPlayer->getUnlockLevel(level)) {
+                selectLevelButton[i][j].loadImage("img//level//select_level.png", gScreen);
+                selectLevelButton[i][j].setIsUnlock(1);
+            }
+            else {
+                selectLevelButton[i][j].loadImage("img//level//select_level_locked.png", gScreen);
+                selectLevelButton[i][j].setIsUnlock(0);
+            }
             selectLevelButton[i][j].setRectPos(64 * j, UPPER_BOUNDARY + 64 * i);
             selectLevelButton[i][j].setClips();
             selectLevelButton[i][j].render(gScreen);
-            ++level;
             std::string strLevel = "";
             if (level < 10) strLevel += "0";
             strLevel += std::to_string(level);
@@ -174,6 +190,7 @@ void BounceBall::displayPlay() {
             int level = 0;
             for (int i = 1; i <= 5; ++i) {
                 for (int j = 1; j <= 10; ++j) {
+                    if (selectLevelButton[i][j].getIsUnlock() == 0) continue;
                     mouse->mouseHandleEvent();
                     bool typeLeaderboardButton = bool(mouse->checkMouseInButton(&selectLevelButton[i][j]));
                     ++level;
@@ -187,10 +204,11 @@ void BounceBall::displayPlay() {
                         LevelGame levelGame;
                         int nextAction = levelGame.loadLevelGame(address.c_str(), gScreen, gEvent, infoPlayer);
                         while (nextAction == typeLevel::NEXT_LEVEL && level < 50) {
+                            ++level;
                             infoPlayer->setUnlockLevel(level, 1);
                             string exportDatabase = "database//database.txt";
-                            databaseGame.exportDatabase(exportDatabase.c_str());
-                            ++level;
+                            databaseGame.updateDatabaseUsername(*infoPlayer);
+                            databaseGame.exportDatabase(exportDatabase.c_str());  
                             address = "map//level";
                             if (level < 10) address += "0";
                             address += addressLevel.convertNumberToString(level);
@@ -259,8 +277,10 @@ void BounceBall::displayLogin() {
     passwordTextTexture.setPosX(passwordButton->getXPos() + 20);
     passwordTextTexture.setPosY(passwordButton->getYPos() + 15);
 
-    string usernameText = "username"; 
-    string passwordText = "password";
+    //string usernameText = "username"; 
+    //string passwordText = "password";    
+    string usernameText = "buiminhhoat"; 
+    string passwordText = "buiminhhoat";
 
     int selectText = selectInput::ACCOUNT;
     string *inputText;
@@ -286,7 +306,7 @@ void BounceBall::displayLogin() {
                     selectText = selectInput::PASSWORD;
                 if (selectLoginButton) {
                     if (checkInfoLogin(usernameText, passwordText, infoPlayer)) {
-                        display = 4;
+                        display = showDisplay::HIDE_LOGIN;
                         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
                             "Login successfully",
                             "Dang nhap thanh cong",

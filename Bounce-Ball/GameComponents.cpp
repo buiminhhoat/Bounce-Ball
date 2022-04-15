@@ -522,6 +522,7 @@ ButtonObject::ButtonObject() {
 	xPos = 0.0;
 	yPos = 0.0;
 	frame = 0;
+	isUnlock = 1;
 }
 
 ButtonObject::~ButtonObject() {

@@ -11,6 +11,7 @@ Database::~Database() {
 }
 
 void Database::importDatabase(const string& importDatabase) {
+    dataInfoPlayer.clear();
     ifstream input(importDatabase);
     string dataLine;
     int lines = 0;
@@ -34,7 +35,6 @@ void Database::importDatabase(const string& importDatabase) {
 
         dataInfoPlayer.push_back(info);
     }
-    //cout << lines << '\n';
     input.close();
 }
 
@@ -50,8 +50,9 @@ void Database::updateDatabaseUsername(InfoPlayer updateInfo) {
     string usernameUpdateInfo = updateInfo.getUsername();
     for (int i = 0; i < dataInfoPlayer.size(); ++i) {
         string usernameDatabase = dataInfoPlayer[i].getUsername();
-        if (usernameDatabase == usernameUpdateInfo)
+        if (usernameDatabase == usernameUpdateInfo) {
             dataInfoPlayer[i] = updateInfo;
+        }
     }
 }
 

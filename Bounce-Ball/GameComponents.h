@@ -397,18 +397,6 @@ private:
 
 class ButtonObject : public BaseObject {
 #define BUTTON_FRAME_NUM 1
-private:
-	int mapX;
-	int mapY;
-	float xVal;
-	float yVal;
-	float xPos;
-	float yPos;
-	SDL_Rect frameClip[BUTTON_FRAME_NUM];
-	int widthFrame;
-	int heightFrame;
-	int frame;
-	string addressImgButton;
 public:
 	ButtonObject();
 	~ButtonObject();
@@ -435,6 +423,22 @@ public:
 	int getWidthButton() { return widthFrame; }
 
 	int getHeightButton() { return heightFrame; }
+
+	void setIsUnlock(const int& isUnlock) { this->isUnlock = isUnlock; };
+	int getIsUnlock() { return this->isUnlock; };
+private:
+	int mapX;
+	int mapY;
+	float xVal;
+	float yVal;
+	float xPos;
+	float yPos;
+	SDL_Rect frameClip[BUTTON_FRAME_NUM];
+	int widthFrame;
+	int heightFrame;
+	int frame;
+	string addressImgButton;
+	int isUnlock;
 };
 
 class InfoPlayer {

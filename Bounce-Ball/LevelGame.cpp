@@ -83,7 +83,6 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
     ManagementObject object;
     ScoreObject score;
     LifeObject life;
-    cerr << infoPlayer->getUsername() << '\n';
     score.setScore(infoPlayer->getScore());
     score.setYourHighScore(infoPlayer->getYourHighScore());
     life.SetLife(infoPlayer->getLife());
