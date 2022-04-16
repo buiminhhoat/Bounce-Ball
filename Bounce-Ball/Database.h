@@ -14,6 +14,10 @@ public:
 	void updateDatabaseUsername(InfoPlayer info);
 	void exportDatabase(const string& exportDatabase);
 	pair <string, bool> createAccount(InfoPlayer info);
+	void sortAllDataInfoPlayer();
+	std::vector<InfoPlayer> getDataInfoPlayer() {
+		return dataInfoPlayer;
+	}
 private:
 	std::vector<InfoPlayer> dataInfoPlayer;
 };

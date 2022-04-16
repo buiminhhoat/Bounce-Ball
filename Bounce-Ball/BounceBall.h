@@ -37,6 +37,7 @@ public:
 		QUIT_GAME = 2,
 		ERROR_GAME = 3,
 	};
+
 	BounceBall();
 	~BounceBall();
 	int startGame();

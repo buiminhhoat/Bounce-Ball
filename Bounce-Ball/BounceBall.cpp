@@ -41,23 +41,49 @@ int BounceBall::startGame() {
     backGround.loadImage("img//background//background.jpg", gScreen);
     backGround.render(gScreen);
 
+    BaseObject logo;
+    logo.loadImage("img//logo//logo_small.png", gScreen);
+    logo.setRectSize(210, 159);
+    //logo.setRectSize(192, 145);
+    logo.setRectPos((SCREEN_WIDTH - logo.getRect().w) / 2, 5);
+    logo.render(gScreen);
+    logo.cleanUp();
+
     ButtonObject* playButton = new ButtonObject;
     playButton->loadImage("img//button//menu_button_play.png", gScreen);
-    playButton->setRectPos(450, 100);
     playButton->setClips();
+    playButton->setRectPos(SCREEN_WIDTH / 2 - playButton->getRect().w - 32, 175);
     playButton->render(gScreen);
 
     ButtonObject* leaderboardButton = new ButtonObject;
     leaderboardButton->loadImage("img//button//menu_button_leaderboard.png", gScreen);
-    leaderboardButton->setRectPos(450, 200);
     leaderboardButton->setClips();
+    leaderboardButton->setRectPos(SCREEN_WIDTH / 2 + 32, 175);
     leaderboardButton->render(gScreen);
+
+    ButtonObject* howToPlayButton = new ButtonObject;
+    howToPlayButton->loadImage("img//button//menu_button_howtoplay.png", gScreen);
+    howToPlayButton->setClips();
+    howToPlayButton->setRectPos(SCREEN_WIDTH / 2 - howToPlayButton->getRect().w - 32, 275);
+    howToPlayButton->render(gScreen);
+
+    ButtonObject* settingsButton = new ButtonObject;
+    settingsButton->loadImage("img//button//menu_button_settings.png", gScreen);
+    settingsButton->setClips();
+    settingsButton->setRectPos(SCREEN_WIDTH / 2 + 32, 275);
+    settingsButton->render(gScreen);
+
+    ButtonObject* registerButton = new ButtonObject;
+    registerButton->loadImage("img//button//menu_button_register.png", gScreen);
+    registerButton->setClips();
+    registerButton->setRectPos(SCREEN_WIDTH / 2 + 32, 375);
+    registerButton->render(gScreen);
 
     ButtonObject* loginButton = new ButtonObject;
     if (display != showDisplay::HIDE_LOGIN) {
         loginButton->loadImage("img//button//menu_button_login.png", gScreen);
-        loginButton->setRectPos(450, 300);
         loginButton->setClips();
+        loginButton->setRectPos(SCREEN_WIDTH / 2 - playButton->getRect().w - 32, 375);
         loginButton->render(gScreen);
     }
     SDL_RenderPresent(gScreen);
@@ -82,10 +108,13 @@ int BounceBall::startGame() {
                     display = showDisplay::PLAY;
                     if (infoPlayer->getUsername() == "") display = showDisplay::LOGIN;
                 } 
-                if (typeLeaderboardButton)
+                if (typeLeaderboardButton) {
                     display = showDisplay::LEADERBOARD;
-                if (typeloginButton)
+                }
+                if (typeloginButton) {
                     display = showDisplay::LOGIN;
+                }
+                    
             }
         }  
         switch (display) {
@@ -225,6 +254,61 @@ void BounceBall::displayPlay() {
 }
 
 void BounceBall::displayLeaderboard() {
+    BaseObject backGround;
+    backGround.loadImage("img//background//background.jpg", gScreen);
+    backGround.render(gScreen);
+
+    BaseObject leaderboard;
+    leaderboard.loadImage("img//leaderboard//leaderboard.png", gScreen);
+    //leaderboard.setRectSize(498, 512);
+    leaderboard.setRectSize(612, 512);
+    leaderboard.setRectPos((SCREEN_WIDTH - leaderboard.getRect().w) / 2,
+        (SCREEN_HEIGHT - leaderboard.getRect().h) / 2);
+    leaderboard.render(gScreen);
+    
+    databaseGame.sortAllDataInfoPlayer();
+    vector <InfoPlayer> dataInfoPlayer = databaseGame.getDataInfoPlayer();
+    
+    TTF_Font* fontGame;
+    LTexture usernameText;
+    LTexture yourHighScoreText;
+
+    if (TTF_Init() == -1) return;
+    fontGame = TTF_OpenFont("font//no_continue.ttf", 30);
+    if (fontGame == NULL) {
+        return;
+    }
+
+    int xPosUsername = leaderboard.getRect().x + 150;
+    int yPosUsername = leaderboard.getRect().y + 168;
+
+    int xPosYourHighScore = leaderboard.getRect().x + leaderboard.getRect().w - 95;
+    int yPosYourHighScore = leaderboard.getRect().y + 168;
+
+    for (int i = 0; i < 5; ++i) {
+        string strUsernameText = "";
+        string strYourHighScoreText = "";
+        if (i < dataInfoPlayer.size()) {
+            strUsernameText = dataInfoPlayer[i].getUsername();
+            Cryptosystem cryptosystemYourHighScore;
+            strYourHighScoreText = cryptosystemYourHighScore.convertNumberToString(dataInfoPlayer[i].getYourHighScore());
+        }
+        else {
+            strUsernameText = "???";
+            strYourHighScoreText = "0";
+        }
+        usernameText.setText(strUsernameText);
+        usernameText.loadFromRenderText(fontGame, gScreen);
+        usernameText.showText(gScreen, xPosUsername, yPosUsername);
+        
+        yourHighScoreText.setText(strYourHighScoreText);
+        yourHighScoreText.loadFromRenderText(fontGame, gScreen);
+        yourHighScoreText.showText(gScreen, xPosYourHighScore - yourHighScoreText.getWidth(), yPosYourHighScore);
+        yPosUsername += 64;
+        yPosYourHighScore += 64;
+    }
+    SDL_RenderPresent(gScreen);
+
     display = 0;
 }
 
@@ -267,7 +351,7 @@ void BounceBall::displayLogin() {
 
     SDL_RenderPresent(gScreen);
 
-    LTexture* gInputTextTexture;
+    LTexture* gInputTextTexture = nullptr;
     
     LTexture usernameTextTexture;
     usernameTextTexture.setPosX(usernameButton->getXPos() + 20);
@@ -282,12 +366,20 @@ void BounceBall::displayLogin() {
     string usernameText = "buiminhhoat"; 
     string passwordText = "buiminhhoat";
 
+    gInputTextTexture = &usernameTextTexture;
+
+    BaseObject iteratorMouse;
+    iteratorMouse.loadImage("img//button//iteratorMouse.png", gScreen);
     int selectText = selectInput::ACCOUNT;
     string *inputText;
     inputText = &usernameText;
 
+    FPS fpsTimer;
+    FPS flickerTimer;
+    flickerTimer.start();
     SDL_StartTextInput();
     while (!quit) {
+        fpsTimer.start();
         MouseEvents* mouse = new MouseEvents;
         mouse->mouseHandleEvent();
         bool selectUsernameButton = bool(mouse->checkMouseInButton(usernameButton));
@@ -300,7 +392,7 @@ void BounceBall::displayLogin() {
                 return;
             }
             if (gEvent.type == SDL_MOUSEBUTTONDOWN) {
-                if (selectUsernameButton)
+                if (selectUsernameButton) 
                     selectText = selectInput::ACCOUNT;
                 if (selectPasswordButton)
                     selectText = selectInput::PASSWORD;
@@ -423,7 +515,25 @@ void BounceBall::displayLogin() {
         passwordTextTexture.loadFromRenderText(fontGame, gScreen);
         passwordTextTexture.showText(gScreen, passwordTextTexture.getPosX(), passwordTextTexture.getPosY());
 
+        iteratorMouse.setRectPos(gInputTextTexture->getPosX()
+                                + gInputTextTexture->getWidth() + 2,
+                                    gInputTextTexture->getPosY() + 4);
+        
+        if (flickerTimer.getTicks() > 400 && flickerTimer.getTicks() < 800) {
+            iteratorMouse.render(gScreen);
+            //flickerTimer.start();
+        }
+        if (flickerTimer.getTicks() > 800) flickerTimer.start();
+
         SDL_RenderPresent(gScreen);
+
+        int realTime = fpsTimer.getTicks();
+        int timeOneFrame = 1000 / FRAME_PER_SECOND;
+        if (realTime < timeOneFrame) {
+            int delayTime = timeOneFrame - realTime;
+            if (delayTime >= 0)
+                SDL_Delay(delayTime);
+        }
     }
 }
 

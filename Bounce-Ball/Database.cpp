@@ -1,4 +1,6 @@
 #include "Database.h"
+#include "GameComponents.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -80,4 +82,12 @@ pair <string, bool> Database::createAccount(InfoPlayer info) {
     }
     dataInfoPlayer.push_back(info);
     return { "Tao tai khoan thanh cong", true };
+}
+
+bool cmp(InfoPlayer A, InfoPlayer B) {
+    return A.getYourHighScore() > B.getYourHighScore();
+}
+
+void Database::sortAllDataInfoPlayer() {
+    sort(dataInfoPlayer.begin(), dataInfoPlayer.end(), cmp);
 }
