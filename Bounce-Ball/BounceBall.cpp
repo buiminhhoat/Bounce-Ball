@@ -29,9 +29,10 @@ BounceBall::~BounceBall() {
 InfoPlayer* infoPlayer = new InfoPlayer;
 
 int BounceBall::startGame() {
-    string importDatabase = "database//database.txt";
-    databaseGame.importDatabase(importDatabase.c_str());
-    if (display == showDisplay::MENU) {
+    databaseGame.setAddressFileImportDatabase(ADDRESS_IMPORT_DATABASE);
+    databaseGame.setAddressFileExportDatabase(ADDRESS_EXPORT_DATABASE);
+    databaseGame.importDatabase();
+    if (display == typeDisplay::MENU) {
         if (!initSDL())
                 return -1;
         //displayLogo();
@@ -80,18 +81,26 @@ int BounceBall::startGame() {
     registerButton->render(gScreen);
 
     ButtonObject* loginButton = new ButtonObject;
-    if (display != showDisplay::HIDE_LOGIN) {
+    ButtonObject* logoutButton = new ButtonObject;
+    if (infoPlayer->getUsername() == "") {
         loginButton->loadImage("img//button//menu_button_login.png", gScreen);
         loginButton->setClips();
         loginButton->setRectPos(SCREEN_WIDTH / 2 - playButton->getRect().w - 32, 375);
         loginButton->render(gScreen);
     }
+    else {
+        logoutButton->loadImage("img//button//menu_button_logout.png", gScreen);
+        logoutButton->setClips();
+        logoutButton->setRectPos(SCREEN_WIDTH / 2 - playButton->getRect().w - 32, 375);
+        logoutButton->render(gScreen);
+    }
+
     SDL_RenderPresent(gScreen);
 
     bool quit = false;
     MouseEvents* mouse = new MouseEvents;
 
-    display = 0;
+    display = typeDisplay::MENU;
 
     while (!quit) {
         while (SDL_PollEvent(&gEvent)) {
@@ -103,35 +112,53 @@ int BounceBall::startGame() {
                 mouse->mouseHandleEvent();
                 bool typePlayButton = bool(mouse->checkMouseInButton(playButton));
                 bool typeLeaderboardButton = bool(mouse->checkMouseInButton(leaderboardButton));
-                bool typeloginButton = bool(mouse->checkMouseInButton(loginButton));
+                bool typeLoginButton = bool(mouse->checkMouseInButton(loginButton));
+                bool typeLogoutButton = bool(mouse->checkMouseInButton(logoutButton));
+                bool typeHowToPlayButton = bool(mouse->checkMouseInButton(howToPlayButton));
+                bool typeSettingsButton = bool(mouse->checkMouseInButton(settingsButton));
+                bool typeRegisterButton = bool(mouse->checkMouseInButton(registerButton));
                 if (typePlayButton) {
-                    display = showDisplay::PLAY;
-                    if (infoPlayer->getUsername() == "") display = showDisplay::LOGIN;
+                    display = typeDisplay::PLAY;
+                    if (infoPlayer->getUsername() == "") display = typeDisplay::LOGIN;
                 } 
                 if (typeLeaderboardButton) {
-                    display = showDisplay::LEADERBOARD;
+                    display = typeDisplay::LEADERBOARD;
                 }
-                if (typeloginButton) {
-                    display = showDisplay::LOGIN;
+                if (typeLoginButton) {
+                    display = typeDisplay::LOGIN;
                 }
-                    
+                if (typeLogoutButton) {
+                    display = typeDisplay::LOGOUT;
+                }
+                if (typeSettingsButton) {
+                    display = typeDisplay::SETTINGS;
+                }
+                if (typeHowToPlayButton) {
+                    display = typeDisplay::HOW_TO_PLAY;
+                }
+                if (typeRegisterButton) {
+                    display = typeDisplay::REGISTER;
+                }
             }
         }  
         switch (display) {
-            case showDisplay::RE_MENU:
+            case typeDisplay::RE_MENU:
                 startGame();
                 break;
-            case showDisplay::PLAY:
+            case typeDisplay::PLAY:
                 displayPlay();
                 break;
-            case showDisplay::LEADERBOARD:
+            case typeDisplay::LEADERBOARD:
                 displayLeaderboard();
                 break;
-            case showDisplay::LOGIN:
+            case typeDisplay::LOGIN:
                 displayLogin();
                 break;
-            case showDisplay::HIDE_LOGIN:
-                startGame();
+            case typeDisplay::LOGOUT:
+                displayLogout();
+                break;
+            case typeDisplay::REGISTER:
+                displayRegister();
                 break;
         }
     }
@@ -212,7 +239,7 @@ void BounceBall::displayPlay() {
         while (SDL_PollEvent(&gEvent)) {
             if (gEvent.type == SDL_QUIT) {
                 quit = true;
-                display = showDisplay::RE_MENU;
+                display = typeDisplay::RE_MENU;
                 SDL_RenderPresent(gScreen);
                 break;
             }
@@ -235,9 +262,8 @@ void BounceBall::displayPlay() {
                         while (nextAction == typeLevel::NEXT_LEVEL && level < 50) {
                             ++level;
                             infoPlayer->setUnlockLevel(level, 1);
-                            string exportDatabase = "database//database.txt";
                             databaseGame.updateDatabaseUsername(*infoPlayer);
-                            databaseGame.exportDatabase(exportDatabase.c_str());  
+                            databaseGame.exportDatabase();  
                             address = "map//level";
                             if (level < 10) address += "0";
                             address += addressLevel.convertNumberToString(level);
@@ -309,7 +335,30 @@ void BounceBall::displayLeaderboard() {
     }
     SDL_RenderPresent(gScreen);
 
-    display = 0;
+    bool quit = 0;
+    while (!quit) {
+        while (SDL_PollEvent(&gEvent)) {
+            if (gEvent.type == SDL_QUIT) {
+                quit = true;
+                display = typeDisplay::RE_MENU;
+                SDL_RenderPresent(gScreen);
+                break;
+            }
+        }
+    }
+}
+
+bool BounceBall::checkInfoLogin(string username, string password, InfoPlayer *infoPlayer) {
+    InfoPlayer info = databaseGame.getDatabaseUsername(username);
+    infoPlayer->setUsername(info.getUsername());
+    infoPlayer->setPassword(info.getPassword());
+    infoPlayer->setYourHighScore(info.getYourHighScore());
+    for (int level = 1; level <= MAX_LEVEL; ++level)
+        infoPlayer->setUnlockLevel(level, info.getUnlockLevel(level));
+    if (info.getPassword() == password)
+        return true;
+    else
+        return false;
 }
 
 void BounceBall::displayLogin() {
@@ -388,7 +437,7 @@ void BounceBall::displayLogin() {
         while (SDL_PollEvent(&gEvent) != 0) {
             if (gEvent.type == SDL_QUIT) {
                 quit = true;
-                display = showDisplay::RE_MENU;
+                display = typeDisplay::RE_MENU;
                 return;
             }
             if (gEvent.type == SDL_MOUSEBUTTONDOWN) {
@@ -398,7 +447,7 @@ void BounceBall::displayLogin() {
                     selectText = selectInput::PASSWORD;
                 if (selectLoginButton) {
                     if (checkInfoLogin(usernameText, passwordText, infoPlayer)) {
-                        display = showDisplay::HIDE_LOGIN;
+                        display = typeDisplay::RE_MENU;
                         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
                             "Login successfully",
                             "Dang nhap thanh cong",
@@ -425,7 +474,7 @@ void BounceBall::displayLogin() {
 
             if (gEvent.type == SDL_QUIT) {
                 quit = true;
-                display = 0;
+                display = typeDisplay::MENU;
                 return;
             }
             else if (gEvent.type == SDL_KEYDOWN) {
@@ -466,7 +515,7 @@ void BounceBall::displayLogin() {
                 }
                 else if (gEvent.key.keysym.sym == SDLK_RETURN) {
                     if (checkInfoLogin(usernameText, passwordText, infoPlayer)) {
-                        display = 4;
+                        display = typeDisplay::RE_MENU;
                         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
                             "Login successfully",
                             "Dang nhap thanh cong",
@@ -521,7 +570,6 @@ void BounceBall::displayLogin() {
         
         if (flickerTimer.getTicks() > 400 && flickerTimer.getTicks() < 800) {
             iteratorMouse.render(gScreen);
-            //flickerTimer.start();
         }
         if (flickerTimer.getTicks() > 800) flickerTimer.start();
 
@@ -537,21 +585,244 @@ void BounceBall::displayLogin() {
     }
 }
 
-bool BounceBall::checkInfoLogin(string username, string password, InfoPlayer *infoPlayer) {
-    InfoPlayer info = databaseGame.getDatabaseUsername(username);
-    infoPlayer->setUsername(info.getUsername());
-    infoPlayer->setPassword(info.getPassword());
-    infoPlayer->setYourHighScore(info.getYourHighScore());
-    for (int level = 1; level <= MAX_LEVEL; ++level)
-        infoPlayer->setUnlockLevel(level, info.getUnlockLevel(level));
-    if (info.getPassword() == password)
+void BounceBall::displayLogout() {
+    infoPlayer->setUsername("");
+    display = typeDisplay::RE_MENU;
+}
+
+bool BounceBall::notificationStatusRegister(string usernameText, string passwordText) {
+    InfoPlayer infoRegister;
+    infoRegister.setUsername(usernameText);
+    infoRegister.setPassword(passwordText);
+    infoRegister.setYourHighScore(0);
+    infoRegister.setUnlockLevel(1, 1);
+    pair <string, bool> statusRegister = databaseGame.registerAccount(infoRegister);
+    if (statusRegister.second == true) {
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
+            "Register successfully",
+            statusRegister.first.c_str(),
+            NULL);
         return true;
-    else
+    }
+    else {
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
+            "Failed to Register",
+            statusRegister.first.c_str(),
+            NULL);
         return false;
+    }
+}
+
+void BounceBall::displayRegister() {
+    BaseObject backGround;
+    backGround.loadImage("img//background//background.jpg", gScreen);
+    backGround.render(gScreen);
+    bool quit = false;
+
+    TTF_Font* fontGame;
+    if (TTF_Init() == -1) return;
+    fontGame = TTF_OpenFont("font//no_continue.ttf", 30);
+    if (fontGame == NULL) {
+        return;
+    }
+
+    ButtonObject* usernameButton = new ButtonObject;
+    usernameButton->loadImage("img//button//register_button_username.png", gScreen);
+    usernameButton->setClips();
+    usernameButton->setXPos((SCREEN_WIDTH - usernameButton->getWidthButton()) / 2);
+    usernameButton->setYPos(150);
+    usernameButton->setRectPos(usernameButton->getXPos(), usernameButton->getYPos());
+    usernameButton->render(gScreen);
+
+    ButtonObject* passwordButton = new ButtonObject;
+    passwordButton->loadImage("img//button//register_button_password.png", gScreen);
+    passwordButton->setClips();
+    passwordButton->setXPos((SCREEN_WIDTH - passwordButton->getWidthButton()) / 2);
+    passwordButton->setYPos(250);
+    passwordButton->setRectPos(passwordButton->getXPos(), passwordButton->getYPos());
+    passwordButton->render(gScreen);
+
+    ButtonObject* loginButton = new ButtonObject;
+    loginButton->loadImage("img//button//register_button_register.png", gScreen);
+    loginButton->setClips();
+    loginButton->setXPos((SCREEN_WIDTH - loginButton->getWidthButton()) / 2);
+    loginButton->setYPos(350);
+    loginButton->setRectPos(loginButton->getXPos(), loginButton->getYPos());
+    loginButton->render(gScreen);
+
+    SDL_RenderPresent(gScreen);
+
+    LTexture* gInputTextTexture = nullptr;
+
+    LTexture usernameTextTexture;
+    usernameTextTexture.setPosX(usernameButton->getXPos() + 20);
+    usernameTextTexture.setPosY(usernameButton->getYPos() + 15);
+    usernameTextTexture.setColor(LTexture::COLOR::PURPLE_COLOR);
+
+    LTexture passwordTextTexture;
+    passwordTextTexture.setPosX(passwordButton->getXPos() + 20);
+    passwordTextTexture.setPosY(passwordButton->getYPos() + 15);
+    passwordTextTexture.setColor(LTexture::COLOR::PURPLE_COLOR);
+
+    //string usernameText = "username"; 
+    //string passwordText = "password";    
+    string usernameText = "buiminhhoat";
+    string passwordText = "buiminhhoat";
+
+    gInputTextTexture = &usernameTextTexture;
+
+    BaseObject iteratorMouse;
+    iteratorMouse.loadImage("img//button//iteratorMouse.png", gScreen);
+    int selectText = selectInput::ACCOUNT;
+    string* inputText;
+    inputText = &usernameText;
+
+    FPS fpsTimer;
+    FPS flickerTimer;
+    flickerTimer.start();
+    SDL_StartTextInput();
+    while (!quit) {
+        fpsTimer.start();
+        MouseEvents* mouse = new MouseEvents;
+        mouse->mouseHandleEvent();
+        bool selectUsernameButton = bool(mouse->checkMouseInButton(usernameButton));
+        bool selectPasswordButton = bool(mouse->checkMouseInButton(passwordButton));
+        bool selectRegisterButton = bool(mouse->checkMouseInButton(loginButton));
+        while (SDL_PollEvent(&gEvent) != 0) {
+            if (gEvent.type == SDL_QUIT) {
+                quit = true;
+                display = typeDisplay::RE_MENU;
+                return;
+            }
+            if (gEvent.type == SDL_MOUSEBUTTONDOWN) {
+                if (selectUsernameButton)
+                    selectText = selectInput::ACCOUNT;
+                if (selectPasswordButton)
+                    selectText = selectInput::PASSWORD;
+                if (selectRegisterButton) {
+                    if (notificationStatusRegister(usernameText, passwordText) == true) {
+                        display = typeDisplay::RE_MENU;
+                        return;
+                    }
+                        
+                }
+            }
+
+            if (selectText == selectInput::ACCOUNT) {
+                inputText = &usernameText;
+                gInputTextTexture = &usernameTextTexture;
+            }
+            else {
+                inputText = &passwordText;
+                gInputTextTexture = &passwordTextTexture;
+            }
+
+            if (gEvent.type == SDL_QUIT) {
+                quit = true;
+                display = typeDisplay::MENU;
+                return;
+            }
+            else if (gEvent.type == SDL_KEYDOWN) {
+                if (selectText == selectInput::ACCOUNT && *inputText == "username") {
+                    *inputText = "";
+                }
+                else if (selectText == selectInput::PASSWORD && *inputText == "password") {
+                    *inputText = "";
+                }
+                else if (*inputText == "") {
+                    if (selectText == selectInput::ACCOUNT) {
+                        *inputText = "username";
+                    }
+                    else {
+                        *inputText = "password";
+                    }
+                }
+                if (gEvent.key.keysym.sym == SDLK_BACKSPACE && (*inputText).size() > 0) {
+                    (*inputText).pop_back();
+                }
+                else if (gEvent.key.keysym.sym == SDLK_c && SDL_GetModState() & KMOD_CTRL) {
+                    SDL_SetClipboardText((*inputText).c_str());
+                }
+                else if (gEvent.key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL) {
+                    (*inputText) = SDL_GetClipboardText();
+                }
+                else if (gEvent.key.keysym.sym == SDLK_TAB) {
+                    if (selectText == selectInput::ACCOUNT) {
+                        selectText = selectInput::PASSWORD;
+                        inputText = &passwordText;
+                        gInputTextTexture = &passwordTextTexture;
+                    }
+                    else {
+                        selectText = selectInput::ACCOUNT;
+                        inputText = &passwordText;
+                        gInputTextTexture = &passwordTextTexture;
+                    }
+                }
+                else if (gEvent.key.keysym.sym == SDLK_RETURN) {
+                    if (notificationStatusRegister(usernameText, passwordText) == true) {
+                        display = typeDisplay::RE_MENU;
+                        return;
+                    }
+                        
+                }
+            }
+            else if (gEvent.type == SDL_TEXTINPUT) {
+                if (!(SDL_GetModState() & KMOD_CTRL
+                    && (gEvent.text.text[0] == 'c' || gEvent.text.text[0] == 'C'
+                        || gEvent.text.text[0] == 'v' || gEvent.text.text[0] == 'V'))) {
+                    *inputText += gEvent.text.text;
+                }
+            }
+        }
+
+        SDL_SetRenderDrawColor(gScreen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
+        SDL_RenderClear(gScreen);
+
+        backGround.render(gScreen, NULL);
+        usernameButton->render(gScreen, NULL);
+        passwordButton->render(gScreen, NULL);
+        loginButton->render(gScreen, NULL);
+
+        if (usernameText == "") usernameText = "username";
+        if (passwordText == "") passwordText = "password";
+        string showUsername = "";
+        for (int i = max(0, (int)usernameText.size() - 15); i < usernameText.size(); ++i) {
+            showUsername += usernameText[i];
+        }
+        usernameTextTexture.setText(showUsername);
+        usernameTextTexture.loadFromRenderText(fontGame, gScreen);
+        usernameTextTexture.showText(gScreen, usernameTextTexture.getPosX(), usernameTextTexture.getPosY());
+
+        string encodePassword = "";
+        for (int i = 0; i < min(15, passwordText.size()); ++i) encodePassword += "*";
+        if (passwordText == "password") encodePassword = passwordText;
+        passwordTextTexture.setText(encodePassword);
+        passwordTextTexture.loadFromRenderText(fontGame, gScreen);
+        passwordTextTexture.showText(gScreen, passwordTextTexture.getPosX(), passwordTextTexture.getPosY());
+
+        iteratorMouse.setRectPos(gInputTextTexture->getPosX()
+            + gInputTextTexture->getWidth() + 2,
+            gInputTextTexture->getPosY() + 4);
+
+        if (flickerTimer.getTicks() > 400 && flickerTimer.getTicks() < 800) {
+            iteratorMouse.render(gScreen);
+        }
+        if (flickerTimer.getTicks() > 800) flickerTimer.start();
+
+        SDL_RenderPresent(gScreen);
+
+        int realTime = fpsTimer.getTicks();
+        int timeOneFrame = 1000 / FRAME_PER_SECOND;
+        if (realTime < timeOneFrame) {
+            int delayTime = timeOneFrame - realTime;
+            if (delayTime >= 0)
+                SDL_Delay(delayTime);
+        }
+    }
 }
 
 bool BounceBall::initSDL() {
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
+    if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
         printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
         return false;
     }

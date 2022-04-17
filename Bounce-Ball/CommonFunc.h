@@ -13,6 +13,8 @@
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 
+using namespace std;
+
 static SDL_Window* gWindow = NULL;
 static SDL_Renderer* gScreen = NULL;
 static SDL_Event gEvent;
@@ -40,6 +42,11 @@ const int MAX_MAP_Y = 50;
 
 /* LEVEL */
 const int MAX_LEVEL = 50;
+
+/* DATABASE */
+
+const string ADDRESS_IMPORT_DATABASE = "database//database.txt";
+const string ADDRESS_EXPORT_DATABASE = "database//database.txt";
 
 struct Input {
 	int left;

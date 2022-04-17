@@ -349,7 +349,7 @@ public:
 	LTexture();
 	~LTexture();
 
-	enum {
+	enum COLOR {
 		RED_COLOR,
 		ORANGE_COLOR,
 		YELLOW_COLOR,

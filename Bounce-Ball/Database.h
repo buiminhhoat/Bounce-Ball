@@ -9,16 +9,34 @@ class Database {
 public:
 	Database();
 	~Database();
-	void importDatabase(const string& importDatabase);
+	void importDatabase();
 	InfoPlayer getDatabaseUsername(const string& username);
 	void updateDatabaseUsername(InfoPlayer info);
-	void exportDatabase(const string& exportDatabase);
-	pair <string, bool> createAccount(InfoPlayer info);
+	void exportDatabase();
+	pair <string, bool> registerAccount(InfoPlayer info);
 	void sortAllDataInfoPlayer();
 	std::vector<InfoPlayer> getDataInfoPlayer() {
 		return dataInfoPlayer;
 	}
+
+	void setAddressFileImportDatabase(string addressFileImportDatabase) {
+		this->addressFileImportDatabase = addressFileImportDatabase;
+	}
+
+	string getAddressFileImportDatabase() {
+		return this->addressFileImportDatabase;
+	}
+
+	void setAddressFileExportDatabase(string addressFileExportDatabase) {
+		this->addressFileExportDatabase = addressFileExportDatabase;
+	}
+
+	string getAddressFileExportDatabase() {
+		return this->addressFileExportDatabase;
+	}
 private:
 	std::vector<InfoPlayer> dataInfoPlayer;
+	string addressFileImportDatabase;
+	string addressFileExportDatabase;
 };
 #endif // !__DATABASE__

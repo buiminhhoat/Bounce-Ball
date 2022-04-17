@@ -5,16 +5,17 @@
 using namespace std;
 
 Database::Database() {
-
+    dataInfoPlayer.clear();
+    addressFileImportDatabase = "";
 }
 
 Database::~Database() {
 
 }
 
-void Database::importDatabase(const string& importDatabase) {
+void Database::importDatabase() {
     dataInfoPlayer.clear();
-    ifstream input(importDatabase);
+    ifstream input(addressFileImportDatabase);
     string dataLine;
     int lines = 0;
 
@@ -58,8 +59,8 @@ void Database::updateDatabaseUsername(InfoPlayer updateInfo) {
     }
 }
 
-void Database::exportDatabase(const string& exportDatabase) {
-    ofstream output(exportDatabase);
+void Database::exportDatabase() {
+    ofstream output(addressFileExportDatabase);
     for (int i = 0; i < dataInfoPlayer.size(); ++i) {
         output << dataInfoPlayer[i].getUsername() << ' ' << dataInfoPlayer[i].getPassword()
             << ' ' << dataInfoPlayer[i].getYourHighScore() << ' ';
@@ -70,22 +71,31 @@ void Database::exportDatabase(const string& exportDatabase) {
     output.close();
 }
 
-pair <string, bool> Database::createAccount(InfoPlayer info) {
+pair <string, bool> Database::registerAccount(InfoPlayer info) {
     string username = info.getUsername();
+    if (username == "username") {
+        return { "Ten tai khoan khong hop le", false };
+    }
+
+    if (username.size() > 15) {
+        return { "Ten tai khoan khong qua 15 ky tu", false };
+    }
     if (username.find(" ", 0) >= 0
         && username.find(" ", 0) < username.size()) {
         return { "Ten tai khoan co dau cach", false };
     }
     InfoPlayer tempData = getDatabaseUsername(username);
     if (tempData.getUsername() == username) {
-        return { "Tai khoan da ton tai", false };
+        return { "Ten tai khoan da ton tai", false };
     }
     dataInfoPlayer.push_back(info);
-    return { "Tao tai khoan thanh cong", true };
+    exportDatabase();
+    importDatabase();
+    return { "Dang ky tai khoan thanh cong", true };
 }
 
-bool cmp(InfoPlayer A, InfoPlayer B) {
-    return A.getYourHighScore() > B.getYourHighScore();
+bool cmp(InfoPlayer infoPlayer1, InfoPlayer infoPlayer2) {
+    return infoPlayer1.getYourHighScore() > infoPlayer2.getYourHighScore();
 }
 
 void Database::sortAllDataInfoPlayer() {

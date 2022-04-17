@@ -22,13 +22,16 @@ public:
 		PASSWORD = 2,
 	};
 
-	enum showDisplay {
+	enum typeDisplay {
 		MENU = 0,
 		PLAY = 1,
 		LEADERBOARD = 2,
 		LOGIN = 3,
-		HIDE_LOGIN = 4, 
-		RE_MENU = 5,
+		LOGOUT = 4,
+		HOW_TO_PLAY = 5,
+		SETTINGS = 6,
+		RE_MENU = 7,
+		REGISTER = 8,
 	};
 
 	enum typeLevel {
@@ -49,8 +52,11 @@ public:
 	bool checkInfoLogin(string username, string password, InfoPlayer* infoPlayer);
 	void displayLogin();
 	void setDisplay(int display) { this->display = display; }
+	void displayLogout();
+	void displayRegister();
+	bool notificationStatusRegister(string usernameText, string passwordText);
 private:
-	int display = 0;
+	int display = typeDisplay::MENU;
 	Database databaseGame;
 };
 #endif
