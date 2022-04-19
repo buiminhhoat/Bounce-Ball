@@ -34,6 +34,11 @@ public:
 		REGISTER = 8,
 	};
 
+	enum typeSound {
+		OFF = 0,
+		ON = 1,
+	};
+
 	enum typeLevel {
 		GAME_OVER = 0,
 		NEXT_LEVEL = 1,
@@ -54,9 +59,11 @@ public:
 	void setDisplay(int display) { this->display = display; }
 	void displayLogout();
 	void displayRegister();
+	void displaySettings();
 	bool notificationStatusRegister(string usernameText, string passwordText);
 private:
 	int display = typeDisplay::MENU;
+	int sound = typeSound::ON;
 	Database databaseGame;
 };
 #endif

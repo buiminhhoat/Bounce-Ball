@@ -474,6 +474,8 @@ public:
 	int getYourHighScore() { return this->yourHighScore; };
 	void setUnlockLevel(int level, int value) { unlockLevel[level] = value; };
 	int getUnlockLevel(int level) { return unlockLevel[level]; };
+	void setSound(int sound) { this->sound = sound; };
+	int getSound() { return this->sound; };
 private:
 	string username;
 	string password;
@@ -482,6 +484,7 @@ private:
 	int level;
 	int yourHighScore;
 	int unlockLevel[55];
+	int sound;
 };
 
 #endif

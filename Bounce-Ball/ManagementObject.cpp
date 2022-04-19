@@ -14,6 +14,8 @@
 
 #include "ManagementObject.h"
 
+#include "BounceBall.h"
+
 using namespace std;
 
 ManagementObject::ManagementObject() {
@@ -146,7 +148,9 @@ void ManagementObject::checkIntersectThreatsObject(SDL_Renderer* screen) {
         CircleObject circlePlayer = { cxPlayer, cyPlayer, rPlayer };
         if (checkIntersectBallVsObject(circlePlayer, rect_threat)) {
             isIntersectBallVsThreats = 1;
-            Mix_PlayChannel(-1, ballPop, 0);
+            if (infoPlayer->getSound() == BounceBall::typeSound::ON) {
+                Mix_PlayChannel(-1, ballPop, 0);
+            }
         }
     }
 }
@@ -204,8 +208,10 @@ void ManagementObject::checkIntersectRingsObject(SDL_Renderer* screen) {
         CircleObject circlePlayer = { cxPlayer, cyPlayer, rPlayer };
         if (checkIntersectBallVsObject(circlePlayer, rect_ring)
             && ringObject->getIsCatched() == 0) {
-            if (rand() % 2) Mix_PlayChannel(-1, intersectObject1, 0);
-            else Mix_PlayChannel(-1, intersectObject2, 0);
+            if (infoPlayer->getSound() == BounceBall::typeSound::ON) {
+                if (rand() % 2) Mix_PlayChannel(-1, intersectObject1, 0);
+                else Mix_PlayChannel(-1, intersectObject2, 0);
+            }
 
             isIntersectBallVsRing = 1;
             score->increaseScore(ringObject->getScoreRing());
@@ -266,8 +272,10 @@ void ManagementObject::checkIntersectCheckpointObject(SDL_Renderer* screen) {
         if (checkIntersectBallVsObject(circlePlayer, rect_checkpoint)
             && checkpointObject->getIsCatched() == 0) {
             isIntersectBallVsRing = 1;
-            if (rand() % 2) Mix_PlayChannel(-1, intersectObject1, 0);
-            else Mix_PlayChannel(-1, intersectObject2, 0);
+            if (infoPlayer->getSound() == BounceBall::typeSound::ON) {
+                if (rand() % 2) Mix_PlayChannel(-1, intersectObject1, 0);
+                else Mix_PlayChannel(-1, intersectObject2, 0);
+            }
             score->increaseScore(checkpointObject->getScoreRing());
             checkpointObject->setScoreRing(0);
                 
@@ -325,8 +333,10 @@ void ManagementObject::checkIntersectLifeObject(SDL_Renderer* screen) {
 
         if (checkIntersectBallVsObject(circlePlayer, rect_checkpoint)
             && lifeObject->getIsCatched() == 0) {
-            if (rand() % 2) Mix_PlayChannel(-1, intersectObject1, 0);
-            else Mix_PlayChannel(-1, intersectObject2, 0);
+            if (infoPlayer->getSound() == BounceBall::typeSound::ON) {
+                if (rand() % 2) Mix_PlayChannel(-1, intersectObject1, 0);
+                else Mix_PlayChannel(-1, intersectObject2, 0);
+            }
             isIntersectBallVsRing = 1;
             score->increaseScore(lifeObject->getScoreLife());
             life->increaseLife(1);

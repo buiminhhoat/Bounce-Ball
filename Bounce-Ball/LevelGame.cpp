@@ -118,6 +118,15 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
     mapData = gamemap.getMap();
 
     bool isQuit = false;
+    
+    ButtonObject* backButton = new ButtonObject;
+    backButton->loadImage("img//button//back_button.png", screen);
+    backButton->setClips();
+    backButton->setXPos(0);
+    backButton->setYPos(SCREEN_HEIGHT - backButton->getRect().h);
+    backButton->setRectPos(backButton->getXPos(), backButton->getYPos());
+    backButton->render(screen);
+
     while (!isQuit) {
         fpsTimer.start();
         while (SDL_PollEvent(&event) != 0) {
@@ -193,6 +202,7 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
         
         showLife(lifeText, life, screen);
 
+        backButton->render(screen);
         SDL_RenderPresent(screen);
 
         int realTime = fpsTimer.getTicks();
