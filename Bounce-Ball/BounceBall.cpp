@@ -917,7 +917,9 @@ void BounceBall::displaySettings() {
     backButton->setYPos(restoreButton->getRect().y + restoreButton->getRect().h + 20);
     backButton->setRectPos(backButton->getXPos(), backButton->getYPos());
 
-    SDL_RenderPresent(gScreen);    bool quit = false;    while (!quit) {
+    SDL_RenderPresent(gScreen);
+    bool quit = false;
+    while (!quit) {
         MouseEvents* mouse = new MouseEvents;
         mouse->mouseHandleEvent();
         bool selectSoundOnButton = bool(mouse->checkMouseInButton(soundOnButton));
@@ -958,7 +960,8 @@ void BounceBall::displaySettings() {
         restoreButton->render(gScreen);
         backButton->render(gScreen);
         SDL_RenderPresent(gScreen);
-    }}
+    }
+}
 
 bool BounceBall::initSDL() {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
