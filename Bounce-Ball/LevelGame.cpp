@@ -12,6 +12,7 @@
 #include "LevelGame.h"
 #include "ManagementObject.h"
 #include "Cryptosystem.h"
+#include "Utils.h"
 
 using namespace std;
 
@@ -85,6 +86,7 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
     LTexture yourHighScoreText;
     LTexture lifeText;
     LTexture remainRingText;
+    MouseEvents* mouse = new MouseEvents;
 
     score.setScore(infoPlayer->getScore());
     score.setYourHighScore(infoPlayer->getYourHighScore());
@@ -129,8 +131,11 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
 
     while (!isQuit) {
         fpsTimer.start();
+        mouse->mouseHandleEvent();
+        bool selectBackButton = bool(mouse->checkMouseInButton(backButton));
         while (SDL_PollEvent(&event) != 0) {
-            if (event.type == SDL_QUIT) {
+            if (event.type == SDL_QUIT 
+                || (event.type == SDL_MOUSEBUTTONDOWN && selectBackButton)) {
                 isQuit = true;
                 return BounceBall::typeLevel::QUIT_GAME;
             }

@@ -45,8 +45,7 @@ const int MAX_LEVEL = 50;
 
 /* DATABASE */
 
-const string ADDRESS_IMPORT_DATABASE = "database//database.txt";
-const string ADDRESS_EXPORT_DATABASE = "database//database.txt";
+const string ADDRESS_DATABASE = "database//database.txt";
 
 struct Input {
 	int left;

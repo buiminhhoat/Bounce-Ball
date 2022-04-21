@@ -9,6 +9,8 @@ class Database {
 public:
 	Database();
 	~Database();
+	void encodeDatabase();
+	void decodeDatabase();
 	void importDatabase();
 	InfoPlayer getDatabaseUsername(const string& username);
 	void updateDatabaseUsername(InfoPlayer info);
@@ -19,24 +21,23 @@ public:
 		return dataInfoPlayer;
 	}
 
-	void setAddressFileImportDatabase(string addressFileImportDatabase) {
-		this->addressFileImportDatabase = addressFileImportDatabase;
+	void setAddressFileImportDatabase(string addressFileDatabase) {
+		this->addressFileDatabase = addressFileDatabase;
 	}
 
 	string getAddressFileImportDatabase() {
-		return this->addressFileImportDatabase;
+		return this->addressFileDatabase;
 	}
 
-	void setAddressFileExportDatabase(string addressFileExportDatabase) {
-		this->addressFileExportDatabase = addressFileExportDatabase;
+	void setAddressFileExportDatabase(string addressFileDatabase) {
+		this->addressFileDatabase = addressFileDatabase;
 	}
 
 	string getAddressFileExportDatabase() {
-		return this->addressFileExportDatabase;
+		return this->addressFileDatabase;
 	}
 private:
 	std::vector<InfoPlayer> dataInfoPlayer;
-	string addressFileImportDatabase;
-	string addressFileExportDatabase;
+	string addressFileDatabase;
 };
 #endif // !__DATABASE__

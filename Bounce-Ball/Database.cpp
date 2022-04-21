@@ -1,21 +1,54 @@
 #include "Database.h"
 #include "GameComponents.h"
-#include <algorithm>
+#include "Cryptosystem.h"
 
 using namespace std;
 
 Database::Database() {
     dataInfoPlayer.clear();
-    addressFileImportDatabase = "";
+    addressFileDatabase = "";
 }
 
 Database::~Database() {
 
 }
 
+void Database::encodeDatabase() {
+    ifstream input(addressFileDatabase);
+    string dataLine;
+    vector <string> data;
+    while (getline(input, dataLine)) {
+        data.push_back(dataLine);
+    }
+    input.close();
+    ofstream output(addressFileDatabase);
+    Cryptosystem crypto;
+    for (auto& dataLine : data) {
+        output << crypto.base64_encode(dataLine) << '\n';
+    }
+    output.close();
+}
+
+void Database::decodeDatabase() {
+    ifstream input(addressFileDatabase);
+    string dataLine;
+    vector <string> data;
+    while (getline(input, dataLine)) {
+        data.push_back(dataLine);
+    }
+    input.close();
+    ofstream output(addressFileDatabase);
+    Cryptosystem crypto;
+    for (auto& dataLine : data) {
+        output << crypto.base64_decode(dataLine) << '\n';
+    }
+    output.close();
+}
+
 void Database::importDatabase() {
+    decodeDatabase();
     dataInfoPlayer.clear();
-    ifstream input(addressFileImportDatabase);
+    ifstream input(addressFileDatabase);
     string dataLine;
     int lines = 0;
 
@@ -30,7 +63,7 @@ void Database::importDatabase() {
         info.setUsername(username);
         info.setPassword(password);
         info.setYourHighScore(highScore);
-        for (int level = 1; level <= 50; ++level) {
+        for (int level = 1; level <= MAX_LEVEL; ++level) {
             int unlockLevel;
             input >> unlockLevel;
             info.setUnlockLevel(level, unlockLevel);
@@ -39,6 +72,7 @@ void Database::importDatabase() {
         dataInfoPlayer.push_back(info);
     }
     input.close();
+    encodeDatabase();
 }
 
 InfoPlayer Database::getDatabaseUsername(const string& username) {
@@ -60,15 +94,16 @@ void Database::updateDatabaseUsername(InfoPlayer updateInfo) {
 }
 
 void Database::exportDatabase() {
-    ofstream output(addressFileExportDatabase);
+    ofstream output(addressFileDatabase);
     for (int i = 0; i < dataInfoPlayer.size(); ++i) {
         output << dataInfoPlayer[i].getUsername() << ' ' << dataInfoPlayer[i].getPassword()
             << ' ' << dataInfoPlayer[i].getYourHighScore() << ' ';
-        for (int level = 1; level <= 50; ++level)
+        for (int level = 1; level <= MAX_LEVEL; ++level)
             output << dataInfoPlayer[i].getUnlockLevel(level) << ' ';
         output << '\n';
     }
     output.close();
+    encodeDatabase();
 }
 
 pair <string, bool> Database::registerAccount(InfoPlayer info) {

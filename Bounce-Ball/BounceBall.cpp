@@ -29,8 +29,8 @@ BounceBall::~BounceBall() {
 InfoPlayer* infoPlayer = new InfoPlayer;
 
 int BounceBall::startGame() {
-    databaseGame.setAddressFileImportDatabase(ADDRESS_IMPORT_DATABASE);
-    databaseGame.setAddressFileExportDatabase(ADDRESS_EXPORT_DATABASE);
+    databaseGame.setAddressFileImportDatabase(ADDRESS_DATABASE);
+    databaseGame.setAddressFileExportDatabase(ADDRESS_DATABASE);
     databaseGame.importDatabase();
     if (display == typeDisplay::MENU) {
         if (!initSDL())
