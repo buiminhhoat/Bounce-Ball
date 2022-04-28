@@ -94,6 +94,10 @@ void MainObject::inputAction(SDL_Event events, SDL_Renderer* screen) {
 				inputType.right = 0;
 			}
 			break;
+			case SDLK_SPACE: {
+				inputType.jump = 1;
+			}
+			break;
 		}
 	}
 	else if (events.type == SDL_KEYUP) {
@@ -106,16 +110,15 @@ void MainObject::inputAction(SDL_Event events, SDL_Renderer* screen) {
 				inputType.left = 0;
 			}
 			break;
+			case SDLK_SPACE: {
+				inputType.jump = 0;
+			}
+			break;
 		}
 	}
 
-	if (events.key.keysym.sym == SDLK_SPACE) {
-		inputType.jump = 1;
-	}
-	//if (events.type == SDL_MOUSEBUTTONDOWN) {
-	//	if (events.button.button == SDL_BUTTON_RIGHT) {
-	//		inputType.jump = 1;
-	//	}
+	//if (events.key.keysym.sym == SDLK_SPACE) {
+	//	inputType.jump = 1;
 	//}
 }
 

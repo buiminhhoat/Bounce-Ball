@@ -42,11 +42,4 @@ public:
 private:
 	int number;
 };
-
-	
-	string base64_encode_pem(string const& s);
-	string base64_encode_mime(string const& s);
-
-	string base64_decode(string const& s, bool remove_linebreaks = false);
-	string base64_encode(unsigned char const*, size_t len, bool url = false);
 #endif // __CRYPTOSYSTEM__

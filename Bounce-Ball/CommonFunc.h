@@ -48,11 +48,11 @@ const int MAX_LEVEL = 50;
 const string ADDRESS_DATABASE = "database//database.txt";
 
 struct Input {
-	int left;
-	int right;
-	int up;
-	int down;
-	int jump;
+	int left = 0;
+	int right = 0;
+	int up = 0;
+	int down = 0;
+	int jump = 0;
 };
 
 enum TypeBlock {

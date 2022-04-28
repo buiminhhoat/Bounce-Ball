@@ -1,4 +1,4 @@
-#include <vector>
+﻿#include <vector>
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -35,7 +35,7 @@ int BounceBall::startGame() {
     if (display == typeDisplay::MENU) {
         if (!initSDL())
                 return -1;
-        //displayLogo();
+        displayLogo();
     }
 
     BaseObject backGround;
@@ -45,7 +45,6 @@ int BounceBall::startGame() {
     BaseObject logo;
     logo.loadImage("img//logo//logo_small.png", gScreen);
     logo.setRectSize(210, 159);
-    //logo.setRectSize(192, 145);
     logo.setRectPos((SCREEN_WIDTH - logo.getRect().w) / 2, 5);
     logo.render(gScreen);
     logo.cleanUp();
@@ -101,7 +100,6 @@ int BounceBall::startGame() {
     MouseEvents* mouse = new MouseEvents;
 
     display = typeDisplay::MENU;
-    cerr << sound << '\n';
     while (!quit) {
         while (SDL_PollEvent(&gEvent)) {
             if (gEvent.type == SDL_QUIT) {
@@ -177,7 +175,6 @@ void BounceBall::displayLogo() {
     backGround.loadImage("img//background//background.jpg", gScreen);
     backGround.render(gScreen);
     backGround.cleanUp();
-
     BaseObject logo; 
     logo.loadImage("img//logo//logo.png", gScreen);
     logo.setRectSize(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -203,7 +200,7 @@ void BounceBall::displayPlay() {
     }
 
     int level = 0;
-    ButtonObject selectLevelButton[6][11];
+    
 
     BaseObject logo;
     logo.loadImage("img//logo//logo_small.png", gScreen);
@@ -221,8 +218,12 @@ void BounceBall::displayPlay() {
     backButton->render(gScreen);
 
     const int UPPER_BOUNDARY = 100;
-    for (int i = 1; i <= 5; ++i) {
-        for (int j = 1; j <= 10; ++j) {
+    const int MAX_ROW_SHOW = 5;
+    const int MAX_COL_SHOW = 10;
+    
+    ButtonObject selectLevelButton[MAX_ROW_SHOW + 1][MAX_COL_SHOW + 1];
+    for (int i = 1; i <= MAX_ROW_SHOW; ++i) {
+        for (int j = 1; j <= MAX_COL_SHOW; ++j) {
             ++level;
             if (infoPlayer->getUnlockLevel(level)) {
                 selectLevelButton[i][j].loadImage("img//level//select_level.png", gScreen);
@@ -258,8 +259,8 @@ void BounceBall::displayPlay() {
                 break;
             }
             int level = 0;
-            for (int i = 1; i <= 5; ++i) {
-                for (int j = 1; j <= 10; ++j) {
+            for (int i = 1; i <= MAX_ROW_SHOW; ++i) {
+                for (int j = 1; j <= MAX_COL_SHOW; ++j) {
                     if (selectLevelButton[i][j].getIsUnlock() == 0) continue;
                     mouse->mouseHandleEvent();
                     bool typeLeaderboardButton = bool(mouse->checkMouseInButton(&selectLevelButton[i][j]));
@@ -481,14 +482,14 @@ void BounceBall::displayLogin() {
                     if (checkInfoLogin(usernameText, passwordText, infoPlayer)) {
                         display = typeDisplay::RE_MENU;
                         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
+                            "Bounce Ball",
                             "Login successfully",
-                            "Dang nhap thanh cong",
                             NULL);
                         return;
                     }
                     else {
                         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
-                            "Failed to Login",
+                            "Bounce Ball",
                             "Wrong account or password",
                             NULL);
                     }
@@ -554,14 +555,14 @@ void BounceBall::displayLogin() {
                     if (checkInfoLogin(usernameText, passwordText, infoPlayer)) {
                         display = typeDisplay::RE_MENU;
                         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
+                            "Bounce Ball",
                             "Login successfully",
-                            "Dang nhap thanh cong",
                             NULL);
                         return;
                     }
                     else {
                         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
-                            "Failed to Login",
+                            "Bounce Ball",
                             "Wrong account or password",
                             NULL);
                     }
@@ -917,6 +918,13 @@ void BounceBall::displaySettings() {
     backButton->setYPos(restoreButton->getRect().y + restoreButton->getRect().h + 20);
     backButton->setRectPos(backButton->getXPos(), backButton->getYPos());
 
+    ButtonObject* exitButton = new ButtonObject;
+    exitButton->loadImage("img//settingsBoard//settingsBoard_exitButton.png", gScreen);
+    exitButton->setClips();
+    exitButton->setXPos(boardSettings.getRect().x + boardSettings.getRect().w - exitButton->getRect().w);
+    exitButton->setYPos(boardSettings.getRect().y);
+    exitButton->setRectPos(exitButton->getXPos(), exitButton->getYPos());
+
     SDL_RenderPresent(gScreen);
     bool quit = false;
     while (!quit) {
@@ -927,9 +935,11 @@ void BounceBall::displaySettings() {
         bool selectBackButton = bool(mouse->checkMouseInButton(backButton));
         bool selectSaveButton = bool(mouse->checkMouseInButton(saveButton));
         bool selectRestoreButton = bool(mouse->checkMouseInButton(restoreButton));
+        bool selectExitButton = bool(mouse->checkMouseInButton(exitButton));
         while (SDL_PollEvent(&gEvent) != 0) {
             if (gEvent.type == SDL_QUIT) exit(0);
-            if ((gEvent.type == SDL_MOUSEBUTTONDOWN && selectBackButton)) {
+            if ((gEvent.type == SDL_MOUSEBUTTONDOWN 
+                    && (selectBackButton || selectExitButton))) {
                 quit = true;
                 display = typeDisplay::RE_MENU;
                 return;
@@ -959,6 +969,7 @@ void BounceBall::displaySettings() {
         saveButton->render(gScreen);
         restoreButton->render(gScreen);
         backButton->render(gScreen);
+        exitButton->render(gScreen);
         SDL_RenderPresent(gScreen);
     }
 }

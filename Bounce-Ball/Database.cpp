@@ -38,11 +38,14 @@ void Database::decodeDatabase() {
     }
     input.close();
     ofstream output(addressFileDatabase);
+    //ofstream showData("database//showDatabase.txt");
     Cryptosystem crypto;
     for (auto& dataLine : data) {
         output << crypto.base64_decode(dataLine) << '\n';
+        //showData << crypto.base64_decode(dataLine) << '\n';
     }
     output.close();
+    //showData.close();
 }
 
 void Database::importDatabase() {

@@ -7,7 +7,7 @@
 using namespace std;
 
 class LifeObject : public BaseObject {
-	#define ORIGINAL_LIFE 10000
+	#define ORIGINAL_LIFE 5
 	#define LIFE_FRAME_NUM 1 
 	#define SCORE_LIFE 50
 public:
