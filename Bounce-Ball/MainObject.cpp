@@ -29,7 +29,6 @@ MainObject::MainObject() {
 	onGround = false;
 	mapX = 0;
 	mapY = 0;
-	comeBackTime = 0;
 	idCheckpoint = -1;
 }
 
@@ -69,14 +68,12 @@ void MainObject::showImage(SDL_Renderer* des) {
 		frame = 0;
 	}
 
-	if (comeBackTime == 0) {
-		rect.x = xPos - mapX;
-		rect.y = yPos - mapY;
+	rect.x = xPos - mapX;
+	rect.y = yPos - mapY;
 
-		SDL_Rect renderQuad = { rect.x, rect.y, widthFrame, heightFrame };
+	SDL_Rect renderQuad = { rect.x, rect.y, widthFrame, heightFrame };
 
-		SDL_RenderCopy(des, object, &frameClip[frame], &renderQuad);
-	}
+	SDL_RenderCopy(des, object, &frameClip[frame], &renderQuad);
 }
 
 void MainObject::inputAction(SDL_Event events, SDL_Renderer* screen) {
@@ -116,54 +113,31 @@ void MainObject::inputAction(SDL_Event events, SDL_Renderer* screen) {
 			break;
 		}
 	}
-
-	//if (events.key.keysym.sym == SDLK_SPACE) {
-	//	inputType.jump = 1;
-	//}
 }
 
 void MainObject::doPlayer(Map *mapData) {
-	if (comeBackTime == 0) {
-		xVal = 0;
-		yVal += GRAVITY_SPEED;
-		if (yVal >= MAX_FALL_SPEED) {
-			yVal = MAX_FALL_SPEED;
-		}
-
-		if (inputType.left == 1) {
-			xVal -= PLAYER_SPEED;
-		}
-		else if (inputType.right == 1) {
-			xVal += PLAYER_SPEED;
-		}
-
-		if (inputType.jump == 1) {
-			if (onGround == true) {
-				yVal = -PLAYER_JUMP;
-			}
-			onGround = false;
-			inputType.jump = 0;
-		}
-		checkPlayerVsMap(mapData);
-		centerEntityOnMap(mapData);
+	xVal = 0;
+	yVal += GRAVITY_SPEED;
+	if (yVal >= MAX_FALL_SPEED) {
+		yVal = MAX_FALL_SPEED;
 	}
 
-	if (comeBackTime > 0) {
-		--comeBackTime;
-		if (comeBackTime == 0) {
-			onGround = false;
-			if (xPos > DRAW_BACK) {
-				xPos -= DRAW_BACK; // 4 tiles
-				mapX -= DRAW_BACK;
-			}
-			else {
-				xPos = 0;
-			}
-			yPos = 0;
-			xVal = 0;
-			yVal = 0;
-		}
+	if (inputType.left == 1) {
+		xVal -= PLAYER_SPEED;
 	}
+	else if (inputType.right == 1) {
+		xVal += PLAYER_SPEED;
+	}
+
+	if (inputType.jump == 1) {
+		if (onGround == true) {
+			yVal = -PLAYER_JUMP;
+		}
+		onGround = false;
+		inputType.jump = 0;
+	}
+	checkPlayerVsMap(mapData);
+	centerEntityOnMap(mapData);
 }
 
 void MainObject::centerEntityOnMap(Map *mapData) {
@@ -335,8 +309,5 @@ void MainObject::checkPlayerVsMap(Map* mapData) {
 
 	if (yPos < 0) {
 		yPos = 0;
-	}
-	if (yPos > mapData->maxY) {
-		comeBackTime = 10;
 	}
 }

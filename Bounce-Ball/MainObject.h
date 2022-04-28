@@ -76,7 +76,6 @@ private:
 	int mapY;
 
 	int idCheckpoint;
-	int comeBackTime;
 };
 #endif
 #pragma once

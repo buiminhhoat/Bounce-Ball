@@ -381,6 +381,8 @@ public:
 	float getWidth() { return this->width; };
 	float getHeight() { return this->height; };
 
+	void setWidth(float width) { this->width = width; };
+	void setHeight(float height) { this->height = height; };
 	void setText(const std::string& textVal) { this->textVal = textVal; };
 	std::string getText() const { return this->textVal; };
 

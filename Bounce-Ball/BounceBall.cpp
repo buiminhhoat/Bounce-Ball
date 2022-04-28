@@ -394,6 +394,12 @@ void BounceBall::displayLogin() {
     backGround.loadImage("img//background//background.jpg", gScreen);
     backGround.render(gScreen);
 
+    BaseObject boardLogin;
+    boardLogin.loadImage("img//login//boardLogin.png", gScreen);
+    boardLogin.setRectPos((SCREEN_WIDTH - boardLogin.getRect().w) / 2,
+        (SCREEN_HEIGHT - boardLogin.getRect().h) / 2);
+    boardLogin.render(gScreen);
+
     TTF_Font* fontGame;
     if (TTF_Init() == -1) return;
     fontGame = TTF_OpenFont("font//no_continue.ttf", 30);
@@ -445,10 +451,10 @@ void BounceBall::displayLogin() {
     passwordTextTexture.setPosX(passwordButton->getXPos() + 20);
     passwordTextTexture.setPosY(passwordButton->getYPos() + 15);
 
-    //string usernameText = "username"; 
-    //string passwordText = "password";    
-    string usernameText = "buiminhhoat"; 
-    string passwordText = "buiminhhoat";
+    string usernameText = "username"; 
+    string passwordText = "password";    
+    //string usernameText = "buiminhhoat"; 
+    //string passwordText = "buiminhhoat";
 
     gInputTextTexture = &usernameTextTexture;
 
@@ -463,6 +469,8 @@ void BounceBall::displayLogin() {
     flickerTimer.start();
     SDL_StartTextInput();
     bool quit = false;
+    bool deletedAccount = false;
+    bool deletedPassword = false;
     while (!quit) {
         fpsTimer.start();
         MouseEvents* mouse = new MouseEvents;
@@ -523,15 +531,17 @@ void BounceBall::displayLogin() {
                     *inputText = "";
                 }
                 else if (*inputText == "") {
-                    if (selectText == selectInput::ACCOUNT) {
+                    if (selectText == selectInput::ACCOUNT && deletedAccount == false) {
                         *inputText = "username";
                     }
-                    else {
+                    else if (selectText == selectInput::PASSWORD && deletedPassword == false) {
                         *inputText = "password";
                     }
                 }
-                if (gEvent.key.keysym.sym == SDLK_BACKSPACE &&  (* inputText).size() > 0) {
-                    (* inputText).pop_back();
+                if (gEvent.key.keysym.sym == SDLK_BACKSPACE) {
+                    if ((*inputText).size() > 0) (* inputText).pop_back();
+                    if (inputText == &usernameText) deletedAccount = true;
+                    else deletedPassword = true;
                 }
                 else if (gEvent.key.keysym.sym == SDLK_c && SDL_GetModState() & KMOD_CTRL) {
                     SDL_SetClipboardText((* inputText).c_str());
@@ -581,28 +591,42 @@ void BounceBall::displayLogin() {
         SDL_RenderClear(gScreen);
 
         backGround.render(gScreen, NULL);
+        boardLogin.render(gScreen, NULL);
         usernameButton->render(gScreen, NULL);
         passwordButton->render(gScreen, NULL);
         loginButton->render(gScreen, NULL);
         backButton->render(gScreen, NULL);
     
-        if (usernameText == "") usernameText = "username";
-        if (passwordText == "") passwordText = "password";
+        if (usernameText == "" && deletedAccount == false) usernameText = "username";
+        if (passwordText == "" && deletedPassword == false) passwordText = "password";
         string showUsername = "";
         for (int i = max(0, (int) usernameText.size() - 15); i < usernameText.size(); ++i) {
             showUsername += usernameText[i];
         }
-        usernameTextTexture.setText(showUsername);
-        usernameTextTexture.loadFromRenderText(fontGame, gScreen);
-        usernameTextTexture.showText(gScreen, usernameTextTexture.getPosX(), usernameTextTexture.getPosY());
+        if (showUsername.size() > 0) {
+            usernameTextTexture.setText(showUsername);
+            usernameTextTexture.loadFromRenderText(fontGame, gScreen);
+            usernameTextTexture.showText(gScreen, usernameTextTexture.getPosX(), usernameTextTexture.getPosY());
+        }
+        else {
+            gInputTextTexture->setPosX(boardLogin.getRect().x + 85);
+            gInputTextTexture->setWidth(0);
+        }
+        
 
         string encodePassword = "";
         for (int i = 0; i < min(15, passwordText.size()); ++i) encodePassword += "*";
         if (passwordText == "password") encodePassword = passwordText;
-        passwordTextTexture.setText(encodePassword);
-        passwordTextTexture.loadFromRenderText(fontGame, gScreen);
-        passwordTextTexture.showText(gScreen, passwordTextTexture.getPosX(), passwordTextTexture.getPosY());
-
+        if (encodePassword.size() > 0) {
+            passwordTextTexture.setText(encodePassword);
+            passwordTextTexture.loadFromRenderText(fontGame, gScreen);
+            passwordTextTexture.showText(gScreen, passwordTextTexture.getPosX(), passwordTextTexture.getPosY());
+        }
+        else {
+            gInputTextTexture->setPosX(boardLogin.getRect().x + 85);
+            gInputTextTexture->setWidth(0);
+        }
+        
         iteratorMouse.setRectPos(gInputTextTexture->getPosX()
                                 + gInputTextTexture->getWidth() + 2,
                                     gInputTextTexture->getPosY() + 4);
