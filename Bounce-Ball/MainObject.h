@@ -25,24 +25,10 @@ public:
 		WALK_LEFT = 1,
 	};
 
-	bool loadImage(std::string path, SDL_Renderer* screen);
-	void showImage(SDL_Renderer* des);
 	void inputAction(SDL_Event events, SDL_Renderer* screen);
-	void setClips();
 	void doPlayer(Map* mapData);
 	void checkPlayerVsMap(Map* mapdata);
-	void setMapXY(const int &map_x, const int &map_y) {this->mapX = map_x;this->mapY = map_y;}
 	void centerEntityOnMap(Map* mapData);
-	float getXPos() { return this->xPos; };
-	float getYPos() { return this->yPos; };
-
-
-	float getWidthFrame() { return this->widthFrame; };
-	float getHeightFrame() { return this->heightFrame; };
-	void setPos(const float & xPos, const float &yPos) {
-		this->xPos = xPos;
-		this->yPos = yPos;
-	}
 
 	void setPosCheckpoint(const float &xPosCheckpoint, const float &yPosCheckpoint) {
 		this->xPosCheckpoint = xPosCheckpoint;
@@ -55,27 +41,12 @@ public:
 	int getIdCheckpoint() { return this->idCheckpoint; };
 	void setIdCheckpoint(const int& idCheckpoint) { this->idCheckpoint = idCheckpoint; };
 private:
-	float xVal;
-	float yVal;
-
-	float xPos;
-	float yPos;
-
 	float xPosCheckpoint;
 	float yPosCheckpoint;
 
-	float widthFrame;
-	float heightFrame;
-
-	SDL_Rect frameClip[MAIN_FRAME_NUM];
 	Input inputType;
-	int frame;
 	int status;
 	int onGround;
-
-	int mapX;
-	int mapY;
-
 	int idCheckpoint;
 };
 #endif

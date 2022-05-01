@@ -1,17 +1,6 @@
 #include "GameComponents.h"
 
 LifeObject::LifeObject() {
-	widthFrame = 0;
-	heightFrame = 0;
-	xVal = 0.0;
-	yVal = 0.0;
-	xPos = 0.0;
-	yPos = 0.0;
-	onGround = false;
-	comeBackTime = 0;
-	frame = 0;
-	animationA = 0;
-	animationB = 0;
 	isCatched = 0;
 	scoreLife = 0;
 	isVertical = 0;
@@ -22,52 +11,7 @@ LifeObject::~LifeObject() {
 	cleanUp();
 }
 
-bool LifeObject::loadImage(std::string path, SDL_Renderer* screen) {
-	bool ret = BaseObject::loadImage(path, screen);
-	if (ret) {
-		widthFrame = rect.w / LIFE_FRAME_NUM;
-		heightFrame = rect.h;
-	}
-	return ret;
-}
-
-void LifeObject::setClips() {
-	if (widthFrame > 0 && heightFrame > 0) {
-		for (int i = 0; i < LIFE_FRAME_NUM; ++i) {
-			frameClip[i].x = i * widthFrame;
-			frameClip[i].y = 0;
-			frameClip[i].w = widthFrame;
-			frameClip[i].h = heightFrame;
-		}
-	}
-}
-
-void LifeObject::showImage(SDL_Renderer* des) {
-	if (comeBackTime == 0) {
-		rect.x = xPos - mapX;
-		rect.y = yPos - mapY;
-		++frame;
-		if (frame >= LIFE_FRAME_NUM) {
-			frame = 0;
-		}
-
-		SDL_Rect rendQuad = { rect.x, rect.y, widthFrame, heightFrame };
-		SDL_RenderCopy(des, object, &frameClip[frame], &rendQuad);
-	}
-}
-
 RingsObject::RingsObject() {
-	widthFrame = 0;
-	heightFrame = 0;
-	xVal = 0.0;
-	yVal = 0.0;
-	xPos = 0.0;
-	yPos = 0.0;
-	onGround = false;
-	comeBackTime = 0;
-	frame = 0;
-	animationA = 0;
-	animationB = 0;
 	isCatched = 0;
 	scoreRing = 0;
 	isVertical = 0;
@@ -75,40 +19,6 @@ RingsObject::RingsObject() {
 
 RingsObject::~RingsObject() {
 	cleanUp();
-}
-
-bool RingsObject::loadImage(std::string path, SDL_Renderer* screen) {
-	bool ret = BaseObject::loadImage(path, screen);
-	if (ret) {
-		widthFrame = rect.w / RINGS_FRAME_NUM;
-		heightFrame = rect.h;
-	}
-	return ret;
-}
-
-void RingsObject::setClips() {
-	if (widthFrame > 0 && heightFrame > 0) {
-		for (int i = 0; i < RINGS_FRAME_NUM; ++i) {
-			frameClip[i].x = i * widthFrame;
-			frameClip[i].y = 0;
-			frameClip[i].w = widthFrame;
-			frameClip[i].h = heightFrame;
-		}
-	}
-}
-
-void RingsObject::showImage(SDL_Renderer* des) {
-	if (comeBackTime == 0) {
-		rect.x = xPos - mapX;
-		rect.y = yPos - mapY;
-		++frame;
-		if (frame >= RINGS_FRAME_NUM) {
-			frame = 0;
-		}
-
-		SDL_Rect rendQuad = { rect.x, rect.y, widthFrame, heightFrame };
-		SDL_RenderCopy(des, object, &frameClip[frame], &rendQuad);
-	}
 }
 
 ScoreObject::ScoreObject() {
@@ -120,17 +30,6 @@ ScoreObject::~ScoreObject() {
 }
 
 EndpointObject::EndpointObject() {
-	widthFrame = 0;
-	heightFrame = 0;
-	xVal = 0.0;
-	yVal = 0.0;
-	xPos = 0.0;
-	yPos = 0.0;
-	onGround = false;
-	comeBackTime = 0;
-	frame = 0;
-	animationA = 0;
-	animationB = 0;
 	isOpened = 0;
 	scoreEndpoint = 0;
 }
@@ -139,49 +38,8 @@ EndpointObject::~EndpointObject() {
 	cleanUp();
 }
 
-bool EndpointObject::loadImage(std::string path, SDL_Renderer* screen) {
-	bool ret = BaseObject::loadImage(path, screen);
-	if (ret) {
-		widthFrame = rect.w / ENDPOINT_FRAME_NUM;
-		heightFrame = rect.h;
-	}
-	return ret;
-}
-
-void EndpointObject::setClips() {
-	if (widthFrame > 0 && heightFrame > 0) {
-		for (int i = 0; i < ENDPOINT_FRAME_NUM; ++i) {
-			frameClip[i].x = i * widthFrame;
-			frameClip[i].y = 0;
-			frameClip[i].w = widthFrame;
-			frameClip[i].h = heightFrame;
-		}
-	}
-}
-
-void EndpointObject::showImage(SDL_Renderer* des) {
-	if (comeBackTime == 0) {
-		rect.x = xPos - mapX;
-		rect.y = yPos - mapY;
-		++frame;
-		if (frame >= ENDPOINT_FRAME_NUM) {
-			frame = 0;
-		}
-
-		SDL_Rect rendQuad = { rect.x, rect.y, widthFrame, heightFrame };
-		SDL_RenderCopy(des, object, &frameClip[frame], &rendQuad);
-	}
-}
-
 ThreatsObject::ThreatsObject() {
-	widthFrame = 0;
-	heightFrame = 0;
-	xVal = 0.0;
-	yVal = 0.0;
-	xPos = 0.0;
-	yPos = 0.0;
 	onGround = false;
-	frame = 0;
 	animationA = 0;
 	animationB = 0;
 	inputType.left = 0;
@@ -190,38 +48,6 @@ ThreatsObject::ThreatsObject() {
 
 ThreatsObject::~ThreatsObject() {
 	cleanUp();
-}
-
-bool ThreatsObject::loadImage(std::string path, SDL_Renderer* screen) {
-	bool ret = BaseObject::loadImage(path, screen);
-	if (ret) {
-		widthFrame = rect.w / THREAT_FRAME_NUM;
-		heightFrame = rect.h;
-	}
-	return ret;
-}
-
-void ThreatsObject::setClips() {
-	if (widthFrame > 0 && heightFrame > 0) {
-		for (int i = 0; i < THREAT_FRAME_NUM; ++i) {
-			frameClip[i].x = i * widthFrame;
-			frameClip[i].y = 0;
-			frameClip[i].w = widthFrame;
-			frameClip[i].h = heightFrame;
-		}
-	}
-}
-
-void ThreatsObject::showImage(SDL_Renderer* des) {
-	rect.x = xPos - mapX;
-	rect.y = yPos - mapY;
-	++frame;
-	if (frame >= THREAT_FRAME_NUM) {
-		frame = 0;
-	}
-
-	SDL_Rect rendQuad = { rect.x, rect.y, widthFrame, heightFrame };
-	SDL_RenderCopy(des, object, &frameClip[frame], &rendQuad);
 }
 
 void ThreatsObject::doPlayer(Map* gMap) {
@@ -247,6 +73,9 @@ void ThreatsObject::checkToMap(Map* gMap) {
 
 	int y1 = 0;
 	int y2 = 0;
+
+	int heightFrame = getHeight();
+	int widthFrame = getWidth();
 
 	// Check horizontal
 	int height_min = heightFrame < TILE_SIZE ? heightFrame : TILE_SIZE;
@@ -343,14 +172,7 @@ void ThreatsObject::impMoveType(SDL_Renderer* screen) {
 }
 
 CheckpointObject::CheckpointObject() {
-	widthFrame = 0;
-	heightFrame = 0;
-	xVal = 0.0;
-	yVal = 0.0;
-	xPos = 0.0;
-	yPos = 0.0;
 	onGround = false;
-	frame = 0;
 	animationA = 0;
 	animationB = 0;
 	isCatched = 0;
@@ -360,38 +182,6 @@ CheckpointObject::CheckpointObject() {
 
 CheckpointObject::~CheckpointObject() {
 	cleanUp();
-}
-
-bool CheckpointObject::loadImage(std::string path, SDL_Renderer* screen) {
-	bool ret = BaseObject::loadImage(path, screen);
-	if (ret) {
-		widthFrame = rect.w / CHECKPOINT_FRAME_NUM;
-		heightFrame = rect.h;
-	}
-	return ret;
-}
-
-void CheckpointObject::setClips() {
-	if (widthFrame > 0 && heightFrame > 0) {
-		for (int i = 0; i < CHECKPOINT_FRAME_NUM; ++i) {
-			frameClip[i].x = i * widthFrame;
-			frameClip[i].y = 0;
-			frameClip[i].w = widthFrame;
-			frameClip[i].h = heightFrame;
-		}
-	}
-}
-
-void CheckpointObject::showImage(SDL_Renderer* des) {
-	rect.x = xPos - mapX;
-	rect.y = yPos - mapY;
-	++frame;
-	if (frame >= CHECKPOINT_FRAME_NUM) {
-		frame = 0;
-	}
-
-	SDL_Rect rendQuad = { rect.x, rect.y, widthFrame, heightFrame };
-	SDL_RenderCopy(des, object, &frameClip[frame], &rendQuad);
 }
 
 LTexture::LTexture() {
@@ -491,50 +281,11 @@ void LTexture::showText(SDL_Renderer* screen,
 }
 
 ButtonObject::ButtonObject() {
-	widthFrame = 0;
-	heightFrame = 0;
-	xVal = 0.0;
-	yVal = 0.0;
-	xPos = 0.0;
-	yPos = 0.0;
-	frame = 0;
 	isUnlock = 1;
 }
 
 ButtonObject::~ButtonObject() {
 	cleanUp();
-}
-
-bool ButtonObject::loadImage(std::string path, SDL_Renderer* screen) {
-	bool ret = BaseObject::loadImage(path, screen);
-	if (ret) {
-		widthFrame = rect.w / BUTTON_FRAME_NUM;
-		heightFrame = rect.h;
-	}
-	return ret;
-}
-
-void ButtonObject::setClips() {
-	if (widthFrame > 0 && heightFrame > 0) {
-		for (int i = 0; i < BUTTON_FRAME_NUM; ++i) {
-			frameClip[i].x = i * widthFrame;
-			frameClip[i].y = 0;
-			frameClip[i].w = widthFrame;
-			frameClip[i].h = heightFrame;
-		}
-	}
-}
-
-void ButtonObject::showImage(SDL_Renderer* des) {
-	rect.x = xPos - mapX;
-	rect.y = yPos - mapY;
-	++frame;
-	if (frame >= CHECKPOINT_FRAME_NUM) {
-		frame = 0;
-	}
-
-	SDL_Rect rendQuad = { rect.x, rect.y, widthFrame, heightFrame };
-	SDL_RenderCopy(des, object, &frameClip[frame], &rendQuad);
 }
 
 InfoPlayer::InfoPlayer() {
@@ -544,7 +295,7 @@ InfoPlayer::InfoPlayer() {
 	yourHighScore = 0;
 	level = 0;
 	life = ORIGINAL_LIFE;
-	for (int i = 0; i < 55; ++i) unlockLevel[i] = 0;
+	for (int i = 0; i < MAX_LEVEL + 5; ++i) unlockLevel[i] = 0;
 }
 
 InfoPlayer::~InfoPlayer() {

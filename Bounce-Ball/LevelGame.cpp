@@ -43,33 +43,31 @@ void showYourHighScore(LTexture yourHighScoreText, ScoreObject score, SDL_Render
 void showLife(LTexture lifeText, LifeObject life, SDL_Renderer* screen) {
     LifeObject* gbarLife = new LifeObject;
     gbarLife->loadImage("img//life//gbar_Life.png", screen);
-    gbarLife->setClips();
     gbarLife->setXPos(15);
     gbarLife->setYPos(5);
-    gbarLife->showImage(screen);
-    gbarLife->cleanUp();
+    gbarLife->render(screen);
     std::string strLife = " x " + std::to_string(life.getLife());
     lifeText.setText(strLife);
     lifeText.loadFromRenderText(fontGame, screen);
-    lifeText.showText(screen, 15 + gbarLife->getWidthFrame(), 5);
+    lifeText.showText(screen, 15 + gbarLife->getWidth(), 5);
+    gbarLife->cleanUp();
 }
 
 void showRemainRings(LTexture remainRingText, ManagementObject &object, SDL_Renderer* screen) {
     RingsObject* gbarRing = new RingsObject;
     gbarRing->loadImage("img//rings//gbar_Ring.png", screen);
-    gbarRing->setClips();
     gbarRing->setXPos(325);
     gbarRing->setYPos(5);
-    gbarRing->showImage(screen);
-    gbarRing->cleanUp();
+    gbarRing->render(screen);
     std::string strRing = " x " + std::to_string(object.getRemRings());
     remainRingText.setText(strRing);
     remainRingText.loadFromRenderText(fontGame, screen);
-    remainRingText.showText(screen, 325 + gbarRing->getWidthFrame(), 5);
+    remainRingText.showText(screen, 325 + gbarRing->getWidth(), 5);
     //object.setRemRings(0);
     if (object.getRemRings() == 0) {
         object.openAllEndpointObject(screen);
     }
+    gbarRing->cleanUp();
 }
 
 void showGameOver(SDL_Renderer* screen) {
@@ -90,42 +88,37 @@ void displaySettings(InfoPlayer *infoPlayer, SDL_Renderer* screen) {
     int setSound = infoPlayer->getSound();
     ButtonObject* soundOnButton = new ButtonObject;
     soundOnButton->loadImage("img//settingsBoard//settingsBoard_OnButton.png", screen);
-    soundOnButton->setClips();
     soundOnButton->setXPos(boardSettings.getRect().x + 235);
     soundOnButton->setYPos(boardSettings.getRect().y + 148);
     soundOnButton->setRectPos(soundOnButton->getXPos(), soundOnButton->getYPos());
 
     ButtonObject* soundOffButton = new ButtonObject;
     soundOffButton->loadImage("img//settingsBoard//settingsBoard_OffButton.png", screen);
-    soundOffButton->setClips();
     soundOffButton->setXPos(boardSettings.getRect().x + 235);
     soundOffButton->setYPos(boardSettings.getRect().y + 148);
     soundOffButton->setRectPos(soundOffButton->getXPos(), soundOffButton->getYPos());
 
     ButtonObject* saveButton = new ButtonObject;
     saveButton->loadImage("img//settingsBoard//settingsBoard_SaveButton.png", screen);
-    saveButton->setClips();
     saveButton->setXPos((SCREEN_WIDTH - saveButton->getRect().w) / 2);
     saveButton->setYPos(boardSettings.getRect().y + 210);
     saveButton->setRectPos(saveButton->getXPos(), saveButton->getYPos());
 
     ButtonObject* restoreButton = new ButtonObject;
     restoreButton->loadImage("img//settingsBoard//settingsBoard_RestoreButton.png", screen);
-    restoreButton->setClips();
     restoreButton->setXPos((SCREEN_WIDTH - saveButton->getRect().w) / 2);
     restoreButton->setYPos(saveButton->getRect().y + saveButton->getRect().h + 20);
     restoreButton->setRectPos(restoreButton->getXPos(), restoreButton->getYPos());
 
     ButtonObject* backButton = new ButtonObject;
     backButton->loadImage("img//settingsBoard//settingsBoard_BackButton.png", screen);
-    backButton->setClips();
+
     backButton->setXPos((SCREEN_WIDTH - saveButton->getRect().w) / 2);
     backButton->setYPos(restoreButton->getRect().y + restoreButton->getRect().h + 20);
     backButton->setRectPos(backButton->getXPos(), backButton->getYPos());
 
     ButtonObject* exitButton = new ButtonObject;
     exitButton->loadImage("img//settingsBoard//settingsBoard_exitButton.png", screen);
-    exitButton->setClips();
     exitButton->setXPos(boardSettings.getRect().x + boardSettings.getRect().w - exitButton->getRect().w);
     exitButton->setYPos(boardSettings.getRect().y);
     exitButton->setRectPos(exitButton->getXPos(), exitButton->getYPos());
@@ -163,11 +156,11 @@ void displaySettings(InfoPlayer *infoPlayer, SDL_Renderer* screen) {
             }
         }
 
-        boardSettings.render(screen, NULL);
+        boardSettings.render(screen);
         if (setSound == true)
-            soundOnButton->render(screen, NULL);
+            soundOnButton->render(screen);
         else
-            soundOffButton->render(screen, NULL);
+            soundOffButton->render(screen);
         saveButton->render(screen);
         restoreButton->render(screen);
         backButton->render(screen);
@@ -208,8 +201,7 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
     gamemap.loadIMGBlock(screen);
 
     player.loadImage("img//ball//ball.png", screen);
-    player.setClips();
-    player.setPos(gamemap.getStartXPlayer(), gamemap.getStartYPlayer());
+    player.setRectPos(gamemap.getStartXPlayer(), gamemap.getStartYPlayer());
 
     scoreText.setColor(LTexture::WHITE_COLOR);
     lifeText.setColor(LTexture::WHITE_COLOR);
@@ -227,7 +219,7 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
     
     ButtonObject* backButton = new ButtonObject;
     backButton->loadImage("img//button//back_button.png", screen);
-    backButton->setClips();
+
     backButton->setXPos(0);
     backButton->setYPos(SCREEN_HEIGHT - backButton->getRect().h);
     backButton->setRectPos(backButton->getXPos(), backButton->getYPos());
@@ -235,11 +227,11 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
 
     ButtonObject* settingsButton = new ButtonObject;
     settingsButton->loadImage("img//button//settings_button.png", screen);
-    settingsButton->setClips();
     settingsButton->setXPos(SCREEN_WIDTH - settingsButton->getRect().w);
     settingsButton->setYPos(SCREEN_HEIGHT - settingsButton->getRect().h);
     settingsButton->setRectPos(settingsButton->getXPos(), settingsButton->getYPos());
     settingsButton->render(screen);
+
     while (!isQuit) {
         fpsTimer.start();
         mouse.mouseHandleEvent();
@@ -264,11 +256,11 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
         SDL_SetRenderDrawColor(screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
         SDL_RenderClear(screen);
 
-        background.render(screen, NULL);
+        background.render(screen);
 
         player.setMapXY(mapData->startX, mapData->startY);
         player.doPlayer(mapData);
-        player.showImage(screen);
+        player.render(screen);
 
         gamemap.setMap(mapData);
         gamemap.drawMap(screen);
@@ -301,8 +293,7 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
 
         if (object.getIsIntersectBallVsThreats()) {
             player.loadImage("img//ball//ball_pop.png", screen);
-            player.setClips();
-            player.showImage(screen);
+            player.render(screen);
 
             life.increaseLife(-1);
 
@@ -323,9 +314,8 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
             SDL_Delay(1000);
             object.setIsIntersectBallVsThreats(0);
             player.loadImage("img//ball//ball.png", screen);
-            player.setClips();
-            player.showImage(screen);
-            player.setPos(player.getXPosCheckpoint(), player.getYPosCheckpoint());
+            player.render(screen);
+            player.setRectPos(player.getXPosCheckpoint(), player.getYPosCheckpoint());
             SDL_RenderPresent(screen);
         }
         

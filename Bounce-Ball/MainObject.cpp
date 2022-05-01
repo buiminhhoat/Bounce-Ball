@@ -13,13 +13,6 @@
 using namespace std;
 
 MainObject::MainObject() {
-	frame = 0;
-	xPos = 0;
-	yPos = 0;
-	xVal = 0;
-	yVal = 0;
-	widthFrame = 0;
-	heightFrame = 0;
 	status = -1;
 	inputType.up = 0;
 	inputType.down = 0;
@@ -34,46 +27,6 @@ MainObject::MainObject() {
 
 MainObject::~MainObject() {
 	cleanUp();
-}
-
-bool MainObject::loadImage(std::string path, SDL_Renderer* screen) {
-	bool ret = BaseObject::loadImage(path, screen);
-	if (ret == true) {
-		widthFrame = rect.w / TILE_LAYER;
-		heightFrame = rect.h;
-	}
-	return ret;
-}
-
-void MainObject::setClips() {
-	if (widthFrame > 0 && heightFrame > 0) {
-		for (int i = 0; i < TILE_LAYER; ++i) {
-			frameClip[i].x = i * widthFrame;
-			frameClip[i].y = 0;
-			frameClip[i].w = widthFrame;
-			frameClip[i].h = heightFrame;
-		}
-	}
-}
-
-void MainObject::showImage(SDL_Renderer* des) {
-	if (inputType.left == 1 || inputType.right == 1) {
-		++frame;
-	}
-	else {
-		frame = 0;
-	}
-
-	if (frame >= TILE_LAYER) {
-		frame = 0;
-	}
-
-	rect.x = xPos - mapX;
-	rect.y = yPos - mapY;
-
-	SDL_Rect renderQuad = { rect.x, rect.y, widthFrame, heightFrame };
-
-	SDL_RenderCopy(des, object, &frameClip[frame], &renderQuad);
 }
 
 void MainObject::inputAction(SDL_Event events, SDL_Renderer* screen) {
@@ -122,14 +75,14 @@ void MainObject::doPlayer(Map *mapData) {
 		yVal = MAX_FALL_SPEED;
 	}
 
-	if (inputType.left == 1) {
+	if (inputType.left == true) {
 		xVal -= PLAYER_SPEED;
 	}
-	else if (inputType.right == 1) {
+	else if (inputType.right == true) {
 		xVal += PLAYER_SPEED;
 	}
 
-	if (inputType.jump == 1) {
+	if (inputType.jump == true) {
 		if (onGround == true) {
 			yVal = -PLAYER_JUMP;
 		}
@@ -165,13 +118,16 @@ void MainObject::checkPlayerVsMap(Map* mapData) {
 	int y1 = 0;
 	int y2 = 0;
 	
+	int heightFrame = getHeight();
+	int widthFrame = getWidth();
+
 	int height_min = heightFrame < TILE_SIZE ? heightFrame : TILE_SIZE;
 
 	x1 = (xPos + xVal) / TILE_SIZE;
 	x2 = (xPos + xVal + widthFrame) / TILE_SIZE;
 
 	y1 = (yPos) / TILE_SIZE;
-	y2 = (yPos + heightFrame - 1) / TILE_SIZE;
+	y2 = (yPos + heightFrame - EPS_PIXELS_IMPACT) / TILE_SIZE;
 
 	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y) {
 		if (xVal > 0) {

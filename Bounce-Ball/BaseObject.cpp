@@ -1,6 +1,10 @@
 #include "BaseObject.h"
 
 BaseObject::BaseObject() {
+    xVal = 0.0;
+    yVal = 0.0;
+    xPos = 0.0;
+    yPos = 0.0;
     object = NULL;
     rect.x = 0;
     rect.y = 0;
@@ -40,7 +44,9 @@ bool BaseObject::loadImage(std::string path, SDL_Renderer* screen) {
 }
 
 void BaseObject::render(SDL_Renderer* des, const SDL_Rect* clip) {
-    SDL_Rect renderquad = { rect.x, rect.y, rect.w, rect.h };
+    rect.x = xPos;
+    rect.y = yPos;
+    SDL_Rect renderquad = { rect.x - mapX, rect.y - mapY, rect.w, rect.h };
     SDL_RenderCopy(des, object, clip, &renderquad);
 }
 

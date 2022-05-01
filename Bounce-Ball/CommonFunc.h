@@ -48,6 +48,8 @@ const string ADDRESS_DATABASE = "database//database.txt";
 /* GAME */
 const int ORIGINAL_LIFE = 3;
 const int EPS_PIXELS_IMPACT = 1;
+const int MAX_ROW_SHOW = 5;
+const int MAX_COL_SHOW = 10;
 
 struct Input {
 	bool left = 0;

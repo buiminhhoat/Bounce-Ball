@@ -23,32 +23,6 @@ public:
 		this->life = life;
 	}
 
-	void setXVal(const float& xVal) { this->xVal = xVal; }
-	void setYVal(const float& yVal) { this->yVal = yVal; }
-
-	void setXPos(const float& xPos) { this->xPos = xPos; }
-	void setYPos(const float& yPos) { this->yPos = yPos; }
-
-	float getXPos() const { return this->xPos; }
-	float getYPos() const { return this->yPos; }
-
-	void setMapXY(const int& mapX, const int& mapY) { this->mapX = mapX; this->mapY = mapY; }
-
-	void setClips();
-
-	bool loadImage(std::string path, SDL_Renderer* screen);
-
-	void showImage(SDL_Renderer* des);
-
-	int getWidthFrame() const { return this->widthFrame; };
-	int getHeightFrame() const { return this->heightFrame; };
-
-	void setTypeMove(const int& typeMove) { this->typeMove = typeMove; };
-	void setAnimationPos(const int& animationA, const int& animationB) {
-		this->animationA = animationA;
-		this->animationB = animationB;
-	};
-
 	int getIsCatched() { return this->isCatched; };
 	void setIsCatched(const int& isCatched) { this->isCatched = isCatched; };
 
@@ -58,21 +32,6 @@ public:
 	int getIsVertical() { return this->isVertical; };
 	void setIsVertical(const int& isVertical) { this->isVertical = isVertical; };
 private:
-	int mapX;
-	int mapY;
-	float xVal;
-	float yVal;
-	float xPos;
-	float yPos;
-	bool onGround;
-	int comeBackTime;
-	SDL_Rect frameClip[LIFE_FRAME_NUM];
-	int widthFrame;
-	int heightFrame;
-	int frame;
-	int typeMove;
-	int animationA;
-	int animationB;
 	int isCatched;
 	int scoreLife;
 	int isVertical;
@@ -86,33 +45,6 @@ class RingsObject : public BaseObject {
 public:
 	RingsObject();
 	~RingsObject();
-
-	void setXVal(const float& xVal) { this->xVal = xVal; }
-	void setYVal(const float& yVal) { this->yVal = yVal; }
-
-	void setXPos(const float& xPos) { this->xPos = xPos; }
-	void setYPos(const float& yPos) { this->yPos = yPos; }
-
-	float getXPos() const { return this->xPos; }
-	float getYPos() const { return this->yPos; }
-
-	void setMapXY(const int& mapX, const int& mapY) { this->mapX = mapX; this->mapY = mapY; }
-
-	void setClips();
-
-	bool loadImage(std::string path, SDL_Renderer* screen);
-
-	void showImage(SDL_Renderer* des);
-
-	int getWidthFrame() const { return widthFrame; };
-	int getHeightFrame() const { return heightFrame; };
-
-	void setTypeMove(const int& typeMove) { this->typeMove = typeMove; };
-	void setAnimationPos(const int& animationA, const int& animationB) {
-		this->animationA = animationA;
-		this->animationB = animationB;
-	};
-
 	int getIsCatched() { return isCatched; };
 	void setIsCatched(const int& isCatched) { this->isCatched = isCatched; };
 
@@ -122,21 +54,6 @@ public:
 	int getIsVertical() { return isVertical; };
 	void setIsVertical(const int& isVertical) { this->isVertical = isVertical; };
 private:
-	int mapX;
-	int mapY;
-	float xVal;
-	float yVal;
-	float xPos;
-	float yPos;
-	bool onGround;
-	int comeBackTime;
-	SDL_Rect frameClip[RINGS_FRAME_NUM];
-	int widthFrame;
-	int heightFrame;
-	int frame;
-	int typeMove;
-	int animationA;
-	int animationB;
 	int isCatched;
 	int scoreRing;
 	int isVertical;
@@ -166,32 +83,6 @@ public:
 	EndpointObject();
 	~EndpointObject();
 
-	void setXVal(const float& xVal) { this->xVal = xVal; }
-	void setYVal(const float& yVal) { this->yVal = yVal; }
-
-	void setXPos(const float& xPos) { this->xPos = xPos; }
-	void setYPos(const float& yPos) { this->yPos = yPos; }
-
-	float getXPos() const { return this->xPos; }
-	float getYPos() const { return this->yPos; }
-
-	void setMapXY(const int& mapX, const int& mapY) { this->mapX = mapX; this->mapY = mapY; }
-
-	void setClips();
-
-	bool loadImage(std::string path, SDL_Renderer* screen);
-
-	void showImage(SDL_Renderer* des);
-
-	int getWidthFrame() const { return widthFrame; };
-	int getHeightFrame() const { return heightFrame; };
-
-	void setTypeMove(const int& typeMove) { this->typeMove = typeMove; };
-	void setAnimationPos(const int& animationA, const int& animationB) {
-		this->animationA = animationA;
-		this->animationB = animationB;
-	};
-
 	int getIsOpened() { return isOpened; };
 	void setIsOpened(const int& isOpened) { this->isOpened = isOpened; };
 
@@ -199,21 +90,6 @@ public:
 	void setScoreEndpoint(const int& scoreEndpoint) { this->scoreEndpoint = scoreEndpoint; };
 	
 private:
-	int mapX;
-	int mapY;
-	float xVal;
-	float yVal;
-	float xPos;
-	float yPos;
-	bool onGround;
-	int comeBackTime;
-	SDL_Rect frameClip[ENDPOINT_FRAME_NUM];
-	int widthFrame;
-	int heightFrame;
-	int frame;
-	int typeMove;
-	int animationA;
-	int animationB;
 	int isOpened;
 	int scoreEndpoint;
 };
@@ -232,26 +108,6 @@ public:
 		MOVE_IN_SPACE_THREAT = 1,
 	};
 
-	void setXVal(const float& xVal) { this->xVal = xVal; }
-	void setYVal(const float& yVal) { this->yVal = yVal; }
-
-	void setXPos(const float& xPos) { this->xPos = xPos; }
-	void setYPos(const float& yPos) { this->yPos = yPos; }
-
-	float getXPos() const { return xPos; }
-	float getYPos() const { return yPos; }
-
-	void setMapXY(const int& mapX, const int& mapY) { this->mapX = mapX; this->mapY = mapY; }
-
-	void setClips();
-
-	bool loadImage(std::string path, SDL_Renderer* screen);
-
-	void showImage(SDL_Renderer* des);
-
-	int getWidthFrame() const { return widthFrame; };
-	int getHeightFrame() const { return heightFrame; };
-
 	void doPlayer(Map* gMap);
 	void checkToMap(Map* gMap);
 	void setTypeMove(const int& typeMove) { this->typeMove = typeMove; };
@@ -262,16 +118,7 @@ public:
 	void setInputUp(const int& up) { inputType.up = up; };
 	void impMoveType(SDL_Renderer* screen);
 private:
-	int mapX;
-	int mapY;
-	float xVal;
-	float yVal;
-	float xPos;
-	float yPos;
 	bool onGround;
-	SDL_Rect frameClip[THREAT_FRAME_NUM];
-	int widthFrame;
-	int heightFrame;
 	int frame;
 	int typeMove;
 	int animationA;
@@ -285,32 +132,6 @@ class CheckpointObject : public BaseObject {
 public:
 	CheckpointObject();
 	~CheckpointObject();
-
-	void setXVal(const float& xVal) { this->xVal = xVal; }
-	void setYVal(const float& yVal) { this->yVal = yVal; }
-
-	void setXPos(const float& xPos) { this->xPos = xPos; }
-	void setYPos(const float& yPos) { this->yPos = yPos; }
-
-	float getXPos() const { return xPos; }
-	float getYPos() const { return yPos; }
-
-	void setMapXY(const int& mapX, const int& mapY) { this->mapX = mapX; this->mapY = mapY; }
-
-	void setClips();
-
-	bool loadImage(std::string path, SDL_Renderer* screen);
-
-	void showImage(SDL_Renderer* des);
-
-	int getWidthFrame() const { return widthFrame; };
-	int getHeightFrame() const { return heightFrame; };
-
-	void setTypeMove(const int& typeMove) { this->typeMove = typeMove; };
-	void setAnimationPos(const int& animationA, const int& animationB) {
-		this->animationA = animationA;
-		this->animationB = animationB;
-	};
 
 	int getIsCatched() { return this->isCatched; };
 	void setIsCatched(const int& isCatched) { this->isCatched = isCatched; };
@@ -399,42 +220,11 @@ public:
 	ButtonObject();
 	~ButtonObject();
 
-	void setXVal(const float& xVal) { this->xVal = xVal; }
-	void setYVal(const float& yVal) { this->yVal = yVal; }
-
-	void setXPos(const float& xPos) { this->xPos = xPos; }
-	void setYPos(const float& yPos) { this->yPos = yPos; }
-
-	float getXPos() const { return this->xPos; }
-	float getYPos() const { return this->yPos; }
-
-	void setMapXY(const int& mapX, const int& mapY) { this->mapX = mapX; this->mapY = mapY; }
-
-	void setClips();
-
-	bool loadImage(std::string path, SDL_Renderer* screen);
-
-	void showImage(SDL_Renderer* des);
-
 	string getLinkImgButton() { return addressImgButton; }
-
-	int getWidthButton() { return widthFrame; }
-
-	int getHeightButton() { return heightFrame; }
 
 	void setIsUnlock(const int& isUnlock) { this->isUnlock = isUnlock; };
 	int getIsUnlock() { return this->isUnlock; };
 private:
-	int mapX;
-	int mapY;
-	float xVal;
-	float yVal;
-	float xPos;
-	float yPos;
-	SDL_Rect frameClip[BUTTON_FRAME_NUM];
-	int widthFrame;
-	int heightFrame;
-	int frame;
 	string addressImgButton;
 	int isUnlock;
 };

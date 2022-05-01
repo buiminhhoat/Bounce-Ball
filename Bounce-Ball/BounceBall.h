@@ -67,6 +67,7 @@ private:
 	int sound = typeSound::ON;
 	Database databaseGame;
 	InfoPlayer* infoPlayer = new InfoPlayer;
+	ButtonObject selectLevelButton[MAX_ROW_SHOW + 1][MAX_COL_SHOW + 1];
 };
 #endif
 #pragma once
