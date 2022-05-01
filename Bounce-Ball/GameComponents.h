@@ -119,7 +119,7 @@ private:
 	int typeMove;
 	int animationA;
 	int animationB;
-	Input inputType;
+	actionType inputType;
 };
 
 class CheckpointObject : public BaseObject {

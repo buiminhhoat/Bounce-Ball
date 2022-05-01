@@ -45,6 +45,12 @@ const int MAX_LEVEL = 50;
 /* DATABASE */
 const string ADDRESS_DATABASE = "database//database.txt";
 
+/* background */
+const int MAX_BACKGROUND = 8;
+
+/* FONTS */
+const int FONT_SIZE = 30;
+
 /* GAME */
 const int ORIGINAL_LIFE = 3;
 const int EPS_PIXELS_IMPACT = 1;
@@ -55,14 +61,13 @@ const int TIME_DELAY_GAMEOVER = 3000;
 const int TIME_DELAY_POPBALL = 1000;
 const int MS_ONE_SECOND = 1000;
 const int INCREASE_LIFE = -1;
-
-/* FONTS */
-const int FONT_SIZE = 30;
+const int MAX_SIZE_SHOW_INFO = 15;
+const int MAX_SHOW_LEADERBOARD = 5;
 
 /* ... */
 const int MAX_ONE_DIGIT = 9;
 
-struct Input {
+struct actionType {
 	bool left = 0;
 	bool right = 0;
 	bool up = 0;
@@ -70,7 +75,7 @@ struct Input {
 	bool jump = 0;
 };
 
-enum TypeBlock {
+enum blockType {
 	BLANK_TILES = 0,
 	START_POINT = 1,
 	GROUND_BLOCK = 2,
@@ -83,7 +88,7 @@ enum TypeBlock {
 	LIFE = 9,
 };
 
-enum TypeLevel {
+enum lockType {
 	LOCK = 0,
 	UNLOCK = 1,
 };

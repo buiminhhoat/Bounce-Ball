@@ -39,7 +39,7 @@ public:
 		ON = 1,
 	};
 
-	enum typeLevel {
+	enum levelType {
 		GAME_OVER = 0,
 		NEXT_LEVEL = 1,
 		QUIT_GAME = 2,

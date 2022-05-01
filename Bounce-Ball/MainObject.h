@@ -43,7 +43,7 @@ private:
 	float xPosCheckpoint;
 	float yPosCheckpoint;
 
-	Input inputType;
+	actionType inputType;
 	int status;
 	int onGround;
 	int idCheckpoint;
