@@ -326,7 +326,7 @@ void BounceBall::displayLeaderboard() {
     LTexture yourHighScoreText;
 
     if (TTF_Init() == -1) return;
-    fontGame = TTF_OpenFont("font//no_continue.ttf", 30);
+    fontGame = TTF_OpenFont("font//no_continue.ttf", FONT_SIZE);
     if (fontGame == NULL) {
         return;
     }
@@ -425,6 +425,12 @@ void BounceBall::displayLogin() {
     registerButton->setRectSize(175, 64);
     registerButton->setRectPos(SCREEN_WIDTH - registerButton->getRect().w, SCREEN_HEIGHT - registerButton->getRect().h);
 
+    //ButtonObject registerButton;
+    //registerButton.loadImage("img//button//menu_button_register.png", gScreen);
+    //registerButton.setRectSize(175, 64);
+    //registerButton.setRectPos(SCREEN_WIDTH - registerButton.getRect().w, 
+    //                            SCREEN_HEIGHT - registerButton.getRect().h);
+
     ButtonObject* usernameButton = new ButtonObject;
     usernameButton->loadImage("img//button//login_button_username.png", gScreen);
     usernameButton->setXPos((SCREEN_WIDTH - usernameButton->getWidth()) / 2);
@@ -493,7 +499,7 @@ void BounceBall::displayLogin() {
         bool selectPasswordButton = bool(mouse.checkMouseInButton(passwordButton));
         bool selectLoginButton = bool(mouse.checkMouseInButton(loginButton));
         bool selectBackButton = bool(mouse.checkMouseInButton(backButton));
-        bool selectRegisterButton = bool(mouse.checkMouseInButton(registerButton));
+        bool selectRegisterButton = bool(mouse.checkMouseInButton(&registerButton));
         while (SDL_PollEvent(&gEvent) != 0) {
             if (gEvent.type == SDL_QUIT) exit(0);
             if (gEvent.type == SDL_MOUSEBUTTONDOWN) {
@@ -525,7 +531,7 @@ void BounceBall::displayLogin() {
                 if (selectRegisterButton) {
                     backGround.cleanUp();
                     boardLogin.cleanUp();
-                    registerButton->cleanUp();
+                    registerButton.cleanUp();
                     usernameButton->cleanUp();
                     passwordButton->cleanUp();
                     loginButton->cleanUp();
@@ -626,7 +632,7 @@ void BounceBall::displayLogin() {
         passwordButton->render(gScreen);
         loginButton->render(gScreen);
         backButton->render(gScreen);
-        registerButton->render(gScreen);
+        registerButton.render(gScreen);
     
         if (usernameText == "" && deletedAccount == false) usernameText = "username";
         if (passwordText == "" && deletedPassword == false) passwordText = "password";

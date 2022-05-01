@@ -172,9 +172,6 @@ void ThreatsObject::impMoveType(SDL_Renderer* screen) {
 }
 
 CheckpointObject::CheckpointObject() {
-	onGround = false;
-	animationA = 0;
-	animationB = 0;
 	isCatched = 0;
 	scoreRing = 0;
 	isVertical = 0;
@@ -185,6 +182,7 @@ CheckpointObject::~CheckpointObject() {
 }
 
 LTexture::LTexture() {
+	/* RGB WHITE */
 	textColor.r = 255;
 	textColor.g = 255;
 	textColor.b = 255;
@@ -228,38 +226,47 @@ void LTexture::setColor(Uint8 red, Uint8 green, Uint8 blue) {
 
 void LTexture::setColor(int type) {
 	if (type == RED_COLOR) {
+		/* RGB RED */
 		SDL_Color color = { 255, 0, 0 };
 		textColor = color;
 	}
 	if (type == ORANGE_COLOR) {
+		/* RGB ORANGE */
 		SDL_Color color = { 255, 165, 0 };
 		textColor = color;
 	}
 	if (type == YELLOW_COLOR) {
+		/* RGB YELLOW */
 		SDL_Color color = { 255, 255, 0 };
 		textColor = color;
 	}
 	if (type == GREEN_COLOR) {
+		/* RGB GREEN */
 		SDL_Color color = { 0, 255, 0 };
 		textColor = color;
 	}
 	if (type == BLUE_COLOR) {
+		/* RGB BLUE */
 		SDL_Color color = { 0, 0, 255 };
 		textColor = color;
 	}
 	if (type == INDIGO_COLOR) {
+		/* RGB INDIGO */
 		SDL_Color color = { 75, 0, 130 };
 		textColor = color;
 	}
 	if (type == PURPLE_COLOR) {
+		/* RGB PURPLE */
 		SDL_Color color = { 128, 0, 128 };
 		textColor = color;
 	}
 	if (type == WHITE_COLOR) {
+		/* RGB WHITE */
 		SDL_Color color = { 255, 255, 255 };
 		textColor = color;
 	}
 	if (type == BLACK_COLOR) {
+		/* RGB BLACK */
 		SDL_Color color = { 0, 0, 0 };
 		textColor = color;
 	}
@@ -295,7 +302,7 @@ InfoPlayer::InfoPlayer() {
 	yourHighScore = 0;
 	level = 0;
 	life = ORIGINAL_LIFE;
-	for (int i = 0; i < MAX_LEVEL + 5; ++i) unlockLevel[i] = 0;
+	for (int i = 0; i < MAX_LEVEL + FIX_ZERO_INDEX; ++i) unlockLevel[i] = 0;
 }
 
 InfoPlayer::~InfoPlayer() {

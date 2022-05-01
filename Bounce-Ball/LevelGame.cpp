@@ -73,7 +73,8 @@ void showRemainRings(LTexture remainRingText, ManagementObject &object, SDL_Rend
 void showGameOver(SDL_Renderer* screen) {
     BaseObject gameOver;
     gameOver.loadImage("img//gameover//gameover.png", screen);
-    gameOver.setRectPos((SCREEN_WIDTH - gameOver.getRect().w) / 2, (SCREEN_HEIGHT - gameOver.getRect().h) / 2);
+    gameOver.setRectPos((SCREEN_WIDTH - gameOver.getRect().w) / 2, 
+                        (SCREEN_HEIGHT - gameOver.getRect().h) / 2);
     gameOver.render(screen);
     SDL_RenderPresent(screen);
 }
@@ -192,7 +193,7 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
 
     if (TTF_Init() == -1) return BounceBall::typeLevel::ERROR_GAME;
 
-    fontGame = TTF_OpenFont("font//no_continue.ttf", 30);
+    fontGame = TTF_OpenFont("font//no_continue.ttf", FONT_SIZE);
     if (fontGame == NULL) {
         return BounceBall::typeLevel::ERROR_GAME;
     }
@@ -280,12 +281,13 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
             object.setIsIntersectBallVsEndpoint(0);
             infoPlayer->setlife(life.getLife()); 
             infoPlayer->setScore(score.getScore());
+            /* Next level */
             infoPlayer->setLevel(infoPlayer->getLevel() + 1);
             infoPlayer->setYourHighScore(score.getYourHighScore());
             Cryptosystem addressLevel;
             string address = "map//level";
             /* Conver x to 0x*/
-            if (infoPlayer->getLevel() < 10) address += "0";
+            if (infoPlayer->getLevel() <= MAX_ONE_DIGIT) address += "0";
             address += addressLevel.convertNumberToString(infoPlayer->getLevel());
             address += ".map";
             return BounceBall::typeLevel::NEXT_LEVEL;
@@ -295,13 +297,13 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
             player.loadImage("img//ball//ball_pop.png", screen);
             player.render(screen);
 
-            life.increaseLife(-1);
+            life.increaseLife(INCREASE_LIFE);
 
             if (life.getLife() == 0) {
                 showLife(lifeText, life, screen);
                 SDL_RenderPresent(screen);
                 showGameOver(screen);
-                SDL_Delay(3000);
+                SDL_Delay(TIME_DELAY_GAMEOVER);
                 infoPlayer->setlife(life.getLife());
                 infoPlayer->setScore(0);
                 infoPlayer->setYourHighScore(score.getYourHighScore());
@@ -311,8 +313,8 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
             showLife(lifeText, life, screen);
             
             SDL_RenderPresent(screen);
-            SDL_Delay(1000);
-            object.setIsIntersectBallVsThreats(0);
+            SDL_Delay(TIME_DELAY_POPBALL);
+            object.setIsIntersectBallVsThreats(false);
             player.loadImage("img//ball//ball.png", screen);
             player.render(screen);
             player.setRectPos(player.getXPosCheckpoint(), player.getYPosCheckpoint());
@@ -326,7 +328,7 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
         SDL_RenderPresent(screen);
 
         int realTime = fpsTimer.getTicks();
-        int timeOneFrame = 1000 / FRAME_PER_SECOND;
+        int timeOneFrame = MS_ONE_SECOND / FRAME_PER_SECOND;
         if (realTime < timeOneFrame) {
             int delayTime = timeOneFrame - realTime;
             if (delayTime >= 0)

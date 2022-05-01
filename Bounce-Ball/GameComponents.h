@@ -7,7 +7,6 @@
 using namespace std;
 
 class LifeObject : public BaseObject {
-	#define LIFE_FRAME_NUM 1 
 	#define SCORE_LIFE 50
 public:
 	LifeObject();
@@ -39,7 +38,6 @@ private:
 };
 
 class RingsObject : public BaseObject {
-#define RINGS_FRAME_NUM 1
 #define SCORE_RING_HORIZONTAL 50
 #define SCORE_RING_VERTICAL 100 
 public:
@@ -77,7 +75,6 @@ private:
 };
 
 class EndpointObject : public BaseObject {
-#define ENDPOINT_FRAME_NUM 1
 #define SCORE_ENDPOINT 50
 public:
 	EndpointObject();
@@ -97,7 +94,6 @@ private:
 class ThreatsObject : public BaseObject {
 #define THREAT_GRAVITY_SPEED 0.8
 #define THREAT_MAX_FALL_SPEED 10
-#define THREAT_FRAME_NUM 1
 #define THREAT_SPEED 1
 public:
 	ThreatsObject();
@@ -127,7 +123,6 @@ private:
 };
 
 class CheckpointObject : public BaseObject {
-#define CHECKPOINT_FRAME_NUM 1
 #define SCORE_CHECKPOINT 25
 public:
 	CheckpointObject();
@@ -142,20 +137,6 @@ public:
 	int getIsVertical() { return this->isVertical; };
 	void setIsVertical(const int& isVertical) { this->isVertical = isVertical; };
 private:
-	int mapX;
-	int mapY;
-	float xVal;
-	float yVal;
-	float xPos;
-	float yPos;
-	bool onGround;
-	SDL_Rect frameClip[CHECKPOINT_FRAME_NUM];
-	int widthFrame;
-	int heightFrame;
-	int frame;
-	int typeMove;
-	int animationA;
-	int animationB;
 	int isCatched;
 	int scoreRing;
 	int isVertical;
@@ -215,7 +196,6 @@ private:
 };
 
 class ButtonObject : public BaseObject {
-#define BUTTON_FRAME_NUM 1
 public:
 	ButtonObject();
 	~ButtonObject();
@@ -271,7 +251,7 @@ private:
 	int life;
 	int level;
 	int yourHighScore;
-	int unlockLevel[MAX_LEVEL + 5];
+	int unlockLevel[MAX_LEVEL + FIX_ZERO_INDEX];
 	int sound;
 };
 

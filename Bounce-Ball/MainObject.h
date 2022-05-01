@@ -15,7 +15,6 @@
 #define DRAW_BACK 4 * 64
 
 class MainObject : public BaseObject {
-#define MAIN_FRAME_NUM 8
 public:
 	MainObject();
 	~MainObject();

@@ -50,6 +50,17 @@ const int ORIGINAL_LIFE = 3;
 const int EPS_PIXELS_IMPACT = 1;
 const int MAX_ROW_SHOW = 5;
 const int MAX_COL_SHOW = 10;
+const int FIX_ZERO_INDEX = 5;
+const int TIME_DELAY_GAMEOVER = 3000;
+const int TIME_DELAY_POPBALL = 1000;
+const int MS_ONE_SECOND = 1000;
+const int INCREASE_LIFE = -1;
+
+/* FONTS */
+const int FONT_SIZE = 30;
+
+/* ... */
+const int MAX_ONE_DIGIT = 9;
 
 struct Input {
 	bool left = 0;

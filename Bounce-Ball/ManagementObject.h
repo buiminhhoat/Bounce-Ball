@@ -79,9 +79,9 @@ private:
 	std::vector <LifeObject*> lifesList;
 	std::vector <EndpointObject*> endpointsList;
 
-	int isIntersectBallVsThreats;
-	int isIntersectBallVsRing;
-	int isIntersectBallVsEndpoint;
+	bool isIntersectBallVsThreats;
+	bool isIntersectBallVsRing;
+	bool isIntersectBallVsEndpoint;
 	int remRings;
 
 	GameMap *gameMap;
