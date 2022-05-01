@@ -10,7 +10,7 @@
  <tileset firstgid="5" source="../tileset/ring_vertical.tsx"/>
  <tileset firstgid="6" source="../tileset/life.tsx"/>
  <tileset firstgid="7" source="../tileset/ring_horizontal.tsx"/>
- <tileset firstgid="8" source="../tileset/ENDSTART.tsx"/>
+ <tileset firstgid="8" source="../tileset/END_POINT.tsx"/>
  <layer id="1" name="Tile Layer 1" width="111" height="8" offsetx="-2.84217e-14" offsety="5.68434e-14">
   <data encoding="csv">
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,

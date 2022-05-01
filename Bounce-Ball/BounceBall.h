@@ -60,11 +60,13 @@ public:
 	void displayLogout();
 	void displayRegister();
 	void displaySettings();
+	void displayHowToPlayButton();
 	bool notificationStatusRegister(string usernameText, string passwordText);
 private:
 	int display = typeDisplay::MENU;
 	int sound = typeSound::ON;
 	Database databaseGame;
+	InfoPlayer* infoPlayer = new InfoPlayer;
 };
 #endif
 #pragma once

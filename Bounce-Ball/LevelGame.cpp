@@ -134,14 +134,14 @@ void displaySettings(InfoPlayer *infoPlayer, SDL_Renderer* screen) {
     bool quit = false;
     int sound = infoPlayer->getSound();
     while (!quit) {
-        MouseEvents* mouse = new MouseEvents;
-        mouse->mouseHandleEvent();
-        bool selectSoundOnButton = bool(mouse->checkMouseInButton(soundOnButton));
-        bool selectSoundOffButton = bool(mouse->checkMouseInButton(soundOffButton));
-        bool selectBackButton = bool(mouse->checkMouseInButton(backButton));
-        bool selectSaveButton = bool(mouse->checkMouseInButton(saveButton));
-        bool selectRestoreButton = bool(mouse->checkMouseInButton(restoreButton));
-        bool selectExitButton = bool(mouse->checkMouseInButton(exitButton));
+        MouseEvents mouse;
+        mouse.mouseHandleEvent();
+        bool selectSoundOnButton = bool(mouse.checkMouseInButton(soundOnButton));
+        bool selectSoundOffButton = bool(mouse.checkMouseInButton(soundOffButton));
+        bool selectBackButton = bool(mouse.checkMouseInButton(backButton));
+        bool selectSaveButton = bool(mouse.checkMouseInButton(saveButton));
+        bool selectRestoreButton = bool(mouse.checkMouseInButton(restoreButton));
+        bool selectExitButton = bool(mouse.checkMouseInButton(exitButton));
         while (SDL_PollEvent(&gEvent) != 0) {
             if (gEvent.type == SDL_QUIT) exit(0);
             if ((gEvent.type == SDL_MOUSEBUTTONDOWN && (selectBackButton || selectExitButton))) {
@@ -158,6 +158,7 @@ void displaySettings(InfoPlayer *infoPlayer, SDL_Renderer* screen) {
                 if (selectSaveButton) {
                     sound = setSound;
                     infoPlayer->setSound(sound);
+                    return;
                 }
             }
         }
@@ -189,7 +190,7 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
     LTexture yourHighScoreText;
     LTexture lifeText;
     LTexture remainRingText;
-    MouseEvents* mouse = new MouseEvents;
+    MouseEvents mouse;
 
     score.setScore(infoPlayer->getScore());
     score.setYourHighScore(infoPlayer->getYourHighScore());
@@ -241,16 +242,17 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
     settingsButton->render(screen);
     while (!isQuit) {
         fpsTimer.start();
-        mouse->mouseHandleEvent();
-        bool selectBackButton = bool(mouse->checkMouseInButton(backButton));
-        bool selectSettingsButton = bool(mouse->checkMouseInButton(settingsButton));
+        mouse.mouseHandleEvent();
+        bool selectBackButton = bool(mouse.checkMouseInButton(backButton));
+        bool selectSettingsButton = bool(mouse.checkMouseInButton(settingsButton));
         while (SDL_PollEvent(&event) != 0) {
             if (event.type == SDL_QUIT) {
                 exit(0);
             }
-
             if (event.type == SDL_MOUSEBUTTONDOWN && selectBackButton) {
                 isQuit = true;
+                infoPlayer->setScore(0);
+                infoPlayer->setYourHighScore(score.getYourHighScore());
                 return BounceBall::typeLevel::QUIT_GAME;
             }
 
@@ -290,6 +292,7 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
             infoPlayer->setYourHighScore(score.getYourHighScore());
             Cryptosystem addressLevel;
             string address = "map//level";
+            /* Conver x to 0x*/
             if (infoPlayer->getLevel() < 10) address += "0";
             address += addressLevel.convertNumberToString(infoPlayer->getLevel());
             address += ".map";
@@ -308,6 +311,9 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
                 SDL_RenderPresent(screen);
                 showGameOver(screen);
                 SDL_Delay(3000);
+                infoPlayer->setlife(life.getLife());
+                infoPlayer->setScore(0);
+                infoPlayer->setYourHighScore(score.getYourHighScore());
                 return BounceBall::typeLevel::GAME_OVER;
             }
             

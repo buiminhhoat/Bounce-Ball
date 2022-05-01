@@ -26,8 +26,6 @@ BounceBall::~BounceBall() {
 
 }
 
-InfoPlayer* infoPlayer = new InfoPlayer;
-
 int BounceBall::startGame() {
     databaseGame.setAddressFileImportDatabase(ADDRESS_DATABASE);
     databaseGame.setAddressFileExportDatabase(ADDRESS_DATABASE);
@@ -97,7 +95,7 @@ int BounceBall::startGame() {
     SDL_RenderPresent(gScreen);
 
     bool quit = false;
-    MouseEvents* mouse = new MouseEvents;
+    MouseEvents mouse;
 
     display = typeDisplay::MENU;
     while (!quit) {
@@ -107,40 +105,52 @@ int BounceBall::startGame() {
                 exit(0);
             }
             if (gEvent.type == SDL_MOUSEBUTTONDOWN) {
-                mouse->mouseHandleEvent();
-                bool typePlayButton = bool(mouse->checkMouseInButton(playButton));
-                bool typeLeaderboardButton = bool(mouse->checkMouseInButton(leaderboardButton));
-                bool typeLoginButton = bool(mouse->checkMouseInButton(loginButton));
-                bool typeLogoutButton = bool(mouse->checkMouseInButton(logoutButton));
-                bool typeHowToPlayButton = bool(mouse->checkMouseInButton(howToPlayButton));
-                bool typeSettingsButton = bool(mouse->checkMouseInButton(settingsButton));
-                bool typeRegisterButton = bool(mouse->checkMouseInButton(registerButton));
-                if (typePlayButton) {
+                mouse.mouseHandleEvent();
+                bool clickPlayButton = bool(mouse.checkMouseInButton(playButton));
+                bool clickLeaderboardButton = bool(mouse.checkMouseInButton(leaderboardButton));
+                bool clickLoginButton = bool(mouse.checkMouseInButton(loginButton));
+                bool clickLogoutButton = bool(mouse.checkMouseInButton(logoutButton));
+                bool clickHowToPlayButton = bool(mouse.checkMouseInButton(howToPlayButton));
+                bool clickSettingsButton = bool(mouse.checkMouseInButton(settingsButton));
+                bool clickRegisterButton = bool(mouse.checkMouseInButton(registerButton));
+                if (clickPlayButton) {
                     display = typeDisplay::PLAY;
                     if (infoPlayer->getUsername() == "") display = typeDisplay::LOGIN;
                 } 
-                if (typeLeaderboardButton) {
+                if (clickLeaderboardButton) {
                     display = typeDisplay::LEADERBOARD;
                 }
-                if (typeLoginButton) {
+                if (clickLoginButton) {
                     display = typeDisplay::LOGIN;
                 }
-                if (typeLogoutButton) {
+                if (clickLogoutButton) {
                     display = typeDisplay::LOGOUT;
                 }
-                if (typeSettingsButton) {
+                if (clickSettingsButton) {
                     display = typeDisplay::SETTINGS;
                 }
-                if (typeHowToPlayButton) {
+                if (clickHowToPlayButton) {
                     display = typeDisplay::HOW_TO_PLAY;
                 }
-                if (typeRegisterButton) {
+                if (clickRegisterButton) {
                     display = typeDisplay::REGISTER;
+                }
+                if (clickHowToPlayButton) {
+                    display = typeDisplay::HOW_TO_PLAY;
                 }
             }
         }  
         switch (display) {
             case typeDisplay::RE_MENU:
+                backGround.cleanUp();
+                logo.cleanUp();
+                playButton->cleanUp();
+                leaderboardButton->cleanUp();
+                howToPlayButton->cleanUp();
+                loginButton->cleanUp();
+                logoutButton->cleanUp();
+                settingsButton->cleanUp();
+                registerButton->cleanUp();
                 startGame();
                 break;
             case typeDisplay::PLAY:
@@ -161,12 +171,11 @@ int BounceBall::startGame() {
             case typeDisplay::SETTINGS:
                 displaySettings();
                 break;
+            case typeDisplay::HOW_TO_PLAY:
+                displayHowToPlayButton();
+                break;
         }
     }
-    backGround.cleanUp();
-    playButton->cleanUp();
-    leaderboardButton->cleanUp();
-    loginButton->cleanUp();
     cleanUp();
 }
 
@@ -185,7 +194,7 @@ void BounceBall::displayLogo() {
 }
 
 void BounceBall::displayPlay() {
-    MouseEvents* mouse = new MouseEvents;
+    MouseEvents mouse;
     BaseObject backGround;
     backGround.loadImage("img//background//background.jpg", gScreen);
     backGround.render(gScreen);
@@ -201,7 +210,6 @@ void BounceBall::displayPlay() {
 
     int level = 0;
     
-
     BaseObject logo;
     logo.loadImage("img//logo//logo_small.png", gScreen);
     logo.setRectSize(192, 145);
@@ -248,24 +256,25 @@ void BounceBall::displayPlay() {
     SDL_RenderPresent(gScreen); 
     bool quit = false;
     while (!quit) {
-        mouse->mouseHandleEvent();
-        bool selectBackButton = bool(mouse->checkMouseInButton(backButton));
+        mouse.mouseHandleEvent();
+        bool selectBackButton = bool(mouse.checkMouseInButton(backButton));
         while (SDL_PollEvent(&gEvent)) {
             if (gEvent.type == SDL_QUIT) exit(0);
             if ((gEvent.type == SDL_MOUSEBUTTONDOWN && selectBackButton)) {
                 quit = true;
                 display = typeDisplay::RE_MENU;
                 SDL_RenderPresent(gScreen);
-                break;
+                return;
             }
             int level = 0;
             for (int i = 1; i <= MAX_ROW_SHOW; ++i) {
                 for (int j = 1; j <= MAX_COL_SHOW; ++j) {
                     if (selectLevelButton[i][j].getIsUnlock() == 0) continue;
-                    mouse->mouseHandleEvent();
-                    bool typeLeaderboardButton = bool(mouse->checkMouseInButton(&selectLevelButton[i][j]));
+                    mouse.mouseHandleEvent();
+                    bool clickLeaderboardButton = bool(mouse.checkMouseInButton(&selectLevelButton[i][j]));
                     ++level;
-                    if (gEvent.type == SDL_MOUSEBUTTONDOWN && typeLeaderboardButton) {
+                    if (gEvent.type == SDL_MOUSEBUTTONDOWN && clickLeaderboardButton) {
+                        infoPlayer->setlife(ORIGINAL_LIFE);
                         infoPlayer->setLevel(level);
                         infoPlayer->setSound(sound);
                         Cryptosystem addressLevel;
@@ -275,9 +284,9 @@ void BounceBall::displayPlay() {
                         address += ".map";
                         LevelGame levelGame;
                         int nextAction = levelGame.loadLevelGame(address.c_str(), gScreen, gEvent, infoPlayer);
-                        while (nextAction == typeLevel::NEXT_LEVEL && level < 50) {
+                        while (nextAction == typeLevel::NEXT_LEVEL && level < MAX_LEVEL) {
                             ++level;
-                            infoPlayer->setUnlockLevel(level, 1);
+                            infoPlayer->setUnlockLevel(level, TypeLevel::UNLOCK);
                             infoPlayer->setSound(sound);
                             databaseGame.updateDatabaseUsername(*infoPlayer);
                             databaseGame.exportDatabase();  
@@ -287,6 +296,11 @@ void BounceBall::displayPlay() {
                             address += ".map";
                             nextAction = levelGame.loadLevelGame(address.c_str(), gScreen, gEvent, infoPlayer);
                         }
+                        infoPlayer->setUnlockLevel(level, TypeLevel::UNLOCK);
+                        infoPlayer->setSound(sound);
+                        databaseGame.updateDatabaseUsername(*infoPlayer);
+                        databaseGame.exportDatabase();
+                        display = typeDisplay::RE_MENU;
                         return;
                     }
                 }
@@ -297,7 +311,7 @@ void BounceBall::displayPlay() {
 }
 
 void BounceBall::displayLeaderboard() {
-    MouseEvents* mouse = new MouseEvents;
+    MouseEvents mouse;
     BaseObject backGround;
     backGround.loadImage("img//background//background.jpg", gScreen);
     backGround.render(gScreen);
@@ -362,28 +376,40 @@ void BounceBall::displayLeaderboard() {
 
     bool quit = 0;
     while (!quit) {
-        mouse->mouseHandleEvent();
-        bool selectBackButton = bool(mouse->checkMouseInButton(backButton));
+        mouse.mouseHandleEvent();
+        bool selectBackButton = bool(mouse.checkMouseInButton(backButton));
         while (SDL_PollEvent(&gEvent)) {
             if (gEvent.type == SDL_QUIT) exit(0);
             if ((gEvent.type == SDL_MOUSEBUTTONDOWN && selectBackButton)) {
                 quit = true;
                 display = typeDisplay::RE_MENU;
                 SDL_RenderPresent(gScreen);
-                break;
+                backGround.cleanUp();
+                leaderboard.cleanUp();
+                backButton->cleanUp();
+                usernameText.cleanUp();
+                yourHighScoreText.cleanUp();
+                return;
             }
         }
     }
 }
 
-bool BounceBall::checkInfoLogin(string username, string password, InfoPlayer *infoPlayer) {
-    InfoPlayer info = databaseGame.getDatabaseUsername(username);
+bool BounceBall::checkInfoLogin(string usernameText, string passwordText, InfoPlayer *infoPlayer) {
+    for (int i = 0; i < usernameText.size(); ++i)
+        if (usernameText[i] >= 'a' && usernameText[i] <= 'z')
+            usernameText[i] -= 32;
+
+    for (int i = 0; i < passwordText.size(); ++i)
+        if (passwordText[i] >= 'a' && passwordText[i] <= 'z')
+            passwordText[i] -= 32;
+    InfoPlayer info = databaseGame.getDatabaseUsername(usernameText);
     infoPlayer->setUsername(info.getUsername());
     infoPlayer->setPassword(info.getPassword());
     infoPlayer->setYourHighScore(info.getYourHighScore());
     for (int level = 1; level <= MAX_LEVEL; ++level)
         infoPlayer->setUnlockLevel(level, info.getUnlockLevel(level));
-    if (info.getPassword() == password)
+    if (info.getPassword() == passwordText)
         return true;
     else
         return false;
@@ -395,7 +421,7 @@ void BounceBall::displayLogin() {
     backGround.render(gScreen);
 
     BaseObject boardLogin;
-    boardLogin.loadImage("img//login//boardLogin.png", gScreen);
+    boardLogin.loadImage("img//board//boardLogin.png", gScreen);
     boardLogin.setRectPos((SCREEN_WIDTH - boardLogin.getRect().w) / 2,
         (SCREEN_HEIGHT - boardLogin.getRect().h) / 2);
     boardLogin.render(gScreen);
@@ -406,6 +432,12 @@ void BounceBall::displayLogin() {
     if (fontGame == NULL) {
         return;
     }
+
+    ButtonObject* registerButton = new ButtonObject;
+    registerButton->loadImage("img//button//menu_button_register.png", gScreen);
+    registerButton->setClips();
+    registerButton->setRectSize(175, 64);
+    registerButton->setRectPos(SCREEN_WIDTH - registerButton->getRect().w, SCREEN_HEIGHT - registerButton->getRect().h);
 
     ButtonObject* usernameButton = new ButtonObject;
     usernameButton->loadImage("img//button//login_button_username.png", gScreen);
@@ -451,10 +483,10 @@ void BounceBall::displayLogin() {
     passwordTextTexture.setPosX(passwordButton->getXPos() + 20);
     passwordTextTexture.setPosY(passwordButton->getYPos() + 15);
 
-    string usernameText = "username"; 
-    string passwordText = "password";    
-    //string usernameText = "buiminhhoat"; 
-    //string passwordText = "buiminhhoat";
+    /*string usernameText = "username"; 
+    string passwordText = "password"; */   
+    string usernameText = "buiminhhoat"; 
+    string passwordText = "buiminhhoat";
 
     gInputTextTexture = &usernameTextTexture;
 
@@ -473,12 +505,13 @@ void BounceBall::displayLogin() {
     bool deletedPassword = false;
     while (!quit) {
         fpsTimer.start();
-        MouseEvents* mouse = new MouseEvents;
-        mouse->mouseHandleEvent();
-        bool selectUsernameButton = bool(mouse->checkMouseInButton(usernameButton));
-        bool selectPasswordButton = bool(mouse->checkMouseInButton(passwordButton));
-        bool selectLoginButton = bool(mouse->checkMouseInButton(loginButton));
-        bool selectBackButton = bool(mouse->checkMouseInButton(backButton));
+        MouseEvents mouse;
+        mouse.mouseHandleEvent();
+        bool selectUsernameButton = bool(mouse.checkMouseInButton(usernameButton));
+        bool selectPasswordButton = bool(mouse.checkMouseInButton(passwordButton));
+        bool selectLoginButton = bool(mouse.checkMouseInButton(loginButton));
+        bool selectBackButton = bool(mouse.checkMouseInButton(backButton));
+        bool selectRegisterButton = bool(mouse.checkMouseInButton(registerButton));
         while (SDL_PollEvent(&gEvent) != 0) {
             if (gEvent.type == SDL_QUIT) exit(0);
             if (gEvent.type == SDL_MOUSEBUTTONDOWN) {
@@ -505,6 +538,21 @@ void BounceBall::displayLogin() {
                 if (selectBackButton) {
                     quit = true;
                     display = typeDisplay::RE_MENU;
+                    return;
+                }
+                if (selectRegisterButton) {
+                    backGround.cleanUp();
+                    boardLogin.cleanUp();
+                    registerButton->cleanUp();
+                    usernameButton->cleanUp();
+                    passwordButton->cleanUp();
+                    loginButton->cleanUp();
+                    backButton->cleanUp();
+                    gInputTextTexture->cleanUp();
+                    usernameTextTexture.cleanUp();
+                    passwordTextTexture.cleanUp();
+                    iteratorMouse.cleanUp();
+                    display = typeDisplay::REGISTER;
                     return;
                 }
             }
@@ -596,6 +644,7 @@ void BounceBall::displayLogin() {
         passwordButton->render(gScreen, NULL);
         loginButton->render(gScreen, NULL);
         backButton->render(gScreen, NULL);
+        registerButton->render(gScreen, NULL);
     
         if (usernameText == "" && deletedAccount == false) usernameText = "username";
         if (passwordText == "" && deletedPassword == false) passwordText = "password";
@@ -654,11 +703,19 @@ void BounceBall::displayLogout() {
 }
 
 bool BounceBall::notificationStatusRegister(string usernameText, string passwordText) {
+    for (int i = 0; i < usernameText.size(); ++i)
+        if (usernameText[i] >= 'a' && usernameText[i] <= 'z')
+            usernameText[i] -= 32;
+
+    for (int i = 0; i < passwordText.size(); ++i)
+        if (passwordText[i] >= 'a' && passwordText[i] <= 'z')
+            passwordText[i] -= 32;
+
     InfoPlayer infoRegister;
     infoRegister.setUsername(usernameText);
     infoRegister.setPassword(passwordText);
     infoRegister.setYourHighScore(0);
-    infoRegister.setUnlockLevel(1, 1);
+    infoRegister.setUnlockLevel(1, TypeLevel::UNLOCK);
     pair <string, bool> statusRegister = databaseGame.registerAccount(infoRegister);
     if (statusRegister.second == true) {
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
@@ -680,7 +737,12 @@ void BounceBall::displayRegister() {
     BaseObject backGround;
     backGround.loadImage("img//background//background.jpg", gScreen);
     backGround.render(gScreen);
-    bool quit = false;
+
+    BaseObject boardRegister;
+    boardRegister.loadImage("img//board//boardRegister.png", gScreen);
+    boardRegister.setRectPos((SCREEN_WIDTH - boardRegister.getRect().w) / 2,
+        (SCREEN_HEIGHT - boardRegister.getRect().h) / 2);
+    boardRegister.render(gScreen);
 
     TTF_Font* fontGame;
     if (TTF_Init() == -1) return;
@@ -705,13 +767,13 @@ void BounceBall::displayRegister() {
     passwordButton->setRectPos(passwordButton->getXPos(), passwordButton->getYPos());
     passwordButton->render(gScreen);
 
-    ButtonObject* loginButton = new ButtonObject;
-    loginButton->loadImage("img//button//register_button_register.png", gScreen);
-    loginButton->setClips();
-    loginButton->setXPos((SCREEN_WIDTH - loginButton->getWidthButton()) / 2);
-    loginButton->setYPos(350);
-    loginButton->setRectPos(loginButton->getXPos(), loginButton->getYPos());
-    loginButton->render(gScreen);
+    ButtonObject* registerButton = new ButtonObject;
+    registerButton->loadImage("img//button//register_button_register.png", gScreen);
+    registerButton->setClips();
+    registerButton->setXPos((SCREEN_WIDTH - registerButton->getWidthButton()) / 2);
+    registerButton->setYPos(350);
+    registerButton->setRectPos(registerButton->getXPos(), registerButton->getYPos());
+    registerButton->render(gScreen);
 
     ButtonObject* backButton = new ButtonObject;
     backButton->loadImage("img//button//back_button.png", gScreen);
@@ -720,6 +782,16 @@ void BounceBall::displayRegister() {
     backButton->setYPos(SCREEN_HEIGHT - backButton->getRect().h);
     backButton->setRectPos(backButton->getXPos(), backButton->getYPos());
     backButton->render(gScreen);
+
+    ButtonObject* loginButton = new ButtonObject;
+    if (infoPlayer->getUsername() == "") {
+        loginButton->loadImage("img//button//menu_button_login.png", gScreen);
+        loginButton->setClips();
+        loginButton->setRectSize(175, 64);
+        loginButton->setRectPos(SCREEN_WIDTH - loginButton->getRect().w,
+                        SCREEN_HEIGHT - loginButton->getRect().h);
+        loginButton->render(gScreen);
+    }
 
     SDL_RenderPresent(gScreen);
 
@@ -735,10 +807,10 @@ void BounceBall::displayRegister() {
     passwordTextTexture.setPosY(passwordButton->getYPos() + 15);
     passwordTextTexture.setColor(LTexture::COLOR::PURPLE_COLOR);
 
-    //string usernameText = "username"; 
-    //string passwordText = "password";    
-    string usernameText = "buiminhhoat";
-    string passwordText = "buiminhhoat";
+    string usernameText = "username"; 
+    string passwordText = "password";    
+    //string usernameText = "buiminhhoat";
+    //string passwordText = "buiminhhoat";
 
     gInputTextTexture = &usernameTextTexture;
 
@@ -752,14 +824,18 @@ void BounceBall::displayRegister() {
     FPS flickerTimer;
     flickerTimer.start();
     SDL_StartTextInput();
+    bool deletedAccount = false;
+    bool deletedPassword = false;
+    bool quit = false;
     while (!quit) {
         fpsTimer.start();
-        MouseEvents* mouse = new MouseEvents;
-        mouse->mouseHandleEvent();
-        bool selectUsernameButton = bool(mouse->checkMouseInButton(usernameButton));
-        bool selectPasswordButton = bool(mouse->checkMouseInButton(passwordButton));
-        bool selectRegisterButton = bool(mouse->checkMouseInButton(loginButton));
-        bool selectBackButton = bool(mouse->checkMouseInButton(backButton));
+        MouseEvents mouse;
+        mouse.mouseHandleEvent();
+        bool selectUsernameButton = bool(mouse.checkMouseInButton(usernameButton));
+        bool selectPasswordButton = bool(mouse.checkMouseInButton(passwordButton));
+        bool selectRegisterButton = bool(mouse.checkMouseInButton(registerButton));
+        bool selectBackButton = bool(mouse.checkMouseInButton(backButton));
+        bool selectLoginButton = bool(mouse.checkMouseInButton(loginButton));
         while (SDL_PollEvent(&gEvent) != 0) {
             if (gEvent.type == SDL_QUIT) exit(0);
             if ((gEvent.type == SDL_MOUSEBUTTONDOWN && selectBackButton)) {
@@ -777,10 +853,23 @@ void BounceBall::displayRegister() {
                         display = typeDisplay::RE_MENU;
                         return;
                     }
-                        
+                }
+                if (selectLoginButton) {
+                    backGround.cleanUp();
+                    boardRegister.cleanUp();
+                    registerButton->cleanUp();
+                    usernameButton->cleanUp();
+                    passwordButton->cleanUp();
+                    loginButton->cleanUp();
+                    backButton->cleanUp();
+                    gInputTextTexture->cleanUp();
+                    usernameTextTexture.cleanUp();
+                    passwordTextTexture.cleanUp();
+                    iteratorMouse.cleanUp();
+                    display = typeDisplay::LOGIN;
+                    return;
                 }
             }
-
             if (selectText == selectInput::ACCOUNT) {
                 inputText = &usernameText;
                 gInputTextTexture = &usernameTextTexture;
@@ -803,15 +892,17 @@ void BounceBall::displayRegister() {
                     *inputText = "";
                 }
                 else if (*inputText == "") {
-                    if (selectText == selectInput::ACCOUNT) {
+                    if (selectText == selectInput::ACCOUNT && deletedAccount == false) {
                         *inputText = "username";
                     }
-                    else {
+                    else if (selectText == selectInput::PASSWORD && deletedPassword == false) {
                         *inputText = "password";
                     }
                 }
-                if (gEvent.key.keysym.sym == SDLK_BACKSPACE && (*inputText).size() > 0) {
-                    (*inputText).pop_back();
+                if (gEvent.key.keysym.sym == SDLK_BACKSPACE) {
+                    if ((*inputText).size() > 0) (*inputText).pop_back();
+                    if (inputText == &usernameText) deletedAccount = true;
+                    else deletedPassword = true;
                 }
                 else if (gEvent.key.keysym.sym == SDLK_c && SDL_GetModState() & KMOD_CTRL) {
                     SDL_SetClipboardText((*inputText).c_str());
@@ -852,27 +943,43 @@ void BounceBall::displayRegister() {
         SDL_RenderClear(gScreen);
 
         backGround.render(gScreen, NULL);
+        boardRegister.render(gScreen, NULL);
         usernameButton->render(gScreen, NULL);
         passwordButton->render(gScreen, NULL);
         loginButton->render(gScreen, NULL);
         backButton->render(gScreen, NULL);
+        registerButton->render(gScreen, NULL);
 
-        if (usernameText == "") usernameText = "username";
-        if (passwordText == "") passwordText = "password";
+        if (usernameText == "" && deletedAccount == false) usernameText = "username";
+        if (passwordText == "" && deletedPassword == false) passwordText = "password";
+
         string showUsername = "";
         for (int i = max(0, (int)usernameText.size() - 15); i < usernameText.size(); ++i) {
             showUsername += usernameText[i];
         }
-        usernameTextTexture.setText(showUsername);
-        usernameTextTexture.loadFromRenderText(fontGame, gScreen);
-        usernameTextTexture.showText(gScreen, usernameTextTexture.getPosX(), usernameTextTexture.getPosY());
+
+        if (showUsername.size() > 0) {
+            usernameTextTexture.setText(showUsername);
+            usernameTextTexture.loadFromRenderText(fontGame, gScreen);
+            usernameTextTexture.showText(gScreen, usernameTextTexture.getPosX(), usernameTextTexture.getPosY());
+        }
+        else {
+            gInputTextTexture->setPosX(boardRegister.getRect().x + 85);
+            gInputTextTexture->setWidth(0);
+        }
 
         string encodePassword = "";
         for (int i = 0; i < min(15, passwordText.size()); ++i) encodePassword += "*";
         if (passwordText == "password") encodePassword = passwordText;
-        passwordTextTexture.setText(encodePassword);
-        passwordTextTexture.loadFromRenderText(fontGame, gScreen);
-        passwordTextTexture.showText(gScreen, passwordTextTexture.getPosX(), passwordTextTexture.getPosY());
+        if (encodePassword.size() > 0) {
+            passwordTextTexture.setText(encodePassword);
+            passwordTextTexture.loadFromRenderText(fontGame, gScreen);
+            passwordTextTexture.showText(gScreen, passwordTextTexture.getPosX(), passwordTextTexture.getPosY());
+        }
+        else {
+            gInputTextTexture->setPosX(boardRegister.getRect().x + 85);
+            gInputTextTexture->setWidth(0);
+        }
 
         iteratorMouse.setRectPos(gInputTextTexture->getPosX()
             + gInputTextTexture->getWidth() + 2,
@@ -952,20 +1059,28 @@ void BounceBall::displaySettings() {
     SDL_RenderPresent(gScreen);
     bool quit = false;
     while (!quit) {
-        MouseEvents* mouse = new MouseEvents;
-        mouse->mouseHandleEvent();
-        bool selectSoundOnButton = bool(mouse->checkMouseInButton(soundOnButton));
-        bool selectSoundOffButton = bool(mouse->checkMouseInButton(soundOffButton));
-        bool selectBackButton = bool(mouse->checkMouseInButton(backButton));
-        bool selectSaveButton = bool(mouse->checkMouseInButton(saveButton));
-        bool selectRestoreButton = bool(mouse->checkMouseInButton(restoreButton));
-        bool selectExitButton = bool(mouse->checkMouseInButton(exitButton));
+        MouseEvents mouse;
+        mouse.mouseHandleEvent();
+        bool selectSoundOnButton = bool(mouse.checkMouseInButton(soundOnButton));
+        bool selectSoundOffButton = bool(mouse.checkMouseInButton(soundOffButton));
+        bool selectBackButton = bool(mouse.checkMouseInButton(backButton));
+        bool selectSaveButton = bool(mouse.checkMouseInButton(saveButton));
+        bool selectRestoreButton = bool(mouse.checkMouseInButton(restoreButton));
+        bool selectExitButton = bool(mouse.checkMouseInButton(exitButton));
         while (SDL_PollEvent(&gEvent) != 0) {
             if (gEvent.type == SDL_QUIT) exit(0);
             if ((gEvent.type == SDL_MOUSEBUTTONDOWN 
                     && (selectBackButton || selectExitButton))) {
                 quit = true;
                 display = typeDisplay::RE_MENU;
+                backGround.cleanUp();
+                boardSettings.cleanUp();
+                soundOnButton->cleanUp();
+                soundOffButton->cleanUp();
+                saveButton->cleanUp();
+                restoreButton->cleanUp();
+                backButton->cleanUp();
+                exitButton->cleanUp();
                 return;
             }
             if (gEvent.type == SDL_MOUSEBUTTONDOWN) {
@@ -977,6 +1092,9 @@ void BounceBall::displaySettings() {
                     setSound = typeSound::ON;
                 if (selectSaveButton) {
                     sound = setSound;
+                    quit = true;
+                    display = typeDisplay::RE_MENU;
+                    return;
                 }
             }
         }
@@ -995,6 +1113,78 @@ void BounceBall::displaySettings() {
         backButton->render(gScreen);
         exitButton->render(gScreen);
         SDL_RenderPresent(gScreen);
+    }
+}
+
+void BounceBall::displayHowToPlayButton() {
+    BaseObject backGround;
+    backGround.loadImage("img//background//background.jpg", gScreen);
+    backGround.render(gScreen);
+
+    BaseObject howToPlay;
+    howToPlay.loadImage("img//HowToPlay//HowToPlay.png", gScreen);
+    howToPlay.setRectPos((SCREEN_WIDTH - howToPlay.getRect().w) / 2,
+        (SCREEN_HEIGHT - howToPlay.getRect().h) / 2);
+    howToPlay.render(gScreen);
+
+    ButtonObject* backButton = new ButtonObject;
+    backButton->loadImage("img//button//back_button.png", gScreen);
+    backButton->setClips();
+    backButton->setXPos(0);
+    backButton->setYPos(SCREEN_HEIGHT - backButton->getRect().h);
+    backButton->setRectPos(backButton->getXPos(), backButton->getYPos());
+    backButton->render(gScreen);
+
+    ButtonObject* playButton = new ButtonObject;
+    playButton->loadImage("img//button//menu_button_play.png", gScreen);
+    playButton->setClips();
+    playButton->setRectSize(192, 64);
+    playButton->setRectPos(SCREEN_WIDTH - playButton->getRect().w, SCREEN_HEIGHT - playButton->getRect().h);
+    playButton->render(gScreen);
+
+    SDL_RenderPresent(gScreen);
+
+    MouseEvents mouse;
+
+    bool quit = 0;
+    while (!quit) {
+        mouse.mouseHandleEvent();
+        bool clickBackButton = bool(mouse.checkMouseInButton(backButton));
+        bool clickPlayButton = bool(mouse.checkMouseInButton(playButton));
+        while (SDL_PollEvent(&gEvent)) {
+            if (gEvent.type == SDL_QUIT) exit(0);
+            if ((gEvent.type == SDL_MOUSEBUTTONDOWN)) {
+                if (clickBackButton) {
+                    quit = true;
+                    display = typeDisplay::RE_MENU;
+                    backGround.cleanUp();
+                    howToPlay.cleanUp();
+                    backButton->cleanUp();
+                    playButton->cleanUp();
+                    return;
+                }
+                if (clickPlayButton) {
+                    display = typeDisplay::PLAY;
+                    if (infoPlayer->getUsername() == "") display = typeDisplay::LOGIN;
+                    backGround.cleanUp();
+                    howToPlay.cleanUp();
+                    backButton->cleanUp();
+                    playButton->cleanUp();
+                    return;
+                }
+            }
+        }
+        switch (display) {
+        case typeDisplay::RE_MENU:
+            startGame();
+            break;
+        case typeDisplay::PLAY:
+            displayPlay();
+            break;
+        case typeDisplay::LOGIN:
+            displayLogin();
+            break;
+        }
     }
 }
 

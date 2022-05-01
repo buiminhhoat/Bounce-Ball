@@ -111,7 +111,7 @@ void Database::exportDatabase() {
 
 pair <string, bool> Database::registerAccount(InfoPlayer info) {
     string username = info.getUsername();
-    if (username == "username") {
+    if (username == "USERNAME") {
         return { "Ten tai khoan khong hop le", false };
     }
 

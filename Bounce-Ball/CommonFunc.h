@@ -18,7 +18,6 @@ using namespace std;
 static SDL_Window* gWindow = NULL;
 static SDL_Renderer* gScreen = NULL;
 static SDL_Event gEvent;
-//static Mix_Music* gMusic = NULL;
 
 /* SCREEN */
 const int SCREEN_WIDTH = 768;
@@ -44,8 +43,10 @@ const int MAX_MAP_Y = 50;
 const int MAX_LEVEL = 50;
 
 /* DATABASE */
-
 const string ADDRESS_DATABASE = "database//database.txt";
+
+/* GAME */
+const int ORIGINAL_LIFE = 3;
 
 struct Input {
 	int left = 0;
@@ -68,4 +69,8 @@ enum TypeBlock {
 	LIFE = 9,
 };
 
+enum TypeLevel {
+	LOCK = 0,
+	UNLOCK = 1,
+};
 #endif 
