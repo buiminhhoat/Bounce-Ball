@@ -47,13 +47,14 @@ const string ADDRESS_DATABASE = "database//database.txt";
 
 /* GAME */
 const int ORIGINAL_LIFE = 3;
+const int EPS_PIXELS_IMPACT = 1;
 
 struct Input {
-	int left = 0;
-	int right = 0;
-	int up = 0;
-	int down = 0;
-	int jump = 0;
+	bool left = 0;
+	bool right = 0;
+	bool up = 0;
+	bool down = 0;
+	bool jump = 0;
 };
 
 enum TypeBlock {

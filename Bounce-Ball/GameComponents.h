@@ -254,7 +254,6 @@ public:
 
 	void doPlayer(Map* gMap);
 	void checkToMap(Map* gMap);
-	void initThreats();
 	void setTypeMove(const int& typeMove) { this->typeMove = typeMove; };
 	void setAnimationPos(const int& animationA, const int& animationB) {
 		this->animationA = animationA;
@@ -270,7 +269,6 @@ private:
 	float xPos;
 	float yPos;
 	bool onGround;
-	int comeBackTime;
 	SDL_Rect frameClip[THREAT_FRAME_NUM];
 	int widthFrame;
 	int heightFrame;
@@ -330,7 +328,6 @@ private:
 	float xPos;
 	float yPos;
 	bool onGround;
-	int comeBackTime;
 	SDL_Rect frameClip[CHECKPOINT_FRAME_NUM];
 	int widthFrame;
 	int heightFrame;
@@ -484,7 +481,7 @@ private:
 	int life;
 	int level;
 	int yourHighScore;
-	int unlockLevel[55];
+	int unlockLevel[MAX_LEVEL + 5];
 	int sound;
 };
 

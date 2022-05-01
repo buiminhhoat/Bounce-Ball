@@ -181,7 +181,6 @@ ThreatsObject::ThreatsObject() {
 	xPos = 0.0;
 	yPos = 0.0;
 	onGround = false;
-	comeBackTime = 0;
 	frame = 0;
 	animationA = 0;
 	animationB = 0;
@@ -214,33 +213,15 @@ void ThreatsObject::setClips() {
 }
 
 void ThreatsObject::showImage(SDL_Renderer* des) {
-	if (comeBackTime == 0) {
-		rect.x = xPos - mapX;
-		rect.y = yPos - mapY;
-		++frame;
-		if (frame >= THREAT_FRAME_NUM) {
-			frame = 0;
-		}
-
-		SDL_Rect rendQuad = { rect.x, rect.y, widthFrame, heightFrame };
-		SDL_RenderCopy(des, object, &frameClip[frame], &rendQuad);
+	rect.x = xPos - mapX;
+	rect.y = yPos - mapY;
+	++frame;
+	if (frame >= THREAT_FRAME_NUM) {
+		frame = 0;
 	}
-}
 
-void ThreatsObject::initThreats() {
-	xVal = 0;
-	yVal = 0;
-	//if (yPos > 256) {
-	//	yPos -= 256;
-	//	animationA -= 256;
-	//	animationB -= 256;
-	//}
-	//else {
-	//	yPos = 0;
-	//}
-	xPos = 0;
-	comeBackTime = 0;
-	inputType.up = 1;
+	SDL_Rect rendQuad = { rect.x, rect.y, widthFrame, heightFrame };
+	SDL_RenderCopy(des, object, &frameClip[frame], &rendQuad);
 }
 
 void ThreatsObject::doPlayer(Map* gMap) {
@@ -251,10 +232,10 @@ void ThreatsObject::doPlayer(Map* gMap) {
 		yVal = THREAT_MAX_FALL_SPEED;
 	}
 
-	if (inputType.up == 1) {
+	if (inputType.up == true) {
 		yVal -= THREAT_SPEED;
 	}
-	else if (inputType.down == 1) {
+	else if (inputType.down == true) {
 		yVal += THREAT_SPEED;
 	}
 	checkToMap(gMap);
@@ -271,10 +252,11 @@ void ThreatsObject::checkToMap(Map* gMap) {
 	int height_min = heightFrame < TILE_SIZE ? heightFrame : TILE_SIZE;
 
 	x1 = (xPos + xVal) / TILE_SIZE;
-	x2 = (xPos + xVal + widthFrame - 1) / TILE_SIZE;
+	x2 = (xPos + xVal + widthFrame - EPS_PIXELS_IMPACT) / TILE_SIZE;
 
 	y1 = (yPos) / TILE_SIZE;
-	y2 = (yPos + heightFrame - 1) / TILE_SIZE;
+	// 1 is eps
+	y2 = (yPos + heightFrame - EPS_PIXELS_IMPACT) / TILE_SIZE;
 
 	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 <= MAX_MAP_Y) {
 		if (xVal > 0) {
@@ -298,7 +280,7 @@ void ThreatsObject::checkToMap(Map* gMap) {
 	x2 = (xPos + width_min) / TILE_SIZE;
 
 	y1 = (yPos + yVal) / TILE_SIZE;
-	y2 = (yPos + yVal + heightFrame - 1) / TILE_SIZE;
+	y2 = (yPos + yVal + heightFrame - EPS_PIXELS_IMPACT) / TILE_SIZE;
 
 	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y) {
 		if (yVal > 0) {
@@ -308,8 +290,8 @@ void ThreatsObject::checkToMap(Map* gMap) {
 				yVal = 0;
 				onGround = true;
 				if (typeMove == TypeMove::MOVE_IN_SPACE_THREAT) {
-					inputType.down = 0;
-					inputType.up = 1;
+					inputType.down = false;
+					inputType.up = true;
 				}
 			}
 		}
@@ -318,8 +300,8 @@ void ThreatsObject::checkToMap(Map* gMap) {
 				yPos = (y1 + 1) * TILE_SIZE;
 				yVal = 0;
 				if (typeMove == TypeMove::MOVE_IN_SPACE_THREAT) {
-					inputType.down = 1;
-					inputType.up = 0;
+					inputType.down = true;
+					inputType.up = false;
 				}
 			}
 		}
@@ -332,16 +314,13 @@ void ThreatsObject::checkToMap(Map* gMap) {
 		xPos = 0;
 	}
 	else if (xPos + widthFrame > gMap->maxX) {
-		xPos = gMap->maxX - widthFrame - 1;
+		xPos = gMap->maxX - widthFrame - EPS_PIXELS_IMPACT;
 	}
 
 	if (yPos < 0) {
 		yPos = THREAT_SPEED;
-		inputType.up = 0;
-		inputType.down = 1;
-	}
-	if (yPos > gMap->maxY) {
-		comeBackTime = 10;
+		inputType.up = false;
+		inputType.down = true;
 	}
 }
 
@@ -351,13 +330,13 @@ void ThreatsObject::impMoveType(SDL_Renderer* screen) {
 	}
 	else {
 		if (yPos > animationB) {
-			inputType.up = 1;
-			inputType.down = 0;
+			inputType.up = true;
+			inputType.down = false;
 			loadImage("img//threats//dyn_thorn.png", screen);
 		}
 		else if (yPos < animationA) {
-			inputType.up = 0;
-			inputType.down = 1;
+			inputType.up = false;
+			inputType.down = true;
 			loadImage("img//threats//dyn_thorn.png", screen);
 		}
 	}
@@ -371,7 +350,6 @@ CheckpointObject::CheckpointObject() {
 	xPos = 0.0;
 	yPos = 0.0;
 	onGround = false;
-	comeBackTime = 0;
 	frame = 0;
 	animationA = 0;
 	animationB = 0;
@@ -405,17 +383,15 @@ void CheckpointObject::setClips() {
 }
 
 void CheckpointObject::showImage(SDL_Renderer* des) {
-	if (comeBackTime == 0) {
-		rect.x = xPos - mapX;
-		rect.y = yPos - mapY;
-		++frame;
-		if (frame >= CHECKPOINT_FRAME_NUM) {
-			frame = 0;
-		}
-
-		SDL_Rect rendQuad = { rect.x, rect.y, widthFrame, heightFrame };
-		SDL_RenderCopy(des, object, &frameClip[frame], &rendQuad);
+	rect.x = xPos - mapX;
+	rect.y = yPos - mapY;
+	++frame;
+	if (frame >= CHECKPOINT_FRAME_NUM) {
+		frame = 0;
 	}
+
+	SDL_Rect rendQuad = { rect.x, rect.y, widthFrame, heightFrame };
+	SDL_RenderCopy(des, object, &frameClip[frame], &rendQuad);
 }
 
 LTexture::LTexture() {

@@ -15,6 +15,7 @@
 #define DRAW_BACK 4 * 64
 
 class MainObject : public BaseObject {
+#define MAIN_FRAME_NUM 8
 public:
 	MainObject();
 	~MainObject();
@@ -66,7 +67,7 @@ private:
 	float widthFrame;
 	float heightFrame;
 
-	SDL_Rect frameClip[8];
+	SDL_Rect frameClip[MAIN_FRAME_NUM];
 	Input inputType;
 	int frame;
 	int status;
