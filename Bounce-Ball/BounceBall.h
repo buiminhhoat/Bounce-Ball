@@ -65,6 +65,7 @@ public:
 private:
 	int display = typeDisplay::MENU;
 	int sound = typeSound::ON;
+	TTF_Font* fontGame;
 	Database databaseGame;
 	InfoPlayer* infoPlayer = new InfoPlayer;
 	ButtonObject selectLevelButton[MAX_ROW_SHOW + 1][MAX_COL_SHOW + 1];

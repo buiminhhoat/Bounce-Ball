@@ -37,12 +37,7 @@ int BounceBall::startGame() {
     }
 
     BaseObject background;
-    //background.loadImage("img//background//background.jpg", gScreen);
-    Cryptosystem tmp;
-    string addressBackground = "img//background//background";
-    addressBackground += tmp.convertNumberToString(rand() % MAX_BACKGROUND);
-    addressBackground += ".jpg";
-    background.loadImage(addressBackground, gScreen);
+    background.loadImage("img//background//background.jpg", gScreen);
     background.render(gScreen);
 
     BaseObject logo;
@@ -137,18 +132,22 @@ int BounceBall::startGame() {
                     display = typeDisplay::HOW_TO_PLAY;
                 }
             }
-        }  
+        }
+
+        if (display != typeDisplay::MENU) {
+            background.cleanUp();
+            logo.cleanUp();
+            playButton.cleanUp();
+            leaderboardButton.cleanUp();
+            howToPlayButton.cleanUp();
+            loginButton.cleanUp();
+            logoutButton.cleanUp();
+            settingsButton.cleanUp();
+            registerButton.cleanUp();
+        }
+
         switch (display) {
             case typeDisplay::RE_MENU:
-                background.cleanUp();
-                logo.cleanUp();
-                playButton.cleanUp();
-                leaderboardButton.cleanUp();
-                howToPlayButton.cleanUp();
-                loginButton.cleanUp();
-                logoutButton.cleanUp();
-                settingsButton.cleanUp();
-                registerButton.cleanUp();
                 startGame();
                 break;
             case typeDisplay::PLAY:
@@ -179,43 +178,28 @@ int BounceBall::startGame() {
 
 void BounceBall::displayLogo() {
     BaseObject background;
-    //background.loadImage("img//background//background.jpg", gScreen);
-    Cryptosystem tmp;
-    string addressBackground = "img//background//background";
-    addressBackground += tmp.convertNumberToString(rand() % MAX_BACKGROUND);
-    addressBackground += ".jpg";
-    background.loadImage(addressBackground, gScreen);
-
+    background.loadImage("img//background//background.jpg", gScreen);
     background.render(gScreen);
-    background.cleanUp();
+    
     BaseObject logo; 
     logo.loadImage("img//logo//logo.png", gScreen);
     logo.setRectSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     logo.render(gScreen);
-    logo.cleanUp();
+    
     SDL_RenderPresent(gScreen);
     SDL_Delay(1000);
+
+    background.cleanUp();
+    logo.cleanUp();
 }
 
 void BounceBall::displayPlay() {
     MouseEvents mouse;
     BaseObject background;
-    Cryptosystem tmp;
-    string addressBackground = "img//background//background";
-    addressBackground += tmp.convertNumberToString(rand() % MAX_BACKGROUND);
-    addressBackground += ".jpg";
-    background.loadImage(addressBackground, gScreen);
-    //background.loadImage("img//background//background.jpg", gScreen);
+    background.loadImage("img//background//background.jpg", gScreen);
     background.render(gScreen);
 
-    TTF_Font* fontGame;
     LTexture LevelText;
-
-    if (TTF_Init() == -1) return;
-    fontGame = TTF_OpenFont("font//no_continue.ttf", 30);
-    if (fontGame == NULL) {
-        return;
-    }
 
     int level = 0;
     
@@ -268,7 +252,7 @@ void BounceBall::displayPlay() {
                 quit = true;
                 display = typeDisplay::RE_MENU;
                 SDL_RenderPresent(gScreen);
-                return;
+                break;
             }
             int level = 0;
             for (int i = 1; i <= MAX_ROW_SHOW; ++i) {
@@ -306,11 +290,19 @@ void BounceBall::displayPlay() {
                         databaseGame.updateDatabaseUsername(*infoPlayer);
                         databaseGame.exportDatabase();
                         display = typeDisplay::RE_MENU;
-                        return;
+                        if (level == MAX_LEVEL && nextAction == levelType::NEXT_LEVEL) {
+                            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
+                                "Bounce Ball",
+                                "Congratulations! You've completed all the levels",
+                                NULL);
+                        }
+                        quit = true;
+                        break;
                     }
                 }
             }
         }
+        if (quit == true) break;
     }
     
     background.cleanUp();
@@ -325,12 +317,7 @@ void BounceBall::displayPlay() {
 void BounceBall::displayLeaderboard() {
     MouseEvents mouse;
     BaseObject background;
-    Cryptosystem tmp;
-    string addressBackground = "img//background//background";
-    addressBackground += tmp.convertNumberToString(rand() % MAX_BACKGROUND);
-    addressBackground += ".jpg";
-    background.loadImage(addressBackground, gScreen);
-    //background.loadImage("img//background//background.jpg", gScreen);
+    background.loadImage("img//background//background.jpg", gScreen);
     background.render(gScreen);
 
     BaseObject leaderboard;
@@ -350,15 +337,8 @@ void BounceBall::displayLeaderboard() {
     databaseGame.sortAllDataInfoPlayer();
     vector <InfoPlayer> dataInfoPlayer = databaseGame.getDataInfoPlayer();
     
-    TTF_Font* fontGame;
     LTexture usernameText;
     LTexture yourHighScoreText;
-
-    if (TTF_Init() == -1) return;
-    fontGame = TTF_OpenFont("font//no_continue.ttf", FONT_SIZE);
-    if (fontGame == NULL) {
-        return;
-    }
 
     int xPosUsername = leaderboard.getRect().x + 150;
     int yPosUsername = leaderboard.getRect().y + 168;
@@ -400,15 +380,16 @@ void BounceBall::displayLeaderboard() {
                 quit = true;
                 display = typeDisplay::RE_MENU;
                 SDL_RenderPresent(gScreen);
-                background.cleanUp();
-                leaderboard.cleanUp();
-                backButton.cleanUp();
-                usernameText.cleanUp();
-                yourHighScoreText.cleanUp();
-                return;
+                break;
             }
         }
+        if (quit == true) break;
     }
+    background.cleanUp();
+    leaderboard.cleanUp();
+    backButton.cleanUp();
+    usernameText.cleanUp();
+    yourHighScoreText.cleanUp();
 }
 
 bool BounceBall::checkInfoLogin(string usernameText, string passwordText, InfoPlayer *infoPlayer) {
@@ -433,12 +414,7 @@ bool BounceBall::checkInfoLogin(string usernameText, string passwordText, InfoPl
 
 void BounceBall::displayLogin() {
     BaseObject background;
-    Cryptosystem tmp;
-    string addressBackground = "img//background//background";
-    addressBackground += tmp.convertNumberToString(rand() % MAX_BACKGROUND);
-    addressBackground += ".jpg";
-    background.loadImage(addressBackground, gScreen);
-    //background.loadImage("img//background//background.jpg", gScreen);
+    background.loadImage("img//background//background.jpg", gScreen);
     background.render(gScreen);
 
     BaseObject boardLogin;
@@ -446,13 +422,6 @@ void BounceBall::displayLogin() {
     boardLogin.setRectPos((SCREEN_WIDTH - boardLogin.getRect().w) / 2,
         (SCREEN_HEIGHT - boardLogin.getRect().h) / 2);
     boardLogin.render(gScreen);
-
-    TTF_Font* fontGame;
-    if (TTF_Init() == -1) return;
-    fontGame = TTF_OpenFont("font//no_continue.ttf", FONT_SIZE);
-    if (fontGame == NULL) {
-        return;
-    }
 
     ButtonObject registerButton;
     registerButton.loadImage("img//button//menu_button_register.png", gScreen);
@@ -543,7 +512,8 @@ void BounceBall::displayLogin() {
                             "Bounce Ball",
                             "Login successfully",
                             NULL);
-                        return;
+                        quit = true;
+                        break;
                     }
                     else {
                         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
@@ -555,22 +525,12 @@ void BounceBall::displayLogin() {
                 if (selectBackButton) {
                     quit = true;
                     display = typeDisplay::RE_MENU;
-                    return;
+                    break;
                 }
                 if (selectRegisterButton) {
-                    background.cleanUp();
-                    boardLogin.cleanUp();
-                    registerButton.cleanUp();
-                    usernameButton.cleanUp();
-                    passwordButton.cleanUp();
-                    loginButton.cleanUp();
-                    backButton.cleanUp();
-                    gInputTextTexture->cleanUp();
-                    usernameTextTexture.cleanUp();
-                    passwordTextTexture.cleanUp();
-                    iteratorMouse.cleanUp();
+                    quit = true;
                     display = typeDisplay::REGISTER;
-                    return;
+                    break;
                 }
             }
 
@@ -583,12 +543,7 @@ void BounceBall::displayLogin() {
                 gInputTextTexture = &passwordTextTexture;
             }
 
-            if (gEvent.type == SDL_QUIT) {
-                quit = true;
-                display = typeDisplay::MENU;
-                return;
-            }
-            else if (gEvent.type == SDL_KEYDOWN) {
+            if (gEvent.type == SDL_KEYDOWN) {
                 if (selectText == selectInput::ACCOUNT && *inputText == "username") {
                     *inputText = "";
                 }
@@ -633,7 +588,8 @@ void BounceBall::displayLogin() {
                             "Bounce Ball",
                             "Login successfully",
                             NULL);
-                        return;
+                        quit = true;
+                        break;
                     }
                     else {
                         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
@@ -651,6 +607,8 @@ void BounceBall::displayLogin() {
                 }
             }
         }
+
+        if (quit == true) break;
 
         SDL_SetRenderDrawColor(gScreen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
         SDL_RenderClear(gScreen);
@@ -712,6 +670,18 @@ void BounceBall::displayLogin() {
                 SDL_Delay(delayTime);
         }
     }
+
+    background.cleanUp();
+    boardLogin.cleanUp();
+    registerButton.cleanUp();
+    usernameButton.cleanUp();
+    passwordButton.cleanUp();
+    loginButton.cleanUp();
+    backButton.cleanUp();
+    gInputTextTexture->cleanUp();
+    usernameTextTexture.cleanUp();
+    passwordTextTexture.cleanUp();
+    iteratorMouse.cleanUp();
 }
 
 void BounceBall::displayLogout() {
@@ -752,12 +722,7 @@ bool BounceBall::notificationStatusRegister(string usernameText, string password
 
 void BounceBall::displayRegister() {
     BaseObject background;
-    Cryptosystem tmp;
-    string addressBackground = "img//background//background";
-    addressBackground += tmp.convertNumberToString(rand() % MAX_BACKGROUND);
-    addressBackground += ".jpg";
-    background.loadImage(addressBackground, gScreen);
-    //background.loadImage("img//background//background.jpg", gScreen);
+    background.loadImage("img//background//background.jpg", gScreen);
     background.render(gScreen);
 
     BaseObject boardRegister;
@@ -765,13 +730,6 @@ void BounceBall::displayRegister() {
     boardRegister.setRectPos((SCREEN_WIDTH - boardRegister.getRect().w) / 2,
         (SCREEN_HEIGHT - boardRegister.getRect().h) / 2);
     boardRegister.render(gScreen);
-
-    TTF_Font* fontGame;
-    if (TTF_Init() == -1) return;
-    fontGame = TTF_OpenFont("font//no_continue.ttf", 30);
-    if (fontGame == NULL) {
-        return;
-    }
 
     ButtonObject usernameButton;
     usernameButton.loadImage("img//button//register_button_username.png", gScreen);
@@ -858,7 +816,7 @@ void BounceBall::displayRegister() {
             if ((gEvent.type == SDL_MOUSEBUTTONDOWN && selectBackButton)) {
                 quit = true;
                 display = typeDisplay::RE_MENU;
-                return;
+                break;
             }
             if (gEvent.type == SDL_MOUSEBUTTONDOWN) {
                 if (selectUsernameButton)
@@ -867,24 +825,15 @@ void BounceBall::displayRegister() {
                     selectText = selectInput::PASSWORD;
                 if (selectRegisterButton) {
                     if (notificationStatusRegister(usernameText, passwordText) == true) {
+                        quit = true;
                         display = typeDisplay::RE_MENU;
-                        return;
+                        break;
                     }
                 }
                 if (selectLoginButton) {
-                    background.cleanUp();
-                    boardRegister.cleanUp();
-                    registerButton.cleanUp();
-                    usernameButton.cleanUp();
-                    passwordButton.cleanUp();
-                    loginButton.cleanUp();
-                    backButton.cleanUp();
-                    gInputTextTexture->cleanUp();
-                    usernameTextTexture.cleanUp();
-                    passwordTextTexture.cleanUp();
-                    iteratorMouse.cleanUp();
+                    quit = true;
                     display = typeDisplay::LOGIN;
-                    return;
+                    break;
                 }
             }
             if (selectText == selectInput::ACCOUNT) {
@@ -896,12 +845,7 @@ void BounceBall::displayRegister() {
                 gInputTextTexture = &passwordTextTexture;
             }
 
-            if (gEvent.type == SDL_QUIT) {
-                quit = true;
-                display = typeDisplay::MENU;
-                return;
-            }
-            else if (gEvent.type == SDL_KEYDOWN) {
+            if (gEvent.type == SDL_KEYDOWN) {
                 if (selectText == selectInput::ACCOUNT && *inputText == "username") {
                     *inputText = "";
                 }
@@ -941,8 +885,9 @@ void BounceBall::displayRegister() {
                 }
                 else if (gEvent.key.keysym.sym == SDLK_RETURN) {
                     if (notificationStatusRegister(usernameText, passwordText) == true) {
+                        quit = true;
                         display = typeDisplay::RE_MENU;
-                        return;
+                        break;
                     }
                         
                 }
@@ -955,6 +900,8 @@ void BounceBall::displayRegister() {
                 }
             }
         }
+
+        if (quit == true) break;
 
         SDL_SetRenderDrawColor(gScreen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
         SDL_RenderClear(gScreen);
@@ -1017,16 +964,22 @@ void BounceBall::displayRegister() {
                 SDL_Delay(delayTime);
         }
     }
+    background.cleanUp();
+    boardRegister.cleanUp();
+    registerButton.cleanUp();
+    usernameButton.cleanUp();
+    passwordButton.cleanUp();
+    loginButton.cleanUp();
+    backButton.cleanUp();
+    gInputTextTexture->cleanUp();
+    usernameTextTexture.cleanUp();
+    passwordTextTexture.cleanUp();
+    iteratorMouse.cleanUp();
 }
 
 void BounceBall::displaySettings() {
     BaseObject background;
-    //background.loadImage("img//background//background.jpg", gScreen);
-    Cryptosystem tmp;
-    string addressBackground = "img//background//background";
-    addressBackground += tmp.convertNumberToString(rand() % MAX_BACKGROUND);
-    addressBackground += ".jpg";
-    background.loadImage(addressBackground, gScreen);
+    background.loadImage("img//background//background.jpg", gScreen);
     background.render(gScreen);
 
     BaseObject boardSettings;
@@ -1090,15 +1043,7 @@ void BounceBall::displaySettings() {
                     && (selectBackButton || selectExitButton))) {
                 quit = true;
                 display = typeDisplay::RE_MENU;
-                background.cleanUp();
-                boardSettings.cleanUp();
-                soundOnButton.cleanUp();
-                soundOffButton.cleanUp();
-                saveButton.cleanUp();
-                restoreButton.cleanUp();
-                backButton.cleanUp();
-                exitButton.cleanUp();
-                return;
+                break;
             }
             if (gEvent.type == SDL_MOUSEBUTTONDOWN) {
                 if (selectSoundOnButton || selectSoundOffButton) {
@@ -1111,10 +1056,12 @@ void BounceBall::displaySettings() {
                     sound = setSound;
                     quit = true;
                     display = typeDisplay::RE_MENU;
-                    return;
+                    break;
                 }
             }
         }
+
+        if (quit == true) break;
 
         SDL_SetRenderDrawColor(gScreen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
         SDL_RenderClear(gScreen);
@@ -1131,16 +1078,19 @@ void BounceBall::displaySettings() {
         exitButton.render(gScreen);
         SDL_RenderPresent(gScreen);
     }
+    background.cleanUp();
+    boardSettings.cleanUp();
+    soundOnButton.cleanUp();
+    soundOffButton.cleanUp();
+    saveButton.cleanUp();
+    restoreButton.cleanUp();
+    backButton.cleanUp();
+    exitButton.cleanUp();
 }
 
 void BounceBall::displayHowToPlayButton() {
     BaseObject background;
-    //background.loadImage("img//background//background.jpg", gScreen);
-    Cryptosystem tmp;
-    string addressBackground = "img//background//background";
-    addressBackground += tmp.convertNumberToString(rand() % MAX_BACKGROUND);
-    addressBackground += ".jpg";
-    background.loadImage(addressBackground, gScreen);
+    background.loadImage("img//background//background.jpg", gScreen);
     background.render(gScreen);
 
     BaseObject howToPlay;
@@ -1235,6 +1185,13 @@ bool BounceBall::initSDL() {
             return false;
         }
     }
+
+    if (TTF_Init() == -1) return false;
+    fontGame = TTF_OpenFont("font//no_continue.ttf", FONT_SIZE);
+    if (fontGame == NULL) {
+        return false;
+    }
+
     return true;
 }
 

@@ -192,7 +192,8 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
 
     Cryptosystem tmp;
     string addressBackground = "img//background//background";
-    addressBackground += tmp.convertNumberToString(rand() % MAX_BACKGROUND);
+    addressBackground += tmp.convertNumberToString(infoPlayer->getLevel() % MAX_BACKGROUND);
+    //addressBackground += tmp.convertNumberToString(rand() % MAX_BACKGROUND);
     addressBackground += ".jpg";
     background.loadImage(addressBackground, screen);
 
@@ -299,6 +300,9 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
         }
 
         if (object.getIsIntersectBallVsThreats()) {
+            //infoPlayer->setLevel(infoPlayer->getLevel() + 1);
+            //infoPlayer->setYourHighScore(score.getYourHighScore());
+            //return BounceBall::levelType::NEXT_LEVEL;
             player.loadImage("img//ball//ball_pop.png", screen);
             player.render(screen);
 

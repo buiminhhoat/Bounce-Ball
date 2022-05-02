@@ -141,11 +141,11 @@ void ManagementObject::checkIntersectThreatsObject(SDL_Renderer* screen) {
 
         float cxPlayer = player->getXPos() + player->getWidth() / 2;
         float cyPlayer = player->getYPos() + player->getHeight() / 2;
-        float rPlayer = min(player->getWidth(), player->getHeight()) / 2 - 1;
+        float rPlayer = min(player->getWidth(), player->getHeight()) / 2;
         RectObject rect_threat = { x1Threats, y1Threats, x2Threats, y2Threats };
         CircleObject circlePlayer = { cxPlayer, cyPlayer, rPlayer };
         if (checkIntersectBallVsObject(circlePlayer, rect_threat)) {
-            isIntersectBallVsThreats = 1;
+            isIntersectBallVsThreats = true;
             if (infoPlayer->getSound() == BounceBall::typeSound::ON) {
                 Mix_PlayChannel(-1, ballPop, 0);
             }
@@ -198,7 +198,7 @@ void ManagementObject::checkIntersectRingsObject(SDL_Renderer* screen) {
 
         float cxPlayer = player->getXPos() + player->getWidth() / 2;
         float cyPlayer = player->getYPos() + player->getHeight() / 2;
-        float rPlayer = min(player->getWidth(), player->getHeight()) / 2 - 1;
+        float rPlayer = min(player->getWidth(), player->getHeight()) / 2;
 
         RectObject rect_ring = { x1Ring, y1Ring, x2Ring, y2Ring };
         CircleObject circlePlayer = { cxPlayer, cyPlayer, rPlayer };
@@ -258,7 +258,7 @@ void ManagementObject::checkIntersectCheckpointObject(SDL_Renderer* screen) {
 
         float cxPlayer = player->getXPos() + player->getWidth() / 2;
         float cyPlayer = player->getYPos() + player->getHeight() / 2;
-        float rPlayer = min(player->getWidth(), player->getHeight()) / 2 - 1;
+        float rPlayer = min(player->getWidth(), player->getHeight()) / 2;
 
         RectObject rect_checkpoint = { x1Checkpoint, y1Checkpoint, x2Checkpoint, y2Checkpoint };
         CircleObject circlePlayer = { cxPlayer, cyPlayer, rPlayer };
@@ -316,7 +316,7 @@ void ManagementObject::checkIntersectLifeObject(SDL_Renderer* screen) {
 
         float cxPlayer = player->getXPos() + player->getWidth() / 2;
         float cyPlayer = player->getYPos() + player->getHeight() / 2;
-        float rPlayer = min(player->getWidth(), player->getHeight()) / 2 - 1;
+        float rPlayer = min(player->getWidth(), player->getHeight()) / 2;
 
         RectObject rect_checkpoint = { x1Checkpoint, y1Checkpoint, x2Checkpoint, y2Checkpoint };
         CircleObject circlePlayer = { cxPlayer, cyPlayer, rPlayer };
@@ -377,7 +377,7 @@ void ManagementObject::checkIntersectEndpointObject(SDL_Renderer* screen) {
 
         float cxPlayer = player->getXPos() + player->getWidth() / 2;
         float cyPlayer = player->getYPos() + player->getHeight() / 2;
-        float rPlayer = min(player->getWidth(), player->getHeight()) / 2 - 1;
+        float rPlayer = min(player->getWidth(), player->getHeight()) / 2;
 
         RectObject rect_checkpoint = { x1Checkpoint, y1Checkpoint, x2Checkpoint, y2Checkpoint };
         CircleObject circlePlayer = { cxPlayer, cyPlayer, rPlayer };
