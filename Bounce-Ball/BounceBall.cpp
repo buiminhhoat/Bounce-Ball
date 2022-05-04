@@ -40,48 +40,60 @@ int BounceBall::startGame() {
     background.loadImage("img//background//background.jpg", gScreen);
     background.render(gScreen);
 
+    const int LOGO_OBJECT_WIDTH = 210;
+    const int LOGO_OBJECT_HEIGHT = 159;
+    const int LOGO_OBJECT_Y_POS = 5;
+    
     BaseObject logo;
     logo.loadImage("img//logo//logo_small.png", gScreen);
-    logo.setRectSize(210, 159);
-    logo.setRectPos((SCREEN_WIDTH - logo.getRect().w) / 2, 5);
+    logo.setRectSize(LOGO_OBJECT_WIDTH, LOGO_OBJECT_HEIGHT);
+    logo.setRectPos((SCREEN_WIDTH - logo.getRect().w) / 2, LOGO_OBJECT_Y_POS);
     logo.render(gScreen);
     logo.cleanUp();
 
+    const int BACK_MID = 32;
+    const int FIRST_HEIGH_Y = 175;
+    const int DISTANCE_BUTTONS_Y = 100;
+
     ButtonObject playButton;
     playButton.loadImage("img//button//menu_button_play.png", gScreen);
-    playButton.setRectPos(SCREEN_WIDTH / 2 - playButton.getRect().w - 32, 175);
+    playButton.setRectPos(MID_POS_WIDTH - playButton.getRect().w - BACK_MID, FIRST_HEIGH_Y);
     playButton.render(gScreen);
 
     ButtonObject leaderboardButton;
     leaderboardButton.loadImage("img//button//menu_button_leaderboard.png", gScreen);
-    leaderboardButton.setRectPos(SCREEN_WIDTH / 2 + 32, 175);
+    leaderboardButton.setRectPos(MID_POS_WIDTH + BACK_MID, FIRST_HEIGH_Y);
     leaderboardButton.render(gScreen);
 
     ButtonObject howToPlayButton;
     howToPlayButton.loadImage("img//button//menu_button_howtoplay.png", gScreen);
-    howToPlayButton.setRectPos(SCREEN_WIDTH / 2 - howToPlayButton.getRect().w - 32, 275);
+    howToPlayButton.setRectPos(MID_POS_WIDTH - howToPlayButton.getRect().w - BACK_MID, 
+                                playButton.getYPos() + DISTANCE_BUTTONS_Y);
     howToPlayButton.render(gScreen);
 
     ButtonObject settingsButton;
     settingsButton.loadImage("img//button//menu_button_settings.png", gScreen);
-    settingsButton.setRectPos(SCREEN_WIDTH / 2 + 32, 275);
+    settingsButton.setRectPos(MID_POS_WIDTH + BACK_MID, 
+                                leaderboardButton.getYPos() + DISTANCE_BUTTONS_Y);
     settingsButton.render(gScreen);
 
     ButtonObject registerButton;
     registerButton.loadImage("img//button//menu_button_register.png", gScreen);
-    registerButton.setRectPos(SCREEN_WIDTH / 2 + 32, 375);
+    registerButton.setRectPos(MID_POS_WIDTH + BACK_MID, settingsButton.getYPos() + DISTANCE_BUTTONS_Y);
     registerButton.render(gScreen);
 
     ButtonObject loginButton;
     ButtonObject logoutButton;
     if (infoPlayer->getUsername() == "") {
         loginButton.loadImage("img//button//menu_button_login.png", gScreen);
-        loginButton.setRectPos(SCREEN_WIDTH / 2 - playButton.getRect().w - 32, 375);
+        loginButton.setRectPos(MID_POS_WIDTH - playButton.getRect().w - BACK_MID, 
+                                howToPlayButton.getYPos() + DISTANCE_BUTTONS_Y);
         loginButton.render(gScreen);
     }
     else {
         logoutButton.loadImage("img//button//menu_button_logout.png", gScreen);
-        logoutButton.setRectPos(SCREEN_WIDTH / 2 - playButton.getRect().w - 32, 375);
+        logoutButton.setRectPos(MID_POS_WIDTH - playButton.getRect().w - BACK_MID, 
+                                howToPlayButton.getYPos() + DISTANCE_BUTTONS_Y);
         logoutButton.render(gScreen);
     }
 
@@ -91,7 +103,11 @@ int BounceBall::startGame() {
     MouseEvents mouse;
 
     display = typeDisplay::MENU;
+
+    FPS fpsTimer;
+    
     while (!quit) {
+        fpsTimer.start();
         while (SDL_PollEvent(&gEvent)) {
             if (gEvent.type == SDL_QUIT) {
                 quit = true;
@@ -172,6 +188,13 @@ int BounceBall::startGame() {
                 displayHowToPlayButton();
                 break;
         }
+        int realTime = fpsTimer.getTicks();
+        int timeOneFrame = MS_ONE_SECOND / FRAME_PER_SECOND;
+        if (realTime < timeOneFrame) {
+            int delayTime = timeOneFrame - realTime;
+            if (delayTime >= 0)
+                SDL_Delay(delayTime);
+        }
     }
     cleanUp();
 }
@@ -187,7 +210,7 @@ void BounceBall::displayLogo() {
     logo.render(gScreen);
     
     SDL_RenderPresent(gScreen);
-    SDL_Delay(1000);
+    SDL_Delay(MS_ONE_SECOND);
 
     background.cleanUp();
     logo.cleanUp();
@@ -200,13 +223,16 @@ void BounceBall::displayPlay() {
     background.render(gScreen);
 
     LTexture LevelText;
-
     int level = 0;
-    
+
+    const int LOGO_OBJECT_WIDTH = 192;
+    const int LOGO_OBJECT_HEIGHT = 145;
+    const int LOGO_OBJECT_Y_POS = 5;
+
     BaseObject logo;
     logo.loadImage("img//logo//logo_small.png", gScreen);
-    logo.setRectSize(192, 145);
-    logo.setRectPos((SCREEN_WIDTH - logo.getRect().w) / 2, 5);
+    logo.setRectSize(LOGO_OBJECT_WIDTH, LOGO_OBJECT_HEIGHT);
+    logo.setRectPos((SCREEN_WIDTH - logo.getRect().w) / 2, LOGO_OBJECT_Y_POS);
     logo.render(gScreen);
     logo.cleanUp();
 
@@ -224,26 +250,32 @@ void BounceBall::displayPlay() {
             ++level;
             if (infoPlayer->getUnlockLevel(level)) {
                 selectLevelButton[i][j].loadImage("img//level//select_level.png", gScreen);
-                selectLevelButton[i][j].setIsUnlock(1);
+                selectLevelButton[i][j].setIsUnlock(true);
             }
             else {
                 selectLevelButton[i][j].loadImage("img//level//select_level_locked.png", gScreen);
-                selectLevelButton[i][j].setIsUnlock(0);
+                selectLevelButton[i][j].setIsUnlock(false);
             }
-            selectLevelButton[i][j].setRectPos(64 * j, UPPER_BOUNDARY + 64 * i);
+            selectLevelButton[i][j].setRectPos(TILE_SIZE * j, UPPER_BOUNDARY + TILE_SIZE * i);
             selectLevelButton[i][j].render(gScreen);
             std::string strLevel = "";
-            if (level < 10) strLevel += "0";
+            if (level <= MAX_ONE_DIGIT) strLevel += "0";
             strLevel += std::to_string(level);
             LevelText.setText(strLevel);
             LevelText.loadFromRenderText(fontGame, gScreen);
-            LevelText.showText(gScreen, 64 * j + 17, UPPER_BOUNDARY + 64 * i + 17);
+            LevelText.showText(gScreen, TILE_SIZE * j + 
+                                (selectLevelButton[i][j].getWidth() - LevelText.getWidth()) / 2,
+                                UPPER_BOUNDARY + TILE_SIZE * i 
+                                + (selectLevelButton[i][j].getHeight() - LevelText.getHeight()) / 2);
         } 
     }
 
     SDL_RenderPresent(gScreen); 
+
+    FPS fpsTimer;
     bool quit = false;
     while (!quit) {
+        fpsTimer.start();
         mouse.mouseHandleEvent();
         bool selectBackButton = bool(mouse.checkMouseInButton(&backButton));
         while (SDL_PollEvent(&gEvent)) {
@@ -303,6 +335,13 @@ void BounceBall::displayPlay() {
             }
         }
         if (quit == true) break;
+        int realTime = fpsTimer.getTicks();
+        int timeOneFrame = MS_ONE_SECOND / FRAME_PER_SECOND;
+        if (realTime < timeOneFrame) {
+            int delayTime = timeOneFrame - realTime;
+            if (delayTime >= 0)
+                SDL_Delay(delayTime);
+        }
     }
     
     background.cleanUp();
@@ -320,9 +359,12 @@ void BounceBall::displayLeaderboard() {
     background.loadImage("img//background//background.jpg", gScreen);
     background.render(gScreen);
 
+    const int LEADERBOARD_OBJECT_WIDTH = 612;
+    const int LEADERBOARD_OBJECT_HEIGHT = 512;
+
     BaseObject leaderboard;
     leaderboard.loadImage("img//leaderboard//leaderboard.png", gScreen);
-    leaderboard.setRectSize(612, 512);
+    leaderboard.setRectSize(LEADERBOARD_OBJECT_WIDTH, LEADERBOARD_OBJECT_HEIGHT);
     leaderboard.setRectPos((SCREEN_WIDTH - leaderboard.getRect().w) / 2,
         (SCREEN_HEIGHT - leaderboard.getRect().h) / 2);
     leaderboard.render(gScreen);
@@ -370,11 +412,13 @@ void BounceBall::displayLeaderboard() {
     }
     SDL_RenderPresent(gScreen);
 
+    FPS fpsTimer;
     bool quit = 0;
     while (!quit) {
-        mouse.mouseHandleEvent();
-        bool selectBackButton = bool(mouse.checkMouseInButton(&backButton));
+        fpsTimer.start();
         while (SDL_PollEvent(&gEvent)) {
+            mouse.mouseHandleEvent();
+            bool selectBackButton = bool(mouse.checkMouseInButton(&backButton));
             if (gEvent.type == SDL_QUIT) exit(0);
             if ((gEvent.type == SDL_MOUSEBUTTONDOWN && selectBackButton)) {
                 quit = true;
@@ -384,6 +428,13 @@ void BounceBall::displayLeaderboard() {
             }
         }
         if (quit == true) break;
+        int realTime = fpsTimer.getTicks();
+        int timeOneFrame = MS_ONE_SECOND / FRAME_PER_SECOND;
+        if (realTime < timeOneFrame) {
+            int delayTime = timeOneFrame - realTime;
+            if (delayTime >= 0)
+                SDL_Delay(delayTime);
+        }
     }
     background.cleanUp();
     leaderboard.cleanUp();
@@ -802,16 +853,17 @@ void BounceBall::displayRegister() {
     bool deletedAccount = false;
     bool deletedPassword = false;
     bool quit = false;
+
+    MouseEvents mouse;
     while (!quit) {
         fpsTimer.start();
-        MouseEvents mouse;
-        mouse.mouseHandleEvent();
-        bool selectUsernameButton = bool(mouse.checkMouseInButton(&usernameButton));
-        bool selectPasswordButton = bool(mouse.checkMouseInButton(&passwordButton));
-        bool selectRegisterButton = bool(mouse.checkMouseInButton(&registerButton));
-        bool selectBackButton = bool(mouse.checkMouseInButton(&backButton));
-        bool selectLoginButton = bool(mouse.checkMouseInButton(&loginButton));
         while (SDL_PollEvent(&gEvent) != 0) {
+            mouse.mouseHandleEvent();
+            bool selectUsernameButton = bool(mouse.checkMouseInButton(&usernameButton));
+            bool selectPasswordButton = bool(mouse.checkMouseInButton(&passwordButton));
+            bool selectRegisterButton = bool(mouse.checkMouseInButton(&registerButton));
+            bool selectBackButton = bool(mouse.checkMouseInButton(&backButton));
+            bool selectLoginButton = bool(mouse.checkMouseInButton(&loginButton));
             if (gEvent.type == SDL_QUIT) exit(0);
             if ((gEvent.type == SDL_MOUSEBUTTONDOWN && selectBackButton)) {
                 quit = true;
@@ -957,7 +1009,7 @@ void BounceBall::displayRegister() {
         SDL_RenderPresent(gScreen);
 
         int realTime = fpsTimer.getTicks();
-        int timeOneFrame = 1000 / FRAME_PER_SECOND;
+        int timeOneFrame = MS_ONE_SECOND / FRAME_PER_SECOND;
         if (realTime < timeOneFrame) {
             int delayTime = timeOneFrame - realTime;
             if (delayTime >= 0)
@@ -1027,17 +1079,19 @@ void BounceBall::displaySettings() {
     exitButton.setRectPos(exitButton.getXPos(), exitButton.getYPos());
 
     SDL_RenderPresent(gScreen);
+    FPS fpsTimer;
+    MouseEvents mouse;
     bool quit = false;
     while (!quit) {
-        MouseEvents mouse;
+        fpsTimer.start();
         mouse.mouseHandleEvent();
-        bool selectSoundOnButton = bool(mouse.checkMouseInButton(&soundOnButton));
-        bool selectSoundOffButton = bool(mouse.checkMouseInButton(&soundOffButton));
-        bool selectBackButton = bool(mouse.checkMouseInButton(&backButton));
-        bool selectSaveButton = bool(mouse.checkMouseInButton(&saveButton));
-        bool selectRestoreButton = bool(mouse.checkMouseInButton(&restoreButton));
-        bool selectExitButton = bool(mouse.checkMouseInButton(&exitButton));
         while (SDL_PollEvent(&gEvent) != 0) {
+            bool selectSoundOnButton = bool(mouse.checkMouseInButton(&soundOnButton));
+            bool selectSoundOffButton = bool(mouse.checkMouseInButton(&soundOffButton));
+            bool selectBackButton = bool(mouse.checkMouseInButton(&backButton));
+            bool selectSaveButton = bool(mouse.checkMouseInButton(&saveButton));
+            bool selectRestoreButton = bool(mouse.checkMouseInButton(&restoreButton));
+            bool selectExitButton = bool(mouse.checkMouseInButton(&exitButton));
             if (gEvent.type == SDL_QUIT) exit(0);
             if ((gEvent.type == SDL_MOUSEBUTTONDOWN 
                     && (selectBackButton || selectExitButton))) {
@@ -1077,6 +1131,14 @@ void BounceBall::displaySettings() {
         backButton.render(gScreen);
         exitButton.render(gScreen);
         SDL_RenderPresent(gScreen);
+
+        int realTime = fpsTimer.getTicks();
+        int timeOneFrame = MS_ONE_SECOND / FRAME_PER_SECOND;
+        if (realTime < timeOneFrame) {
+            int delayTime = timeOneFrame - realTime;
+            if (delayTime >= 0)
+                SDL_Delay(delayTime);
+        }
     }
     background.cleanUp();
     boardSettings.cleanUp();
@@ -1116,13 +1178,14 @@ void BounceBall::displayHowToPlayButton() {
     SDL_RenderPresent(gScreen);
 
     MouseEvents mouse;
-
+    FPS fpsTimer;
     bool quit = 0;
     while (!quit) {
-        mouse.mouseHandleEvent();
-        bool clickBackButton = bool(mouse.checkMouseInButton(&backButton));
-        bool clickPlayButton = bool(mouse.checkMouseInButton(&playButton));
+        fpsTimer.start();
         while (SDL_PollEvent(&gEvent)) {
+            mouse.mouseHandleEvent();
+            bool clickBackButton = bool(mouse.checkMouseInButton(&backButton));
+            bool clickPlayButton = bool(mouse.checkMouseInButton(&playButton));
             if (gEvent.type == SDL_QUIT) exit(0);
             if ((gEvent.type == SDL_MOUSEBUTTONDOWN)) {
                 if (clickBackButton) {
@@ -1155,6 +1218,13 @@ void BounceBall::displayHowToPlayButton() {
         case typeDisplay::LOGIN:
             displayLogin();
             break;
+        }
+        int realTime = fpsTimer.getTicks();
+        int timeOneFrame = MS_ONE_SECOND / FRAME_PER_SECOND;
+        if (realTime < timeOneFrame) {
+            int delayTime = timeOneFrame - realTime;
+            if (delayTime >= 0)
+                SDL_Delay(delayTime);
         }
     }
 }

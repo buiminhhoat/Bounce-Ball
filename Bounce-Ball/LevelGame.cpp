@@ -241,10 +241,10 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
 
     while (!isQuit) {
         fpsTimer.start();
-        mouse.mouseHandleEvent();
-        bool selectBackButton = bool(mouse.checkMouseInButton(&backButton));
-        bool selectSettingsButton = bool(mouse.checkMouseInButton(&settingsButton));
         while (SDL_PollEvent(&event) != 0) {
+            mouse.mouseHandleEvent();
+            bool selectBackButton = bool(mouse.checkMouseInButton(&backButton));
+            bool selectSettingsButton = bool(mouse.checkMouseInButton(&settingsButton));
             if (event.type == SDL_QUIT) {
                 exit(0);
             }
@@ -254,7 +254,6 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
                 infoPlayer->setYourHighScore(score.getYourHighScore());
                 return BounceBall::levelType::QUIT_GAME;
             }
-
             if (event.type == SDL_MOUSEBUTTONDOWN && selectSettingsButton) {
                 displaySettings(infoPlayer, screen);
             }

@@ -68,7 +68,7 @@ private:
 	TTF_Font* fontGame;
 	Database databaseGame;
 	InfoPlayer* infoPlayer = new InfoPlayer;
-	ButtonObject selectLevelButton[MAX_ROW_SHOW + 1][MAX_COL_SHOW + 1];
+	ButtonObject selectLevelButton[MAX_ROW_SHOW + FIX_ZERO_INDEX][MAX_COL_SHOW + FIX_ZERO_INDEX];
 };
 #endif
 #pragma once

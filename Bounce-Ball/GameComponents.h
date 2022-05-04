@@ -164,23 +164,23 @@ public:
 	void setColor(Uint8 red, Uint8 green, Uint8 blue);
 	void setColor(int type);
 	void showText(SDL_Renderer* screen,
-		float xPosText, float yPosText,
+		double xPosText, double yPosText,
 		SDL_Rect* clip = NULL,
 		double angle = 0.0,
 		SDL_Point* center = NULL,
 		SDL_RendererFlip flip = SDL_FLIP_NONE);
 
-	void setPosX(float posX) { this->posX = posX; };
-	void setPosY(float posY) { this->posY = posY; };
+	void setPosX(double posX) { this->posX = posX; };
+	void setPosY(double posY) { this->posY = posY; };
 
-	float getPosX() { return this->posX; };
-	float getPosY() { return this->posY; };
+	double getPosX() { return this->posX; };
+	double getPosY() { return this->posY; };
 
-	float getWidth() { return this->width; };
-	float getHeight() { return this->height; };
+	double getWidth() { return this->width; };
+	double getHeight() { return this->height; };
 
-	void setWidth(float width) { this->width = width; };
-	void setHeight(float height) { this->height = height; };
+	void setWidth(double width) { this->width = width; };
+	void setHeight(double height) { this->height = height; };
 	void setText(const std::string& textVal) { this->textVal = textVal; };
 	std::string getText() const { return this->textVal; };
 
@@ -189,10 +189,10 @@ private:
 	SDL_Color textColor;
 	SDL_Texture* texture;
 
-	float width;
-	float height;
-	float posX;
-	float posY;
+	double width;
+	double height;
+	double posX;
+	double posY;
 };
 
 class ButtonObject : public BaseObject {
@@ -202,11 +202,11 @@ public:
 
 	string getLinkImgButton() { return addressImgButton; }
 
-	void setIsUnlock(const int& isUnlock) { this->isUnlock = isUnlock; };
+	void setIsUnlock(const bool& isUnlock) { this->isUnlock = isUnlock; };
 	int getIsUnlock() { return this->isUnlock; };
 private:
 	string addressImgButton;
-	int isUnlock;
+	bool isUnlock;
 };
 
 class InfoPlayer {

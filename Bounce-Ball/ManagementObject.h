@@ -40,23 +40,23 @@ public:
 	void loadAllObject(InfoPlayer* infoPlayer, SDL_Renderer* screen);
 	void checkIntersectAllObject(SDL_Renderer* screen);
 
-	int getIsIntersectBallVsThreats() {return this->isIntersectBallVsThreats;}
+	bool getIsIntersectBallVsThreats() {return this->isIntersectBallVsThreats;}
 
-	void setIsIntersectBallVsThreats(const int &valIsIntersectBallVsObject) {
+	void setIsIntersectBallVsThreats(const bool &valIsIntersectBallVsObject) {
 		this->isIntersectBallVsThreats = valIsIntersectBallVsObject;
 	}
 
-	int getIsIntersectBallVsRing() { return this->isIntersectBallVsRing; }
+	bool getIsIntersectBallVsRing() { return this->isIntersectBallVsRing; }
 
-	void setIsIntersectBallVsRing(const int & isIntersectBallVsRing) {
+	void setIsIntersectBallVsRing(const bool & isIntersectBallVsRing) {
 		this->isIntersectBallVsRing = isIntersectBallVsRing;
 	}
 
-	int getIsIntersectBallVsEndpoint() {
+	bool getIsIntersectBallVsEndpoint() {
 		return this->isIntersectBallVsEndpoint;
 	}
 
-	void setIsIntersectBallVsEndpoint(int isIntersectBallVsEndpoint) {
+	void setIsIntersectBallVsEndpoint(bool isIntersectBallVsEndpoint) {
 		this->isIntersectBallVsEndpoint = isIntersectBallVsEndpoint;
 	}
 

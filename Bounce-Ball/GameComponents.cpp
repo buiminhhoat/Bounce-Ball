@@ -273,7 +273,7 @@ void LTexture::setColor(int type) {
 }
 
 void LTexture::showText(SDL_Renderer* screen,
-	float xPosText, float yPosText,
+	double xPosText, double yPosText,
 	SDL_Rect* clip /* = NULL */,
 	double angle /* = 0.0 */,
 	SDL_Point* center /* = NULL */,

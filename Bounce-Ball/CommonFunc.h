@@ -65,6 +65,9 @@ const int MAX_SIZE_SHOW_INFO = 15;
 const int MAX_SHOW_LEADERBOARD = 5;
 
 /* ... */
+const int MID_POS_WIDTH = SCREEN_WIDTH / 2;
+const int MID_POS_HEIGHT = SCREEN_HEIGHT / 2;
+const double HALF_RATE = 0.5;
 const int MAX_ONE_DIGIT = 9;
 
 struct actionType {

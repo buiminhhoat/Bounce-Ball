@@ -29,19 +29,19 @@ public:
 	void checkPlayerVsMap(Map* mapdata);
 	void centerEntityOnMap(Map* mapData);
 
-	void setPosCheckpoint(const float &xPosCheckpoint, const float &yPosCheckpoint) {
+	void setPosCheckpoint(const double &xPosCheckpoint, const double &yPosCheckpoint) {
 		this->xPosCheckpoint = xPosCheckpoint;
 		this->yPosCheckpoint = yPosCheckpoint;
 	}
 
-	float getXPosCheckpoint() { return this->xPosCheckpoint; };
-	float getYPosCheckpoint() { return this->yPosCheckpoint; };
+	double getXPosCheckpoint() { return this->xPosCheckpoint; };
+	double getYPosCheckpoint() { return this->yPosCheckpoint; };
 
 	int getIdCheckpoint() { return this->idCheckpoint; };
 	void setIdCheckpoint(const int& idCheckpoint) { this->idCheckpoint = idCheckpoint; };
 private:
-	float xPosCheckpoint;
-	float yPosCheckpoint;
+	double xPosCheckpoint;
+	double yPosCheckpoint;
 
 	actionType inputType;
 	int status;

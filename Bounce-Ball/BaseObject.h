@@ -28,14 +28,14 @@ public:
 		return object;
 	}
 
-	void setXVal(const float& xVal) { this->xVal = xVal; }
-	void setYVal(const float& yVal) { this->yVal = yVal; }
+	void setXVal(const double& xVal) { this->xVal = xVal; }
+	void setYVal(const double& yVal) { this->yVal = yVal; }
 
-	void setXPos(const float& xPos) { rect.x = xPos; this->xPos = xPos; }
-	void setYPos(const float& yPos) { rect.y = yPos; this->yPos = yPos; }
+	void setXPos(const double& xPos) { rect.x = xPos; this->xPos = xPos; }
+	void setYPos(const double& yPos) { rect.y = yPos; this->yPos = yPos; }
 
-	float getXPos() const { return rect.x; }
-	float getYPos() const { return rect.y; }
+	double getXPos() const { return rect.x; }
+	double getYPos() const { return rect.y; }
 
 	void setMapXY(const int& mapX, const int& mapY) { this->mapX = mapX; this->mapY = mapY; }
 
@@ -50,10 +50,10 @@ public:
 protected:
 	int mapX;
 	int mapY;
-	float xVal;
-	float yVal;
-	float xPos;
-	float yPos;
+	double xVal;
+	double yVal;
+	double xPos;
+	double yPos;
 	SDL_Texture* object;
 	SDL_Rect rect;
 };
