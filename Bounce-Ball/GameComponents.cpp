@@ -288,7 +288,7 @@ void LTexture::showText(SDL_Renderer* screen,
 }
 
 ButtonObject::ButtonObject() {
-	isUnlock = 1;
+	isUnlock = true;
 }
 
 ButtonObject::~ButtonObject() {
