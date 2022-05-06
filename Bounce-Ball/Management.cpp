@@ -20,17 +20,17 @@ using namespace std;
 
 Management::Management() {
     Mix_Chunk* ballPop = NULL;
-    Mix_Chunk* intersectObject1 = NULL;
-    Mix_Chunk* intersectObject2 = NULL;
+    Mix_Chunk* musicType1 = NULL;
+    Mix_Chunk* musicType2 = NULL;
 }
 
 Management::~Management() {
     Mix_FreeChunk(ballPop);
-    Mix_FreeChunk(intersectObject1);
-    Mix_FreeChunk(intersectObject2);
+    Mix_FreeChunk(musicType1);
+    Mix_FreeChunk(musicType2);
     ballPop = NULL;
-    intersectObject1 = NULL;
-    intersectObject2 = NULL;
+    musicType1 = NULL;
+    musicType2 = NULL;
     
     for (int i = 0; i < threatsList.size(); ++i)
         threatsList[i]->cleanUp();
@@ -205,8 +205,8 @@ void Management::checkIntersectRingsObject(SDL_Renderer* screen) {
         if (checkIntersectBallVsObject(circlePlayer, rect_ring)
             && ringObject->getIsCatched() == false) {
             if (infoPlayer->getSound() == BounceBall::typeSound::ON) {
-                if (rand() % 2) Mix_PlayChannel(-1, intersectObject1, 0);
-                else Mix_PlayChannel(-1, intersectObject2, 0);
+                if (rand() % 2) Mix_PlayChannel(-1, musicType1, 0);
+                else Mix_PlayChannel(-1, musicType2, 0);
             }
 
             isIntersectBallVsRing = true;
@@ -266,14 +266,14 @@ void Management::checkIntersectCheckpointObject(SDL_Renderer* screen) {
             && checkpointObject->getIsCatched() == false) {
             isIntersectBallVsRing = true;
             if (infoPlayer->getSound() == BounceBall::typeSound::ON) {
-                if (rand() % 2) Mix_PlayChannel(-1, intersectObject1, 0);
-                else Mix_PlayChannel(-1, intersectObject2, 0);
+                if (rand() % 2) Mix_PlayChannel(-1, musicType1, 0);
+                else Mix_PlayChannel(-1, musicType2, 0);
             }
             score->increaseScore(checkpointObject->getScoreRing());
             checkpointObject->setScoreRing(0);
                 
             int id_checkpoint = player->getIdCheckpoint();
-            if (id_checkpoint != -1) {
+            if (id_checkpoint != NO_CHECKPOINT) {
                 CheckpointObject *last_checkpoint = checkpointsList.at(id_checkpoint);
                 last_checkpoint->loadImage("img//checkpoint//checkpoint_clear.png", screen);
             }
@@ -324,8 +324,8 @@ void Management::checkIntersectLifeObject(SDL_Renderer* screen) {
         if (checkIntersectBallVsObject(circlePlayer, rect_checkpoint)
             && lifeObject->getIsCatched() == false) {
             if (infoPlayer->getSound() == BounceBall::typeSound::ON) {
-                if (rand() % 2) Mix_PlayChannel(-1, intersectObject1, 0);
-                else Mix_PlayChannel(-1, intersectObject2, 0);
+                if (rand() % 2) Mix_PlayChannel(-1, musicType1, 0);
+                else Mix_PlayChannel(-1, musicType2, 0);
             }
             isIntersectBallVsRing = true;
             score->increaseScore(lifeObject->getScoreLife());
@@ -398,14 +398,14 @@ void Management::loadAllObject(InfoPlayer *infoPlayer, SDL_Renderer* screen) {
         return;
     }
 
-    intersectObject1 = Mix_LoadWAV("sound//IntersectObject1.wav");
-    if (intersectObject1 == NULL) {
+    musicType1 = Mix_LoadWAV("sound//musicType1.wav");
+    if (musicType1 == NULL) {
         printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());
         return;
     }
 
-    intersectObject2 = Mix_LoadWAV("sound//IntersectObject2.wav");
-    if (intersectObject2 == NULL) {
+    musicType2 = Mix_LoadWAV("sound//musicType2.wav");
+    if (musicType2 == NULL) {
         printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());
         return;
     }

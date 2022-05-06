@@ -104,11 +104,23 @@ void displaySettings(InfoPlayer *infoPlayer, SDL_Renderer* screen) {
     soundOnButton.setYPos(boardSettings.getRect().y + BOARDSETTINGS_VS_SOUNDBUTTON_Y);
     soundOnButton.setRectPos(soundOnButton.getXPos(), soundOnButton.getYPos());
 
+    ButtonObject soundOnButtonClick;
+    soundOnButtonClick.loadImage("img//settingsBoard//settingsBoard_OnButton_click.png", screen);
+    soundOnButtonClick.setXPos(boardSettings.getRect().x + BOARDSETTINGS_VS_SOUNDBUTTON_X);
+    soundOnButtonClick.setYPos(boardSettings.getRect().y + BOARDSETTINGS_VS_SOUNDBUTTON_Y);
+    soundOnButtonClick.setRectPos(soundOnButtonClick.getXPos(), soundOnButtonClick.getYPos());
+
     ButtonObject soundOffButton;
     soundOffButton.loadImage("img//settingsBoard//settingsBoard_OffButton.png", screen);
     soundOffButton.setXPos(boardSettings.getRect().x + BOARDSETTINGS_VS_SOUNDBUTTON_X);
     soundOffButton.setYPos(boardSettings.getRect().y + BOARDSETTINGS_VS_SOUNDBUTTON_Y);
     soundOffButton.setRectPos(soundOffButton.getXPos(), soundOffButton.getYPos());
+
+    ButtonObject soundOffButtonClick;
+    soundOffButtonClick.loadImage("img//settingsBoard//settingsBoard_OffButton_click.png", screen);
+    soundOffButtonClick.setXPos(boardSettings.getRect().x + BOARDSETTINGS_VS_SOUNDBUTTON_X);
+    soundOffButtonClick.setYPos(boardSettings.getRect().y + BOARDSETTINGS_VS_SOUNDBUTTON_Y);
+    soundOffButtonClick.setRectPos(soundOffButtonClick.getXPos(), soundOffButtonClick.getYPos());
 
     const int BOARDSETTINGS_VS_SAVEBUTTON_Y = 210;
 
@@ -117,6 +129,12 @@ void displaySettings(InfoPlayer *infoPlayer, SDL_Renderer* screen) {
     saveButton.setXPos((SCREEN_WIDTH - saveButton.getRect().w) / 2);
     saveButton.setYPos(boardSettings.getRect().y + BOARDSETTINGS_VS_SAVEBUTTON_Y);
     saveButton.setRectPos(saveButton.getXPos(), saveButton.getYPos());
+
+    ButtonObject saveButtonClick;
+    saveButtonClick.loadImage("img//settingsBoard//settingsBoard_SaveButton_click.png", screen);
+    saveButtonClick.setXPos((SCREEN_WIDTH - saveButtonClick.getRect().w) / 2);
+    saveButtonClick.setYPos(boardSettings.getRect().y + BOARDSETTINGS_VS_SAVEBUTTON_Y);
+    saveButtonClick.setRectPos(saveButtonClick.getXPos(), saveButtonClick.getYPos());
 
     const int FUNCTIONBUTTON_VS_FUNCTIONBUTTON_Y = 20;
 
@@ -127,19 +145,38 @@ void displaySettings(InfoPlayer *infoPlayer, SDL_Renderer* screen) {
                             + FUNCTIONBUTTON_VS_FUNCTIONBUTTON_Y);
     restoreButton.setRectPos(restoreButton.getXPos(), restoreButton.getYPos());
 
+    ButtonObject restoreButtonClick;
+    restoreButtonClick.loadImage("img//settingsBoard//settingsBoard_RestoreButton_click.png", screen);
+    restoreButtonClick.setXPos((SCREEN_WIDTH - saveButton.getRect().w) / 2);
+    restoreButtonClick.setYPos(saveButton.getRect().y + saveButton.getRect().h
+        + FUNCTIONBUTTON_VS_FUNCTIONBUTTON_Y);
+    restoreButtonClick.setRectPos(restoreButtonClick.getXPos(), restoreButtonClick.getYPos());
+
     ButtonObject backButton;
     backButton.loadImage("img//settingsBoard//settingsBoard_BackButton.png", screen);
-
     backButton.setXPos((SCREEN_WIDTH - saveButton.getRect().w) / 2);
     backButton.setYPos(restoreButton.getRect().y + restoreButton.getRect().h 
                             + FUNCTIONBUTTON_VS_FUNCTIONBUTTON_Y);
     backButton.setRectPos(backButton.getXPos(), backButton.getYPos());
+
+    ButtonObject backButtonClick;
+    backButtonClick.loadImage("img//settingsBoard//settingsBoard_BackButton_click.png", screen);
+    backButtonClick.setXPos((SCREEN_WIDTH - saveButton.getRect().w) / 2);
+    backButtonClick.setYPos(restoreButton.getRect().y + restoreButton.getRect().h
+        + FUNCTIONBUTTON_VS_FUNCTIONBUTTON_Y);
+    backButtonClick.setRectPos(backButtonClick.getXPos(), backButtonClick.getYPos());
 
     ButtonObject exitButton;
     exitButton.loadImage("img//settingsBoard//settingsBoard_exitButton.png", screen);
     exitButton.setXPos(boardSettings.getRect().x + boardSettings.getRect().w - exitButton.getRect().w);
     exitButton.setYPos(boardSettings.getRect().y);
     exitButton.setRectPos(exitButton.getXPos(), exitButton.getYPos());
+
+    ButtonObject exitButtonClick;
+    exitButtonClick.loadImage("img//settingsBoard//settingsBoard_exitButton_click.png", screen);
+    exitButtonClick.setXPos(boardSettings.getRect().x + boardSettings.getRect().w - exitButtonClick.getRect().w);
+    exitButtonClick.setYPos(boardSettings.getRect().y);
+    exitButtonClick.setRectPos(exitButtonClick.getXPos(), exitButtonClick.getYPos());
 
     SDL_RenderPresent(screen);
     bool quit = false;
@@ -173,16 +210,23 @@ void displaySettings(InfoPlayer *infoPlayer, SDL_Renderer* screen) {
                 }
             }
         }
-
         boardSettings.render(screen);
-        if (setSound == true)
-            soundOnButton.render(screen);
-        else
-            soundOffButton.render(screen);
-        saveButton.render(screen);
-        restoreButton.render(screen);
-        backButton.render(screen);
-        exitButton.render(screen);
+        if (setSound == true) {
+            if (selectSoundOnButton == false) soundOnButton.render(screen);
+            else soundOnButtonClick.render(screen);
+        }
+        else {
+            if (selectSoundOffButton == false) soundOffButton.render(screen);
+            else soundOffButtonClick.render(screen);
+        }
+        if (selectSaveButton == false) saveButton.render(screen);
+        else saveButtonClick.render(screen);
+        if (selectRestoreButton == false) restoreButton.render(screen);
+        else restoreButtonClick.render(screen);
+        if (selectBackButton == false) backButton.render(screen);
+        else backButtonClick.render(screen);
+        if (selectExitButton == false) exitButton.render(screen);
+        else exitButtonClick.render(screen);
         SDL_RenderPresent(screen);
     }
 }
@@ -243,11 +287,16 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
     
     ButtonObject backButton;
     backButton.loadImage("img//button//back_button.png", screen);
-
     backButton.setXPos(0);
     backButton.setYPos(SCREEN_HEIGHT - backButton.getRect().h);
     backButton.setRectPos(backButton.getXPos(), backButton.getYPos());
     backButton.render(screen);
+
+    ButtonObject backButtonClick;
+    backButtonClick.loadImage("img//button//back_button_click.png", screen);
+    backButtonClick.setXPos(0);
+    backButtonClick.setYPos(SCREEN_HEIGHT - backButtonClick.getRect().h);
+    backButtonClick.setRectPos(backButtonClick.getXPos(), backButtonClick.getYPos());
 
     ButtonObject settingsButton;
     settingsButton.loadImage("img//button//settings_button.png", screen);
@@ -256,12 +305,18 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
     settingsButton.setRectPos(settingsButton.getXPos(), settingsButton.getYPos());
     settingsButton.render(screen);
 
+    ButtonObject settingsButtonClick;
+    settingsButtonClick.loadImage("img//button//settings_button_click.png", screen);
+    settingsButtonClick.setXPos(SCREEN_WIDTH - settingsButtonClick.getRect().w);
+    settingsButtonClick.setYPos(SCREEN_HEIGHT - settingsButtonClick.getRect().h);
+    settingsButtonClick.setRectPos(settingsButtonClick.getXPos(), settingsButtonClick.getYPos());
+
     while (!isQuit) {
         fpsTimer.start();
+        mouse.mouseHandleEvent();
+        bool selectBackButton = bool(mouse.checkMouseInButton(&backButton));
+        bool selectSettingsButton = bool(mouse.checkMouseInButton(&settingsButton));
         while (SDL_PollEvent(&event) != 0) {
-            mouse.mouseHandleEvent();
-            bool selectBackButton = bool(mouse.checkMouseInButton(&backButton));
-            bool selectSettingsButton = bool(mouse.checkMouseInButton(&settingsButton));
             if (event.type == SDL_QUIT) {
                 exit(0);
             }
@@ -348,8 +403,10 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
         
         showLife(lifeText, life, screen);
 
-        backButton.render(screen);
-        settingsButton.render(screen);
+        if (selectBackButton == false) backButton.render(screen);
+        else backButtonClick.render(screen);
+        if (selectSettingsButton == false) settingsButton.render(screen);
+        else settingsButtonClick.render(screen);
         SDL_RenderPresent(screen);
 
         int realTime = fpsTimer.getTicks();

@@ -13,7 +13,6 @@
 using namespace std;
 
 MainObject::MainObject() {
-	status = -1;
 	inputType.up = false;
 	inputType.down = false;
 	inputType.left = false;
@@ -22,7 +21,7 @@ MainObject::MainObject() {
 	onGround = false;
 	mapX = 0;
 	mapY = 0;
-	idCheckpoint = -1;
+	idCheckpoint = NO_CHECKPOINT;
 }
 
 MainObject::~MainObject() {
@@ -33,13 +32,11 @@ void MainObject::inputAction(SDL_Event events, SDL_Renderer* screen) {
 	if (events.type == SDL_KEYDOWN) {
 		switch (events.key.keysym.sym) {
 			case SDLK_RIGHT: {
-				status = WALK_RIGHT;
 				inputType.right = 1;
 				inputType.left = false;
 			}
 			break;
 			case SDLK_LEFT: {
-				status = WALK_LEFT;
 				inputType.left = 1;
 				inputType.right = false;
 			}

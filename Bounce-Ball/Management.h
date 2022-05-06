@@ -90,7 +90,7 @@ private:
 	InfoPlayer* infoPlayer;
 
 	Mix_Chunk* ballPop;
-	Mix_Chunk* intersectObject1;
-	Mix_Chunk* intersectObject2;
+	Mix_Chunk* musicType1;
+	Mix_Chunk* musicType2;
 };
 #endif

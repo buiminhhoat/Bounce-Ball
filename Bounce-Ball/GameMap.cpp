@@ -79,7 +79,6 @@ void GameMap::drawMap(SDL_Renderer* screen) {
 
 	map_y = gameMap->startY / TILE_SIZE;
 	y1 = (gameMap->startY % TILE_SIZE) * -1;
-
 	y2 = y1 + SCREEN_HEIGHT + (y1 == 0 ? 0 : TILE_SIZE);
 
 	for (int i = y1; i < y2; i += TILE_SIZE) {

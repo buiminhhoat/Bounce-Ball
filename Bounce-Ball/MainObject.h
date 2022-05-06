@@ -15,6 +15,7 @@
 #define DRAW_BACK 4 * 64
 
 class MainObject : public BaseObject {
+#define NO_CHECKPOINT -1
 public:
 	MainObject();
 	~MainObject();
@@ -44,7 +45,6 @@ private:
 	double yPosCheckpoint;
 
 	actionType inputType;
-	int status;
 	int onGround;
 	int idCheckpoint;
 };
