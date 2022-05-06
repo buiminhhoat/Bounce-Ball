@@ -1,5 +1,5 @@
-#ifndef __MANAGEMENTOBJECT__
-#define __MANAGEMENTOBJECT__
+#ifndef __Management__
+#define __Management__
 
 #include <vector>
 #include <string>
@@ -13,14 +13,12 @@
 #include "GameComponents.h"
 #include "LevelGame.h"
 
-#include "ManagementObject.h"
-
 using namespace std;
 
-class ManagementObject {
+class Management {
 public:
-	ManagementObject();
-	~ManagementObject();
+	Management();
+	~Management();
 	void loadThreatsObject(SDL_Renderer* screen);
 	void checkIntersectThreatsObject(SDL_Renderer* screen);
 	

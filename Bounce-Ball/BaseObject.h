@@ -57,4 +57,4 @@ protected:
 	SDL_Texture* object;
 	SDL_Rect rect;
 };
-#endif#pragma once
+#endif

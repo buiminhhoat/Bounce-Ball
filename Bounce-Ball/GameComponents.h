@@ -31,9 +31,9 @@ public:
 	int getIsVertical() { return this->isVertical; };
 	void setIsVertical(const int& isVertical) { this->isVertical = isVertical; };
 private:
-	int isCatched;
+	bool isCatched;
 	int scoreLife;
-	int isVertical;
+	bool isVertical;
 	int life;
 };
 
@@ -43,18 +43,18 @@ class RingsObject : public BaseObject {
 public:
 	RingsObject();
 	~RingsObject();
-	int getIsCatched() { return isCatched; };
-	void setIsCatched(const int& isCatched) { this->isCatched = isCatched; };
+	bool getIsCatched() { return isCatched; };
+	void setIsCatched(const bool& isCatched) { this->isCatched = isCatched; };
 
 	int getScoreRing() { return scoreRing; };
 	void setScoreRing(const int& scoreRing) { this->scoreRing = scoreRing; };
 
-	int getIsVertical() { return isVertical; };
-	void setIsVertical(const int& isVertical) { this->isVertical = isVertical; };
+	bool getIsVertical() { return isVertical; };
+	void setIsVertical(const bool& isVertical) { this->isVertical = isVertical; };
 private:
-	int isCatched;
+	bool isCatched;
 	int scoreRing;
-	int isVertical;
+	bool isVertical;
 };
 
 class ScoreObject : public BaseObject {
@@ -80,14 +80,14 @@ public:
 	EndpointObject();
 	~EndpointObject();
 
-	int getIsOpened() { return isOpened; };
-	void setIsOpened(const int& isOpened) { this->isOpened = isOpened; };
+	bool getIsOpened() { return isOpened; };
+	void setIsOpened(const bool& isOpened) { this->isOpened = isOpened; };
 
 	int getScoreEndpoint() { return this->scoreEndpoint; };
 	void setScoreEndpoint(const int& scoreEndpoint) { this->scoreEndpoint = scoreEndpoint; };
 	
 private:
-	int isOpened;
+	bool isOpened;
 	int scoreEndpoint;
 };
 
@@ -128,8 +128,8 @@ public:
 	CheckpointObject();
 	~CheckpointObject();
 
-	int getIsCatched() { return this->isCatched; };
-	void setIsCatched(const int& isCatched) { this->isCatched = isCatched; };
+	bool getIsCatched() { return this->isCatched; };
+	void setIsCatched(const bool& isCatched) { this->isCatched = isCatched; };
 
 	int getScoreRing() { return scoreRing; };
 	void setScoreRing(const int& scoreRing) { this->scoreRing = scoreRing; };
@@ -137,9 +137,9 @@ public:
 	int getIsVertical() { return this->isVertical; };
 	void setIsVertical(const int& isVertical) { this->isVertical = isVertical; };
 private:
-	int isCatched;
+	bool isCatched;
 	int scoreRing;
-	int isVertical;
+	bool isVertical;
 };
 
 class LTexture {
@@ -240,10 +240,10 @@ public:
 	string getPassword() { return this->password; };
 	void setYourHighScore(int yourHighScore) { this->yourHighScore = yourHighScore; };
 	int getYourHighScore() { return this->yourHighScore; };
-	void setUnlockLevel(int level, int value) { unlockLevel[level] = value; };
-	int getUnlockLevel(int level) { return unlockLevel[level]; };
-	void setSound(int sound) { this->sound = sound; };
-	int getSound() { return this->sound; };
+	void setUnlockLevel(int level, bool value) { unlockLevel[level] = value; };
+	bool getUnlockLevel(int level) { return unlockLevel[level]; };
+	void setSound(bool sound) { this->sound = sound; };
+	bool getSound() { return this->sound; };
 private:
 	string username;
 	string password;
@@ -251,8 +251,8 @@ private:
 	int life;
 	int level;
 	int yourHighScore;
-	int unlockLevel[MAX_LEVEL + FIX_ZERO_INDEX];
-	int sound;
+	bool unlockLevel[MAX_LEVEL + FIX_ZERO_INDEX];
+	bool sound;
 };
 
 #endif

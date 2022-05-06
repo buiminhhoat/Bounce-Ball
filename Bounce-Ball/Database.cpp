@@ -115,8 +115,9 @@ pair <string, bool> Database::registerAccount(InfoPlayer info) {
         return { "Ten tai khoan khong hop le", false };
     }
 
-    if (username.size() > 15) {
-        return { "Ten tai khoan khong qua 15 ky tu", false };
+    if (username.size() > MAX_SIZE_SHOW_INFO) {
+        Cryptosystem H;
+        return { "Ten tai khoan khong qua " + H.convertNumberToString(MAX_SIZE_SHOW_INFO) + " ky tu", false};
     }
     if (username.find(" ", 0) >= 0
         && username.find(" ", 0) < username.size()) {

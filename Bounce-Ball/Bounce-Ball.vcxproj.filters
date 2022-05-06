@@ -36,7 +36,7 @@
     <ClCompile Include="LevelGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ManagementObject.cpp">
+    <ClCompile Include="Management.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameComponents.cpp">
@@ -74,7 +74,7 @@
     <ClInclude Include="LevelGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ManagementObject.h">
+    <ClInclude Include="Management.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameComponents.h">

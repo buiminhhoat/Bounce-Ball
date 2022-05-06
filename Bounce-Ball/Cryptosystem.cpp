@@ -2,6 +2,7 @@
 #include <stdexcept>
 
 #include "Cryptosystem.h"
+#include "CommonFunc.h"
 
 Cryptosystem::Cryptosystem() {
     number = 0;
@@ -15,9 +16,9 @@ string Cryptosystem::convertNumberToString(int number) {
     string ANS = "";
     if (number == 0) return "0";
     while (number > 0) {
-        int k = number % 10;
+        int k = number % SMALLEST_TWO_DIGIT_NUMBER;
         ANS = (char)(k + '0') + ANS;
-        number /= 10;
+        number /= SMALLEST_TWO_DIGIT_NUMBER;
     }
     return ANS;
 }

@@ -12,7 +12,7 @@
 #include "LevelGame.h"
 #include "Utils.h"
 
-#include "ManagementObject.h"
+#include "Management.h"
 #include "BounceBall.h"
 #include "Cryptosystem.h"
 
@@ -418,7 +418,7 @@ void BounceBall::displayLeaderboard() {
     SDL_RenderPresent(gScreen);
 
     FPS fpsTimer;
-    bool quit = 0;
+    bool quit = false;
     while (!quit) {
         fpsTimer.start();
         while (SDL_PollEvent(&gEvent)) {
@@ -451,11 +451,11 @@ void BounceBall::displayLeaderboard() {
 bool BounceBall::checkInfoLogin(string usernameText, string passwordText, InfoPlayer *infoPlayer) {
     for (int i = 0; i < usernameText.size(); ++i)
         if (usernameText[i] >= 'a' && usernameText[i] <= 'z')
-            usernameText[i] -= 32;
+            usernameText[i] -= DISTANCE_UPPERCASE_VS_LOWERCASE;
 
     for (int i = 0; i < passwordText.size(); ++i)
         if (passwordText[i] >= 'a' && passwordText[i] <= 'z')
-            passwordText[i] -= 32;
+            passwordText[i] -= DISTANCE_UPPERCASE_VS_LOWERCASE;
     InfoPlayer info = databaseGame.getDatabaseUsername(usernameText);
     infoPlayer->setUsername(info.getUsername());
     infoPlayer->setPassword(info.getPassword());
@@ -675,7 +675,8 @@ void BounceBall::displayLogin() {
 
         if (quit == true) break;
 
-        SDL_SetRenderDrawColor(gScreen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
+        SDL_SetRenderDrawColor(gScreen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, 
+                                        RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
         SDL_RenderClear(gScreen);
 
         background.render(gScreen);
@@ -690,13 +691,15 @@ void BounceBall::displayLogin() {
         if (passwordText == "" && deletedPassword == false) passwordText = "password";
         string showUsername = "";
         const int LTEXTURE_VS_BOARDLOGIN_X = 85;
-        for (int i = max(0, (int) usernameText.size() - MAX_SIZE_SHOW_INFO); i < usernameText.size(); ++i) {
+        for (int i = max(0, (int) usernameText.size() - MAX_SIZE_SHOW_INFO); 
+                        i < usernameText.size(); ++i) {
             showUsername += usernameText[i];
         }
         if (showUsername.size() > 0) {
             usernameTextTexture.setText(showUsername);
             usernameTextTexture.loadFromRenderText(fontGame, gScreen);
-            usernameTextTexture.showText(gScreen, usernameTextTexture.getPosX(), usernameTextTexture.getPosY());
+            usernameTextTexture.showText(gScreen, usernameTextTexture.getPosX(), 
+                                         usernameTextTexture.getPosY());
         }
         else {
             gInputTextTexture->setPosX(boardLogin.getRect().x + LTEXTURE_VS_BOARDLOGIN_X);
@@ -710,7 +713,8 @@ void BounceBall::displayLogin() {
         if (encodePassword.size() > 0) {
             passwordTextTexture.setText(encodePassword);
             passwordTextTexture.loadFromRenderText(fontGame, gScreen);
-            passwordTextTexture.showText(gScreen, passwordTextTexture.getPosX(), passwordTextTexture.getPosY());
+            passwordTextTexture.showText(gScreen, passwordTextTexture.getPosX(), 
+                                            passwordTextTexture.getPosY());
         }
         else {
             gInputTextTexture->setPosX(boardLogin.getRect().x + LTEXTURE_VS_BOARDLOGIN_X);
@@ -761,7 +765,6 @@ void BounceBall::displayLogout() {
 }
 
 bool BounceBall::notificationStatusRegister(string usernameText, string passwordText) {
-    const int DISTANCE_UPPERCASE_VS_LOWERCASE = 32;
     for (int i = 0; i < usernameText.size(); ++i)
         if (usernameText[i] >= 'a' && usernameText[i] <= 'z')
             usernameText[i] -= DISTANCE_UPPERCASE_VS_LOWERCASE;
@@ -985,7 +988,8 @@ void BounceBall::displayRegister() {
 
         if (quit == true) break;
 
-        SDL_SetRenderDrawColor(gScreen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
+        SDL_SetRenderDrawColor(gScreen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, 
+                                    RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
         SDL_RenderClear(gScreen);
 
         background.render(gScreen);
@@ -1009,7 +1013,8 @@ void BounceBall::displayRegister() {
         if (showUsername.size() > 0) {
             usernameTextTexture.setText(showUsername);
             usernameTextTexture.loadFromRenderText(fontGame, gScreen);
-            usernameTextTexture.showText(gScreen, usernameTextTexture.getPosX(), usernameTextTexture.getPosY());
+            usernameTextTexture.showText(gScreen, usernameTextTexture.getPosX(), 
+                                            usernameTextTexture.getPosY());
         }
         else {
             gInputTextTexture->setPosX(boardRegister.getRect().x + LTEXTURE_VS_BOARDREGISTER_X);
@@ -1022,7 +1027,8 @@ void BounceBall::displayRegister() {
         if (encodePassword.size() > 0) {
             passwordTextTexture.setText(encodePassword);
             passwordTextTexture.loadFromRenderText(fontGame, gScreen);
-            passwordTextTexture.showText(gScreen, passwordTextTexture.getPosX(), passwordTextTexture.getPosY());
+            passwordTextTexture.showText(gScreen, passwordTextTexture.getPosX(), 
+                                            passwordTextTexture.getPosY());
         }
         else {
             gInputTextTexture->setPosX(boardRegister.getRect().x + LTEXTURE_VS_BOARDREGISTER_X);

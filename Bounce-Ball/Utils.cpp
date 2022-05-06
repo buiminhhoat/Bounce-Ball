@@ -15,9 +15,9 @@ bool MouseEvents::checkMouseInButton(ButtonObject* button) {
 	SDL_Rect rect = button->getRect();
 
 	if (mouseX < rect.x
-		|| mouseX > rect.x + rect.w - 1
+		|| mouseX > rect.x + rect.w - EPS_PIXELS_IMPACT
 		|| mouseY < rect.y
-		|| mouseY > rect.y + rect.h - 1) return false;
+		|| mouseY > rect.y + rect.h - EPS_PIXELS_IMPACT) return false;
 
 	return true;
 }

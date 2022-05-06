@@ -16,4 +16,3 @@ public:
 };
 
 #endif // __UTILS__
-#pragma once

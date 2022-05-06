@@ -49,4 +49,3 @@ private:
 	int idCheckpoint;
 };
 #endif
-#pragma once

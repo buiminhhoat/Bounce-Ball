@@ -58,7 +58,7 @@ void GameMap::loadMap(const char* nameFileMap) {
 }
 
 void GameMap::loadIMGBlock(SDL_Renderer* screen) {
-	char file_IMG[100];
+	char file_IMG[MAX_SIZE_NAME_FILE];
 	FILE* f = NULL;
 	type_block[GROUND_BLOCK].loadImage("img//block//GROUND_BLOCK.png", screen);
 }

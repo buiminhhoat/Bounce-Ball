@@ -13,7 +13,7 @@
 #include "LevelGame.h"
 #include "BounceBall.h"
 
-#include "ManagementObject.h"
+#include "Management.h"
 
 using namespace std;
 

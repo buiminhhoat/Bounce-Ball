@@ -58,4 +58,3 @@ private:
 	Block type_block[MAX_TYPE_BLOCKS];
 };
 #endif __GAMEMAP__
-#pragma once

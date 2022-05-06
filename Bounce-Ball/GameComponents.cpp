@@ -1,9 +1,9 @@
 #include "GameComponents.h"
 
 LifeObject::LifeObject() {
-	isCatched = 0;
+	isCatched = false;
 	scoreLife = 0;
-	isVertical = 0;
+	isVertical = false;
 	life = 0;
 }
 
@@ -12,9 +12,9 @@ LifeObject::~LifeObject() {
 }
 
 RingsObject::RingsObject() {
-	isCatched = 0;
+	isCatched = false;
 	scoreRing = 0;
-	isVertical = 0;
+	isVertical = false;
 }
 
 RingsObject::~RingsObject() {
@@ -30,7 +30,7 @@ ScoreObject::~ScoreObject() {
 }
 
 EndpointObject::EndpointObject() {
-	isOpened = 0;
+	isOpened = false;
 	scoreEndpoint = 0;
 }
 
@@ -42,7 +42,7 @@ ThreatsObject::ThreatsObject() {
 	onGround = false;
 	animationA = 0;
 	animationB = 0;
-	inputType.left = 0;
+	inputType.left = false;
 	typeMove = STATIC_THREAT;
 }
 
@@ -84,7 +84,6 @@ void ThreatsObject::checkToMap(Map* gMap) {
 	x2 = (xPos + xVal + widthFrame - EPS_PIXELS_IMPACT) / TILE_SIZE;
 
 	y1 = (yPos) / TILE_SIZE;
-	// 1 is eps
 	y2 = (yPos + heightFrame - EPS_PIXELS_IMPACT) / TILE_SIZE;
 
 	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 <= MAX_MAP_Y) {
@@ -161,20 +160,18 @@ void ThreatsObject::impMoveType(SDL_Renderer* screen) {
 		if (yPos > animationB) {
 			inputType.up = true;
 			inputType.down = false;
-			loadImage("img//threats//dyn_thorn.png", screen);
 		}
 		else if (yPos < animationA) {
 			inputType.up = false;
 			inputType.down = true;
-			loadImage("img//threats//dyn_thorn.png", screen);
 		}
 	}
 }
 
 CheckpointObject::CheckpointObject() {
-	isCatched = 0;
+	isCatched = false;
 	scoreRing = 0;
-	isVertical = 0;
+	isVertical = false;
 }
 
 CheckpointObject::~CheckpointObject() {
@@ -302,7 +299,7 @@ InfoPlayer::InfoPlayer() {
 	yourHighScore = 0;
 	level = 0;
 	life = ORIGINAL_LIFE;
-	for (int i = 0; i < MAX_LEVEL + FIX_ZERO_INDEX; ++i) unlockLevel[i] = 0;
+	for (int i = 0; i < MAX_LEVEL + FIX_ZERO_INDEX; ++i) unlockLevel[i] = false;
 }
 
 InfoPlayer::~InfoPlayer() {

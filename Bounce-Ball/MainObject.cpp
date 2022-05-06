@@ -14,11 +14,11 @@ using namespace std;
 
 MainObject::MainObject() {
 	status = -1;
-	inputType.up = 0;
-	inputType.down = 0;
-	inputType.left = 0;
-	inputType.right = 0;
-	inputType.jump = 0;
+	inputType.up = false;
+	inputType.down = false;
+	inputType.left = false;
+	inputType.right = false;
+	inputType.jump = false;
 	onGround = false;
 	mapX = 0;
 	mapY = 0;
@@ -35,13 +35,13 @@ void MainObject::inputAction(SDL_Event events, SDL_Renderer* screen) {
 			case SDLK_RIGHT: {
 				status = WALK_RIGHT;
 				inputType.right = 1;
-				inputType.left = 0;
+				inputType.left = false;
 			}
 			break;
 			case SDLK_LEFT: {
 				status = WALK_LEFT;
 				inputType.left = 1;
-				inputType.right = 0;
+				inputType.right = false;
 			}
 			break;
 			case SDLK_SPACE: {
@@ -53,15 +53,15 @@ void MainObject::inputAction(SDL_Event events, SDL_Renderer* screen) {
 	else if (events.type == SDL_KEYUP) {
 		switch (events.key.keysym.sym) {
 			case SDLK_RIGHT: {
-				inputType.right = 0;
+				inputType.right = false;
 			}
 			break;
 			case SDLK_LEFT: {
-				inputType.left = 0;
+				inputType.left = false;
 			}
 			break;
 			case SDLK_SPACE: {
-				inputType.jump = 0;
+				inputType.jump = false;
 			}
 			break;
 		}
@@ -87,7 +87,7 @@ void MainObject::doPlayer(Map *mapData) {
 			yVal = -PLAYER_JUMP;
 		}
 		onGround = false;
-		inputType.jump = 0;
+		inputType.jump = false;
 	}
 	checkPlayerVsMap(mapData);
 	centerEntityOnMap(mapData);

@@ -12,7 +12,7 @@
 #include "FPS.h"
 #include "GameComponents.h"
 #include "LevelGame.h"
-#include "ManagementObject.h"
+#include "Management.h"
 #include "Database.h"
 
 class BounceBall {
@@ -71,4 +71,3 @@ private:
 	ButtonObject selectLevelButton[MAX_ROW_SHOW + FIX_ZERO_INDEX][MAX_COL_SHOW + FIX_ZERO_INDEX];
 };
 #endif
-#pragma once

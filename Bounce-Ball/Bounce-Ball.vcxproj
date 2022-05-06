@@ -153,7 +153,7 @@
     <ClCompile Include="CommonFunc.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="FPS.cpp" />
-    <ClCompile Include="ManagementObject.cpp" />
+    <ClCompile Include="Management.cpp" />
     <ClCompile Include="Cryptosystem.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
@@ -167,7 +167,7 @@
     <ClInclude Include="CommonFunc.h" />
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="FPS.h" />
-    <ClInclude Include="ManagementObject.h" />
+    <ClInclude Include="Management.h" />
     <ClInclude Include="Cryptosystem.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>

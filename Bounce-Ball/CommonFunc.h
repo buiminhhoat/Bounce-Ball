@@ -69,13 +69,17 @@ const int MID_POS_WIDTH = SCREEN_WIDTH / 2;
 const int MID_POS_HEIGHT = SCREEN_HEIGHT / 2;
 const double HALF_RATE = 0.5;
 const int MAX_ONE_DIGIT = 9;
+const int DISTANCE_UPPERCASE_VS_LOWERCASE = 32;
+const int SMALLEST_TWO_DIGIT_NUMBER = 10;
+const int MAX_SIZE_NAME_FILE = 100;
+
 
 struct actionType {
-	bool left = 0;
-	bool right = 0;
-	bool up = 0;
-	bool down = 0;
-	bool jump = 0;
+	bool left = false;
+	bool right = false;
+	bool up = false;
+	bool down = false;
+	bool jump = false;
 };
 
 enum blockType {
