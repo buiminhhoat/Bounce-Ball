@@ -18,6 +18,53 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Header\BaseObject.h" />
+    <ClInclude Include="Header\BounceBall.h" />
+    <ClInclude Include="Header\ButtonObject.h" />
+    <ClInclude Include="Header\CheckpointObject.h" />
+    <ClInclude Include="Header\CommonFunc.h" />
+    <ClInclude Include="Header\Cryptosystem.h" />
+    <ClInclude Include="Header\Database.h" />
+    <ClInclude Include="Header\EndpointObject.h" />
+    <ClInclude Include="Header\FPS.h" />
+    <ClInclude Include="Header\GameComponents.h" />
+    <ClInclude Include="Header\GameMap.h" />
+    <ClInclude Include="Header\InfoPlayer.h" />
+    <ClInclude Include="Header\LevelGame.h" />
+    <ClInclude Include="Header\LifeObject.h" />
+    <ClInclude Include="Header\LTexture.h" />
+    <ClInclude Include="Header\MainObject.h" />
+    <ClInclude Include="Header\Management.h" />
+    <ClInclude Include="Header\RingsObject.h" />
+    <ClInclude Include="Header\ScoreObject.h" />
+    <ClInclude Include="Header\ThreatsObject.h" />
+    <ClInclude Include="Header\Utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\BaseObject.cpp" />
+    <ClCompile Include="Source\BounceBall.cpp" />
+    <ClCompile Include="Source\ButtonObject.cpp" />
+    <ClCompile Include="Source\CheckpointObject.cpp" />
+    <ClCompile Include="Source\CommonFunc.cpp" />
+    <ClCompile Include="Source\Cryptosystem.cpp" />
+    <ClCompile Include="Source\Database.cpp" />
+    <ClCompile Include="Source\EndpointObject.cpp" />
+    <ClCompile Include="Source\FPS.cpp" />
+    <ClCompile Include="Source\GameComponents.cpp" />
+    <ClCompile Include="Source\GameMap.cpp" />
+    <ClCompile Include="Source\InfoPlayer.cpp" />
+    <ClCompile Include="Source\LevelGame.cpp" />
+    <ClCompile Include="Source\LifeObject.cpp" />
+    <ClCompile Include="Source\LTexture.cpp" />
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\MainObject.cpp" />
+    <ClCompile Include="Source\Management.cpp" />
+    <ClCompile Include="Source\RingsObject.cpp" />
+    <ClCompile Include="Source\ScoreObject.cpp" />
+    <ClCompile Include="Source\ThreatsObject.cpp" />
+    <ClCompile Include="Source\Utils.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -142,35 +189,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="BaseObject.cpp" />
-    <ClCompile Include="BounceBall.cpp" />
-    <ClCompile Include="Database.cpp" />
-    <ClCompile Include="GameComponents.cpp" />
-    <ClCompile Include="LevelGame.cpp" />
-    <ClCompile Include="MainObject.cpp" />
-    <ClCompile Include="GameMap.cpp" />
-    <ClCompile Include="CommonFunc.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="FPS.cpp" />
-    <ClCompile Include="Management.cpp" />
-    <ClCompile Include="Cryptosystem.cpp" />
-    <ClCompile Include="Utils.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="BaseObject.h" />
-    <ClInclude Include="BounceBall.h" />
-    <ClInclude Include="Database.h" />
-    <ClInclude Include="GameComponents.h" />
-    <ClInclude Include="LevelGame.h" />
-    <ClInclude Include="MainObject.h" />
-    <ClInclude Include="CommonFunc.h" />
-    <ClInclude Include="GameMap.h" />
-    <ClInclude Include="FPS.h" />
-    <ClInclude Include="Management.h" />
-    <ClInclude Include="Cryptosystem.h" />
-    <ClInclude Include="Utils.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
