@@ -3,10 +3,7 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-Bounce-Ball/buildmap/
-Bounce-Ball/typemap/
-*.map
-*.tmx
+
 *.exe
 # User-specific files
 *.rsuser
