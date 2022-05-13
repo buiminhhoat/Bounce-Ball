@@ -44,7 +44,7 @@ public:
 
 	bool loadImage(std::string path, SDL_Renderer* screen);
 
-	void render(SDL_Renderer* des, const SDL_Rect* clip = NULL);
+	virtual void render(SDL_Renderer* des, const SDL_Rect* clip = NULL);
 
 	void cleanUp();
 protected:

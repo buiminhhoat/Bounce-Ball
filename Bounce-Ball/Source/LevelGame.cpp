@@ -12,7 +12,7 @@
 #include "../Header/LevelGame.h"
 #include "../Header/Management.h"
 #include "../Header/Cryptosystem.h"
-#include "../Header/Utils.h"
+#include "../Header/Mouse.h"
 
 using namespace std;
 
@@ -333,7 +333,7 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
         }
         SDL_SetRenderDrawColor(screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
         SDL_RenderClear(screen);
-
+        
         background.render(screen);
 
         player.setMapXY(mapData->startX, mapData->startY);
@@ -407,6 +407,9 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
         else backButtonClick.render(screen);
         if (selectSettingsButton == false) settingsButton.render(screen);
         else settingsButtonClick.render(screen);
+
+        mouse.render(screen);
+
         SDL_RenderPresent(screen);
 
         int realTime = fpsTimer.getTicks();

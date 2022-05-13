@@ -75,7 +75,7 @@
     <ClInclude Include="Header\ThreatsObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Utils.h">
+    <ClInclude Include="Header\Mouse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -143,7 +143,7 @@
     <ClCompile Include="Source\ThreatsObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Utils.cpp">
+    <ClCompile Include="Source\Mouse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

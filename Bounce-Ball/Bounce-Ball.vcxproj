@@ -39,7 +39,7 @@
     <ClInclude Include="Header\RingsObject.h" />
     <ClInclude Include="Header\ScoreObject.h" />
     <ClInclude Include="Header\ThreatsObject.h" />
-    <ClInclude Include="Header\Utils.h" />
+    <ClInclude Include="Header\Mouse.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\BaseObject.cpp" />
@@ -63,7 +63,7 @@
     <ClCompile Include="Source\RingsObject.cpp" />
     <ClCompile Include="Source\ScoreObject.cpp" />
     <ClCompile Include="Source\ThreatsObject.cpp" />
-    <ClCompile Include="Source\Utils.cpp" />
+    <ClCompile Include="Source\Mouse.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -166,6 +166,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp14</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

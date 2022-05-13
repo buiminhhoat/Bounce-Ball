@@ -1,9 +1,13 @@
-#include "../Header/Utils.h"
+#include "../Header/Mouse.h"
 
 void MouseEvents::mouseHandleEvent() {
 	int mouseX, mouseY;
 	SDL_GetMouseState(&mouseX, &mouseY);
 	setPosition(mouseX, mouseY);
+	rect.x = mouseX;
+	rect.y = mouseY;
+	point.x = rect.x;
+	point.y = rect.y;
 }
 
 void MouseEvents::setPosition(int mouseX, int mouseY) {

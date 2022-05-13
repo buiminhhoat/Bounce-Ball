@@ -10,7 +10,6 @@
 #include "../Header/FPS.h"
 #include "../Header/GameComponents.h"
 #include "../Header/LevelGame.h"
-#include "../Header/Utils.h"
 #include "../Header/Management.h"
 #include "../Header/BounceBall.h"
 #include "../Header/Cryptosystem.h"
@@ -182,6 +181,7 @@ int BounceBall::startGame() {
         SDL_RenderClear(gScreen);
 
         background.render(gScreen);
+
         logo.render(gScreen);
         if (clickPlayButton == false) playButton.render(gScreen);
         else playButtonClick.render(gScreen);
@@ -206,7 +206,9 @@ int BounceBall::startGame() {
         if (clickRegisterButton == false) registerButton.render(gScreen);
         else registerButtonClick.render(gScreen);
 
+
         if (display != typeDisplay::MENU) {
+            mouse.cleanUp();
             background.cleanUp();
             logo.cleanUp();
             playButton.cleanUp();
@@ -251,6 +253,8 @@ int BounceBall::startGame() {
                 displayHowToPlayButton();
                 break;
         }
+
+        mouse.render(gScreen);
 
         SDL_RenderPresent(gScreen);
 
@@ -312,6 +316,8 @@ void BounceBall::displayPlay() {
     backButtonClick.setXPos(0);
     backButtonClick.setYPos(SCREEN_HEIGHT - backButtonClick.getRect().h);
     backButtonClick.setRectPos(backButtonClick.getXPos(), backButtonClick.getYPos());
+
+    //ButtonObject selectLevelButton[MAX_ROW_SHOW + FIX_ZERO_INDEX][MAX_COL_SHOW + FIX_ZERO_INDEX];
 
     FPS fpsTimer;
     bool quit = false;
@@ -416,6 +422,8 @@ void BounceBall::displayPlay() {
             }
         }
 
+        mouse.render(gScreen);
+
         SDL_RenderPresent(gScreen);
 
         int realTime = fpsTimer.getTicks();
@@ -434,6 +442,7 @@ void BounceBall::displayPlay() {
         for (int j = 1; j <= MAX_COL_SHOW; ++j)
             selectLevelButton[i][j].cleanUp();
     LevelText.cleanUp();
+    mouse.cleanUp();
 }
 
 void BounceBall::displayLeaderboard() {
@@ -486,7 +495,7 @@ void BounceBall::displayLeaderboard() {
         SDL_SetRenderDrawColor(gScreen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR,
             RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
         SDL_RenderClear(gScreen);
-
+           
         background.render(gScreen);
         leaderboard.render(gScreen);
 
@@ -526,6 +535,9 @@ void BounceBall::displayLeaderboard() {
             yPosUsername += DISTANCE_FLOORS;
             yPosYourHighScore += DISTANCE_FLOORS;
         }
+
+        mouse.render(gScreen);
+
         SDL_RenderPresent(gScreen);
 
         int realTime = fpsTimer.getTicks();
@@ -541,6 +553,7 @@ void BounceBall::displayLeaderboard() {
     backButton.cleanUp();
     usernameText.cleanUp();
     yourHighScoreText.cleanUp();
+    mouse.cleanUp();
 }
 
 bool BounceBall::checkInfoLogin(string usernameText, string passwordText, InfoPlayer *infoPlayer) {
@@ -667,9 +680,9 @@ void BounceBall::displayLogin() {
     bool quit = false;
     bool deletedAccount = false;
     bool deletedPassword = false;
+    MouseEvents mouse;
     while (!quit) {
         fpsTimer.start();
-        MouseEvents mouse;
         mouse.mouseHandleEvent();
         bool selectUsernameButton = bool(mouse.checkMouseInButton(&usernameButton));
         bool selectPasswordButton = bool(mouse.checkMouseInButton(&passwordButton));
@@ -851,6 +864,8 @@ void BounceBall::displayLogin() {
         }
         if (flickerTimer.getTicks() > TIME_END_FLICKERTIMER) flickerTimer.start();
 
+        mouse.render(gScreen);
+
         SDL_RenderPresent(gScreen);
 
         int realTime = fpsTimer.getTicks();
@@ -876,6 +891,7 @@ void BounceBall::displayLogin() {
     usernameTextTexture.cleanUp();
     passwordTextTexture.cleanUp();
     iteratorMouse.cleanUp();
+    mouse.cleanUp();
 }
 
 void BounceBall::displayLogout() {
@@ -1190,6 +1206,8 @@ void BounceBall::displayRegister() {
         }
         if (flickerTimer.getTicks() > TIME_END_FLICKERTIMER) flickerTimer.start();
 
+        mouse.render(gScreen);
+
         SDL_RenderPresent(gScreen);
 
         int realTime = fpsTimer.getTicks();
@@ -1214,6 +1232,7 @@ void BounceBall::displayRegister() {
     usernameTextTexture.cleanUp();
     passwordTextTexture.cleanUp();
     iteratorMouse.cleanUp();
+    mouse.cleanUp();
 }
 
 void BounceBall::displaySettings() {
@@ -1365,6 +1384,9 @@ void BounceBall::displaySettings() {
         else backButtonClick.render(gScreen);
         if (selectExitButton == false) exitButton.render(gScreen);
         else exitButtonClick.render(gScreen);
+
+        mouse.render(gScreen);
+
         SDL_RenderPresent(gScreen);
 
         int realTime = fpsTimer.getTicks();
@@ -1383,6 +1405,7 @@ void BounceBall::displaySettings() {
     restoreButton.cleanUp();
     backButton.cleanUp();
     exitButton.cleanUp();
+    mouse.cleanUp();
 }
 
 void BounceBall::displayHowToPlayButton() {
@@ -1439,6 +1462,7 @@ void BounceBall::displayHowToPlayButton() {
                     backButtonClick.cleanUp();
                     playButton.cleanUp();
                     playButtonClick.cleanUp();
+                    mouse.cleanUp();
                 }
                 if (clickBackButton) {
                     quit = true;
@@ -1466,12 +1490,16 @@ void BounceBall::displayHowToPlayButton() {
         SDL_SetRenderDrawColor(gScreen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR,
             RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
         SDL_RenderClear(gScreen);
+
         background.render(gScreen);
         howToPlay.render(gScreen);
         if (clickBackButton == false) backButton.render(gScreen);
         else backButtonClick.render(gScreen);
         if (clickPlayButton == false) playButton.render(gScreen);
         else playButtonClick.render(gScreen);
+
+        mouse.render(gScreen);
+
         SDL_RenderPresent(gScreen);
         int realTime = fpsTimer.getTicks();
         int timeOneFrame = MS_ONE_SECOND / FRAME_PER_SECOND;

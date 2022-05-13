@@ -12,6 +12,8 @@
 #include "LTexture.h"
 #include "ButtonObject.h"
 #include "InfoPlayer.h"
+#include "Mouse.h"
+
 
 using namespace std;
 
