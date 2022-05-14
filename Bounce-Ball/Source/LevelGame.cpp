@@ -182,7 +182,7 @@ void displaySettings(InfoPlayer *infoPlayer, SDL_Renderer* screen) {
     bool quit = false;
     bool sound = infoPlayer->getSound();
     while (!quit) {
-        MouseEvents mouse;
+        Mouse mouse;
         mouse.mouseHandleEvent();
         bool selectSoundOnButton = bool(mouse.checkMouseInButton(&soundOnButton));
         bool selectSoundOffButton = bool(mouse.checkMouseInButton(&soundOffButton));
@@ -245,7 +245,7 @@ int LevelGame::loadLevelGame(const char* nameFileMap, SDL_Renderer* screen,
     LTexture yourHighScoreText;
     LTexture lifeText;
     LTexture remainRingText;
-    MouseEvents mouse;
+    Mouse mouse;
 
     score.setScore(infoPlayer->getScore());
     score.setYourHighScore(infoPlayer->getYourHighScore());

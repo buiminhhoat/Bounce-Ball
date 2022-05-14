@@ -1,21 +1,19 @@
 #include "../Header/Mouse.h"
 
-void MouseEvents::mouseHandleEvent() {
+void Mouse::mouseHandleEvent() {
 	int mouseX, mouseY;
 	SDL_GetMouseState(&mouseX, &mouseY);
 	setPosition(mouseX, mouseY);
 	rect.x = mouseX;
 	rect.y = mouseY;
-	point.x = rect.x;
-	point.y = rect.y;
 }
 
-void MouseEvents::setPosition(int mouseX, int mouseY) {
+void Mouse::setPosition(int mouseX, int mouseY) {
 	this->mouseX = mouseX;
 	this->mouseY = mouseY;
 }
 
-bool MouseEvents::checkMouseInButton(ButtonObject* button) {
+bool Mouse::checkMouseInButton(ButtonObject* button) {
 	SDL_Rect rect = button->getRect();
 
 	if (mouseX < rect.x

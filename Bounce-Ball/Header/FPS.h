@@ -1,5 +1,6 @@
 #ifndef __FPS__
 #define __FPS__
+
 class FPS {
 public:
 	FPS();

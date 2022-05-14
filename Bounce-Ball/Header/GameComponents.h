@@ -2,6 +2,7 @@
 #define __GAMECOMPONENTS__
 
 #include "BaseObject.h"
+#include "MainObject.h"
 #include "GameMap.h"
 #include "LifeObject.h"
 #include "RingsObject.h"
@@ -13,7 +14,6 @@
 #include "ButtonObject.h"
 #include "InfoPlayer.h"
 #include "Mouse.h"
-
 
 using namespace std;
 

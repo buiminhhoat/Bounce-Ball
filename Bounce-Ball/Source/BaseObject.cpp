@@ -1,4 +1,5 @@
 #include "../Header/BaseObject.h"
+#include "../Header/CommonFunc.h"
 
 BaseObject::BaseObject() {
     xVal = 0.0;

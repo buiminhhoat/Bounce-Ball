@@ -62,6 +62,9 @@ public:
 	void displaySettings();
 	void displayHowToPlayButton();
 	bool notificationStatusRegister(string usernameText, string passwordText);
+	void setGeneralAddressBackground(string generalAddressBackground) {
+		this->generalAddressBackground = generalAddressBackground;
+	}
 private:
 	int display = typeDisplay::MENU;
 	int sound = typeSound::ON;
@@ -69,5 +72,6 @@ private:
 	Database databaseGame;
 	InfoPlayer* infoPlayer = new InfoPlayer;
 	ButtonObject selectLevelButton[MAX_ROW_SHOW + FIX_ZERO_INDEX][MAX_COL_SHOW + FIX_ZERO_INDEX];
+	string generalAddressBackground;
 };
 #endif

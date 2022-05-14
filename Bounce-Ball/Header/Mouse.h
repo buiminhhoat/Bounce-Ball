@@ -5,19 +5,16 @@
 
 using namespace std;
 
-class MouseEvents : public BaseObject {
+class Mouse : public BaseObject {
 private:
 	int mouseX;
 	int mouseY;
 	void setPosition(int mouseX, int mouseY);
-	SDL_Rect point;
 public:
-	MouseEvents() {
+	Mouse() {
 		loadImage("Resources/Image/MouseCursor/MouseCursor.png", gScreen);
-		rect.w = 25;
-		rect.h = 25;
-		point.h = 1;
-		point.w = 1;
+		rect.w = 38;
+		rect.h = 53;
 		SDL_ShowCursor(false);
 	}
 	void mouseHandleEvent();

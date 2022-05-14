@@ -4,10 +4,6 @@
 #include <iostream>
 
 #include "../Header/CommonFunc.h"
-#include "../Header/BaseObject.h"
-#include "../Header/GameMap.h"
-#include "../Header/MainObject.h"
-#include "../Header/FPS.h"
 #include "../Header/GameComponents.h"
 #include "../Header/LevelGame.h"
 #include "../Header/Management.h"
@@ -35,7 +31,7 @@ int BounceBall::startGame() {
     }
 
     BaseObject background;
-    background.loadImage("Resources/Image/background/background.jpg", gScreen);
+    background.loadImage(generalAddressBackground, gScreen);
     background.render(gScreen);
 
     const int LOGO_OBJECT_WIDTH = 210;
@@ -125,7 +121,7 @@ int BounceBall::startGame() {
     SDL_RenderPresent(gScreen);
 
     bool quit = false;
-    MouseEvents mouse;
+    Mouse mouse;
 
     display = typeDisplay::MENU;
 
@@ -271,7 +267,7 @@ int BounceBall::startGame() {
 
 void BounceBall::displayLogo() {
     BaseObject background;
-    background.loadImage("Resources/Image/background/background.jpg", gScreen);
+    background.loadImage(generalAddressBackground, gScreen);
     background.render(gScreen);
     
     BaseObject logo; 
@@ -287,9 +283,9 @@ void BounceBall::displayLogo() {
 }
 
 void BounceBall::displayPlay() {
-    MouseEvents mouse;
+    Mouse mouse;
     BaseObject background;
-    background.loadImage("Resources/Image/background/background.jpg", gScreen);
+    background.loadImage(generalAddressBackground, gScreen);
 
     LTexture LevelText;
     int level = 0;
@@ -446,9 +442,9 @@ void BounceBall::displayPlay() {
 }
 
 void BounceBall::displayLeaderboard() {
-    MouseEvents mouse;
+    Mouse mouse;
     BaseObject background;
-    background.loadImage("Resources/Image/background/background.jpg", gScreen);
+    background.loadImage(generalAddressBackground, gScreen);
 
     const int LEADERBOARD_OBJECT_WIDTH = 612;
     const int LEADERBOARD_OBJECT_HEIGHT = 512;
@@ -578,7 +574,7 @@ bool BounceBall::checkInfoLogin(string usernameText, string passwordText, InfoPl
 
 void BounceBall::displayLogin() {
     BaseObject background;
-    background.loadImage("Resources/Image/background/background.jpg", gScreen);
+    background.loadImage(generalAddressBackground, gScreen);
     background.render(gScreen);
 
     BaseObject boardLogin;
@@ -680,7 +676,7 @@ void BounceBall::displayLogin() {
     bool quit = false;
     bool deletedAccount = false;
     bool deletedPassword = false;
-    MouseEvents mouse;
+    Mouse mouse;
     while (!quit) {
         fpsTimer.start();
         mouse.mouseHandleEvent();
@@ -932,7 +928,7 @@ bool BounceBall::notificationStatusRegister(string usernameText, string password
 
 void BounceBall::displayRegister() {
     BaseObject background;
-    background.loadImage("Resources/Image/background/background.jpg", gScreen);
+    background.loadImage(generalAddressBackground, gScreen);
     background.render(gScreen);
 
     BaseObject boardRegister;
@@ -1040,7 +1036,7 @@ void BounceBall::displayRegister() {
     bool deletedPassword = false;
     bool quit = false;
 
-    MouseEvents mouse;
+    Mouse mouse;
     while (!quit) {
         fpsTimer.start();
         mouse.mouseHandleEvent();
@@ -1237,7 +1233,7 @@ void BounceBall::displayRegister() {
 
 void BounceBall::displaySettings() {
     BaseObject background;
-    background.loadImage("Resources/Image/background/background.jpg", gScreen);
+    background.loadImage(generalAddressBackground, gScreen);
 
     BaseObject boardSettings;
     boardSettings.loadImage("Resources/Image/settingsBoard/settingsBoard.png", gScreen);
@@ -1325,7 +1321,7 @@ void BounceBall::displaySettings() {
 
     SDL_RenderPresent(gScreen);
     FPS fpsTimer;
-    MouseEvents mouse;
+    Mouse mouse;
     bool quit = false;
     while (!quit) {
         fpsTimer.start();
@@ -1410,7 +1406,7 @@ void BounceBall::displaySettings() {
 
 void BounceBall::displayHowToPlayButton() {
     BaseObject background;
-    background.loadImage("Resources/Image/background/background.jpg", gScreen);
+    background.loadImage(generalAddressBackground, gScreen);
 
     BaseObject howToPlay;
     howToPlay.loadImage("Resources/Image/HowToPlay/HowToPlay.png", gScreen);
@@ -1444,7 +1440,7 @@ void BounceBall::displayHowToPlayButton() {
 
     SDL_RenderPresent(gScreen);
 
-    MouseEvents mouse;
+    Mouse mouse;
     FPS fpsTimer;
     bool quit = 0;
     while (!quit) {

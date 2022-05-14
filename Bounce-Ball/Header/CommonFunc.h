@@ -7,6 +7,8 @@
 #include <windows.h>
 #include <iostream>
 #include <string>
+#include <cstdlib>
+#include <ctime>
 
 #include <SDL.h>
 #include <SDL_image.h>
