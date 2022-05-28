@@ -6,7 +6,7 @@
 
 **Student ID:** 21020326
 
-**University:** VNU Hanoi-University of Engineering and Technology
+**University:** VNU University of Engineering and Technology (VNU-UET)
 
 **Mail for work:** official.buiminhhoat@gmail.com
 
@@ -17,10 +17,10 @@
 **Project uses:**
 
 - Microsoft Visual Studio 2022.
+- SDL2 devel 2.0.20 mingw.
 - SDL2 image devel 2.0.5 mingw.
 - SDL2 ttf devel 2.0.18 mingw.
 - SDL2 mixer devel 2.0.4 mingw.
-- SDL2 devel 2.0.20 mingw.
 
 ## How to compile and play
 
