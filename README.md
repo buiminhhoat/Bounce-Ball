@@ -38,6 +38,7 @@
 ### How to play
 
 You have to control the ball to the finish line, avoiding the obstacle on the way. If the ball touch the obstacle, it will pop and you will lose **ONE** life. **GAMEOVER** when you run out of lives.
+
 After being granted an account, you can play game right away. Initially, your level is level $1$ out of $50$ levels. You can only unlock the next level when you complete the current level.
 
 ### Main function:
