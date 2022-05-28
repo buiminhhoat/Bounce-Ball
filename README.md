@@ -3,9 +3,13 @@
 ## Introduction
 
 **Full name:** Bùi Minh Hoạt
+
 **Student ID:** 21020326
+
 **University:** VNU Hanoi-University of Engineering and Technology
+
 **Mail for work:** official.buiminhhoat@gmail.com
+
 **Video demo:** https://youtu.be/K7zEpGcd7gw
 
 ## Technologies
