@@ -39,7 +39,7 @@ int BounceBall::startGame() {
     const int LOGO_OBJECT_Y_POS = 5;
     
     BaseObject logo;
-    logo.loadImage("Resources/Image/logo/logo_small.png", gScreen);
+    logo.loadImage(ADDRESS_LOGO_SMALL, gScreen);
     logo.setRectSize(LOGO_OBJECT_WIDTH, LOGO_OBJECT_HEIGHT);
     logo.setRectPos((SCREEN_WIDTH - logo.getRect().w) / 2, LOGO_OBJECT_Y_POS);
     logo.render(gScreen);
@@ -49,72 +49,74 @@ int BounceBall::startGame() {
     const int DISTANCE_BUTTONS_Y = 100;
 
     ButtonObject playButton;
-    playButton.loadImage("Resources/Image/button/menu_button_play.png", gScreen);
-    playButton.setRectPos(MID_POS_WIDTH - playButton.getRect().w - BACK_MID, FIRST_HEIGH_Y);
+    playButton.loadImage(ADDRESS_MENU_PLAY_BUTTON, gScreen);
+    playButton.setRectPos(MID_POS_WIDTH - playButton.getRect().w - BACK_MID, 
+                                FIRST_HEIGH_Y);
     playButton.render(gScreen);
 
     ButtonObject playButtonClick;
-    playButtonClick.loadImage("Resources/Image/button/menu_button_play_click.png", gScreen);
-    playButtonClick.setRectPos(MID_POS_WIDTH - playButtonClick.getRect().w - BACK_MID, FIRST_HEIGH_Y);
+    playButtonClick.loadImage(ADDRESS_MENU_PLAY_BUTTON_CLICK, gScreen);
+    playButtonClick.setRectPos(MID_POS_WIDTH - playButtonClick.getRect().w - BACK_MID, 
+                                FIRST_HEIGH_Y);
 
     ButtonObject leaderboardButton;
-    leaderboardButton.loadImage("Resources/Image/button/menu_button_leaderboard.png", gScreen);
+    leaderboardButton.loadImage(ADDRESS_MENU_LEADERBOARD_BUTTON, gScreen);
     leaderboardButton.setRectPos(MID_POS_WIDTH + BACK_MID, FIRST_HEIGH_Y);
     leaderboardButton.render(gScreen);
 
     ButtonObject leaderboardButtonClick;
-    leaderboardButtonClick.loadImage("Resources/Image/button/menu_button_leaderboard_click.png", gScreen);
+    leaderboardButtonClick.loadImage(ADDRESS_MENU_LEADERBOARD_BUTTON_CLICK, gScreen);
     leaderboardButtonClick.setRectPos(MID_POS_WIDTH + BACK_MID, FIRST_HEIGH_Y);
 
     ButtonObject howToPlayButton;
-    howToPlayButton.loadImage("Resources/Image/button/menu_button_howtoplay.png", gScreen);
+    howToPlayButton.loadImage(ADDRESS_MENU_HOWTOPLAY_BUTTON, gScreen);
     howToPlayButton.setRectPos(MID_POS_WIDTH - howToPlayButton.getRect().w - BACK_MID, 
                                 playButton.getYPos() + DISTANCE_BUTTONS_Y);
     howToPlayButton.render(gScreen);
 
     ButtonObject howToPlayButtonClick;
-    howToPlayButtonClick.loadImage("Resources/Image/button/menu_button_howtoplay_click.png", gScreen);
-    howToPlayButtonClick.setRectPos(MID_POS_WIDTH - howToPlayButtonClick.getRect().w - BACK_MID,
-        playButton.getYPos() + DISTANCE_BUTTONS_Y);
+    howToPlayButtonClick.loadImage(ADDRESS_MENU_HOWTOPLAY_BUTTON_CLICK, gScreen);
+    howToPlayButtonClick.setRectPos(MID_POS_WIDTH - howToPlayButtonClick.getRect().w 
+                    - BACK_MID, playButton.getYPos() + DISTANCE_BUTTONS_Y);
 
     ButtonObject settingsButton;
-    settingsButton.loadImage("Resources/Image/button/menu_button_settings.png", gScreen);
+    settingsButton.loadImage(ADDRESS_MENU_SETTINGS_BUTTON, gScreen);
     settingsButton.setRectPos(MID_POS_WIDTH + BACK_MID, 
                                 leaderboardButton.getYPos() + DISTANCE_BUTTONS_Y);
     settingsButton.render(gScreen);
 
     ButtonObject settingsButtonClick;
-    settingsButtonClick.loadImage("Resources/Image/button/menu_button_settings_click.png", gScreen);
+    settingsButtonClick.loadImage(ADDRESS_MENU_SETTINGS_BUTTON_CLICK, gScreen);
     settingsButtonClick.setRectPos(MID_POS_WIDTH + BACK_MID,
         leaderboardButton.getYPos() + DISTANCE_BUTTONS_Y);
 
     ButtonObject registerButton;
-    registerButton.loadImage("Resources/Image/button/menu_button_register.png", gScreen);
+    registerButton.loadImage(ADDRESS_MENU_REGISTER_BUTTON, gScreen);
     registerButton.setRectPos(MID_POS_WIDTH + BACK_MID, settingsButton.getYPos() + DISTANCE_BUTTONS_Y);
     registerButton.render(gScreen);
 
     ButtonObject registerButtonClick;
-    registerButtonClick.loadImage("Resources/Image/button/menu_button_register_click.png", gScreen);
+    registerButtonClick.loadImage(ADDRESS_MENU_REGISTER_BUTTON_CLICK, gScreen);
     registerButtonClick.setRectPos(MID_POS_WIDTH + BACK_MID, 
                         settingsButton.getYPos() + DISTANCE_BUTTONS_Y);
 
     ButtonObject loginButton;
-    loginButton.loadImage("Resources/Image/button/menu_button_login.png", gScreen);
+    loginButton.loadImage(ADDRESS_MENU_LOGIN_BUTTON, gScreen);
     loginButton.setRectPos(MID_POS_WIDTH - playButton.getRect().w - BACK_MID,
         howToPlayButton.getYPos() + DISTANCE_BUTTONS_Y);
 
     ButtonObject loginButtonClick;
-    loginButtonClick.loadImage("Resources/Image/button/menu_button_login_click.png", gScreen);
+    loginButtonClick.loadImage(ADDRESS_MENU_LOGIN_BUTTON_CLICK, gScreen);
     loginButtonClick.setRectPos(MID_POS_WIDTH - playButton.getRect().w - BACK_MID,
         howToPlayButton.getYPos() + DISTANCE_BUTTONS_Y);
 
     ButtonObject logoutButton;
-    logoutButton.loadImage("Resources/Image/button/menu_button_logout.png", gScreen);
+    logoutButton.loadImage(ADDRESS_MENU_LOGOUT_BUTTON, gScreen);
     logoutButton.setRectPos(MID_POS_WIDTH - playButton.getRect().w - BACK_MID, 
                             howToPlayButton.getYPos() + DISTANCE_BUTTONS_Y);
 
     ButtonObject logoutButtonClick;
-    logoutButtonClick.loadImage("Resources/Image/button/menu_button_logout_click.png", gScreen);
+    logoutButtonClick.loadImage(ADDRESS_MENU_LOGOUT_BUTTON_CLICK, gScreen);
     logoutButtonClick.setRectPos(MID_POS_WIDTH - playButton.getRect().w - BACK_MID,
         howToPlayButton.getYPos() + DISTANCE_BUTTONS_Y);
 
@@ -204,7 +206,6 @@ int BounceBall::startGame() {
 
 
         if (display != typeDisplay::MENU) {
-            mouse.cleanUp();
             background.cleanUp();
             logo.cleanUp();
             playButton.cleanUp();
@@ -250,8 +251,6 @@ int BounceBall::startGame() {
                 break;
         }
 
-        mouse.render(gScreen);
-
         SDL_RenderPresent(gScreen);
 
         int realTime = fpsTimer.getTicks();
@@ -271,7 +270,7 @@ void BounceBall::displayLogo() {
     background.render(gScreen);
     
     BaseObject logo; 
-    logo.loadImage("Resources/Image/logo/logo.png", gScreen);
+    logo.loadImage(ADDRESS_LOGO, gScreen);
     logo.setRectSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     logo.render(gScreen);
     
@@ -295,25 +294,40 @@ void BounceBall::displayPlay() {
     const int LOGO_OBJECT_Y_POS = 5;
 
     BaseObject logo;
-    logo.loadImage("Resources/Image/logo/logo_small.png", gScreen);
+    logo.loadImage(ADDRESS_LOGO_SMALL, gScreen);
     logo.setRectSize(LOGO_OBJECT_WIDTH, LOGO_OBJECT_HEIGHT);
     logo.setRectPos((SCREEN_WIDTH - logo.getRect().w) / 2, LOGO_OBJECT_Y_POS);
     logo.render(gScreen);
 
     ButtonObject backButton;
-    backButton.loadImage("Resources/Image/button/back_button.png", gScreen);
+    backButton.loadImage(ADDRESS_MENU_BACK_BUTTON, gScreen);
     backButton.setXPos(0);
     backButton.setYPos(SCREEN_HEIGHT - backButton.getRect().h);
     backButton.setRectPos(backButton.getXPos(), backButton.getYPos());
     backButton.render(gScreen);
 
     ButtonObject backButtonClick;
-    backButtonClick.loadImage("Resources/Image/button/back_button_click.png", gScreen);
+    backButtonClick.loadImage(ADDRESS_MENU_BACK_BUTTON_CLICK, gScreen);
     backButtonClick.setXPos(0);
     backButtonClick.setYPos(SCREEN_HEIGHT - backButtonClick.getRect().h);
     backButtonClick.setRectPos(backButtonClick.getXPos(), backButtonClick.getYPos());
 
-    //ButtonObject selectLevelButton[MAX_ROW_SHOW + FIX_ZERO_INDEX][MAX_COL_SHOW + FIX_ZERO_INDEX];
+    const int UPPER_BOUNDARY = 100;
+    level = 0;
+    for (int i = 1; i <= MAX_ROW_SHOW; ++i) {
+        for (int j = 1; j <= MAX_COL_SHOW; ++j) {
+            ++level;
+            if (infoPlayer->getUnlockLevel(level)) {
+                selectLevelButton[i][j].loadImage(ADDRESS_SELECT_LEVEL, gScreen);
+                selectLevelButton[i][j].setIsUnlock(true);
+            }
+            else {
+                selectLevelButton[i][j].loadImage(ADDRESS_SELECT_LEVEL_LOCKED, gScreen);
+                selectLevelButton[i][j].setIsUnlock(false);
+            }
+            selectLevelButton[i][j].setRectPos(TILE_SIZE * j, UPPER_BOUNDARY + TILE_SIZE * i);
+        }
+    }
 
     FPS fpsTimer;
     bool quit = false;
@@ -341,7 +355,7 @@ void BounceBall::displayPlay() {
                         infoPlayer->setLevel(level);
                         infoPlayer->setSound(sound);
                         Cryptosystem addressLevel;
-                        string address = "Resources/Map/level";
+                        string address = ADDRESS_MAP_ROOT;
                         if (level <= MAX_ONE_DIGIT) address += "0";
                         address += addressLevel.convertNumberToString(level);
                         address += ".map";
@@ -354,7 +368,7 @@ void BounceBall::displayPlay() {
                             infoPlayer->setSound(sound);
                             databaseGame.updateDatabaseUsername(*infoPlayer);
                             databaseGame.exportDatabase();  
-                            address = "Resources/Map/level";
+                            address = ADDRESS_MAP_ROOT;
                             if (level <= MAX_ONE_DIGIT) address += "0";
                             address += addressLevel.convertNumberToString(level);
                             address += ".map";
@@ -367,8 +381,8 @@ void BounceBall::displayPlay() {
                         display = typeDisplay::RE_MENU;
                         if (level == MAX_LEVEL && nextAction == levelType::NEXT_LEVEL) {
                             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
-                                "Bounce Ball",
-                                "Congratulations! You've completed all the levels",
+                                WINDOW_TITLE.c_str(),
+                                NOTIFICATION_CONGRATULATIONS_COMPLETED_ALL_LEVEL.c_str(),
                                 NULL);
                         }
                         quit = true;
@@ -388,20 +402,10 @@ void BounceBall::displayPlay() {
         if (selectBackButton == false) backButton.render(gScreen);
         else backButtonClick.render(gScreen);
 
-        const int UPPER_BOUNDARY = 100;
         level = 0;
         for (int i = 1; i <= MAX_ROW_SHOW; ++i) {
             for (int j = 1; j <= MAX_COL_SHOW; ++j) {
                 ++level;
-                if (infoPlayer->getUnlockLevel(level)) {
-                    selectLevelButton[i][j].loadImage("Resources/Image/level/select_level.png", gScreen);
-                    selectLevelButton[i][j].setIsUnlock(true);
-                }
-                else {
-                    selectLevelButton[i][j].loadImage("Resources/Image/level/select_level_locked.png", gScreen);
-                    selectLevelButton[i][j].setIsUnlock(false);
-                }
-                selectLevelButton[i][j].setRectPos(TILE_SIZE * j, UPPER_BOUNDARY + TILE_SIZE * i);
                 selectLevelButton[i][j].render(gScreen);
                 std::string strLevel = "";
                 if (level <= MAX_ONE_DIGIT) strLevel += "0";
@@ -417,8 +421,6 @@ void BounceBall::displayPlay() {
                     + (selectLevelButton[i][j].getHeight() - LevelText.getHeight()) / 2);
             }
         }
-
-        mouse.render(gScreen);
 
         SDL_RenderPresent(gScreen);
 
@@ -438,7 +440,6 @@ void BounceBall::displayPlay() {
         for (int j = 1; j <= MAX_COL_SHOW; ++j)
             selectLevelButton[i][j].cleanUp();
     LevelText.cleanUp();
-    mouse.cleanUp();
 }
 
 void BounceBall::displayLeaderboard() {
@@ -450,20 +451,20 @@ void BounceBall::displayLeaderboard() {
     const int LEADERBOARD_OBJECT_HEIGHT = 512;
 
     BaseObject leaderboard;
-    leaderboard.loadImage("Resources/Image/leaderboard/leaderboard.png", gScreen);
+    leaderboard.loadImage(ADDRESS_LEADERBOARD, gScreen);
     leaderboard.setRectSize(LEADERBOARD_OBJECT_WIDTH, LEADERBOARD_OBJECT_HEIGHT);
     leaderboard.setRectPos((SCREEN_WIDTH - leaderboard.getRect().w) / 2,
         (SCREEN_HEIGHT - leaderboard.getRect().h) / 2);
     
     ButtonObject backButton;
-    backButton.loadImage("Resources/Image/button/back_button.png", gScreen);
+    backButton.loadImage(ADDRESS_MENU_BACK_BUTTON, gScreen);
     backButton.setXPos(0);
     backButton.setYPos(SCREEN_HEIGHT - backButton.getRect().h);
     backButton.setRectPos(backButton.getXPos(), backButton.getYPos());
     backButton.render(gScreen);
 
     ButtonObject backButtonClick;
-    backButtonClick.loadImage("Resources/Image/button/back_button_click.png", gScreen);
+    backButtonClick.loadImage(ADDRESS_MENU_BACK_BUTTON_CLICK, gScreen);
     backButtonClick.setXPos(0);
     backButtonClick.setYPos(SCREEN_HEIGHT - backButtonClick.getRect().h);
     backButtonClick.setRectPos(backButtonClick.getXPos(), backButtonClick.getYPos());
@@ -506,7 +507,8 @@ void BounceBall::displayLeaderboard() {
         int xPosUsername = leaderboard.getRect().x + LEFT_MARGIN_OBJECT;
         int yPosUsername = leaderboard.getRect().y + TOP_MARGIN_OBJECT;
 
-        int xPosYourHighScore = leaderboard.getRect().x + leaderboard.getRect().w - OFFSET_RIGHT;
+        int xPosYourHighScore = leaderboard.getRect().x + leaderboard.getRect().w 
+                                - OFFSET_RIGHT;
         int yPosYourHighScore = leaderboard.getRect().y + TOP_MARGIN_OBJECT;
 
         for (int i = 0; i < MAX_SHOW_LEADERBOARD; ++i) {
@@ -518,6 +520,7 @@ void BounceBall::displayLeaderboard() {
                 strYourHighScoreText = cryptosystemYourHighScore.convertNumberToString(dataInfoPlayer[i].getYourHighScore());
             }
             else {
+                /* ??? is unknown user */
                 strUsernameText = "???";
                 strYourHighScoreText = "0";
             }
@@ -531,8 +534,6 @@ void BounceBall::displayLeaderboard() {
             yPosUsername += DISTANCE_FLOORS;
             yPosYourHighScore += DISTANCE_FLOORS;
         }
-
-        mouse.render(gScreen);
 
         SDL_RenderPresent(gScreen);
 
@@ -549,10 +550,10 @@ void BounceBall::displayLeaderboard() {
     backButton.cleanUp();
     usernameText.cleanUp();
     yourHighScoreText.cleanUp();
-    mouse.cleanUp();
 }
 
-bool BounceBall::checkInfoLogin(string usernameText, string passwordText, InfoPlayer *infoPlayer) {
+bool BounceBall::checkInfoLogin(string usernameText, string passwordText, 
+                                    InfoPlayer *infoPlayer) {
     for (int i = 0; i < usernameText.size(); ++i)
         if (usernameText[i] >= 'a' && usernameText[i] <= 'z')
             usernameText[i] -= DISTANCE_UPPERCASE_VS_LOWERCASE;
@@ -578,7 +579,7 @@ void BounceBall::displayLogin() {
     background.render(gScreen);
 
     BaseObject boardLogin;
-    boardLogin.loadImage("Resources/Image/board/boardLogin.png", gScreen);
+    boardLogin.loadImage(ADDRESS_LOGIN_BOARD, gScreen);
     boardLogin.setRectPos((SCREEN_WIDTH - boardLogin.getRect().w) / 2,
         (SCREEN_HEIGHT - boardLogin.getRect().h) / 2);
     boardLogin.render(gScreen);
@@ -587,13 +588,13 @@ void BounceBall::displayLogin() {
     const int REGISTER_BUTTON_HEIGHT = 64;
 
     ButtonObject registerButton;
-    registerButton.loadImage("Resources/Image/button/menu_button_register.png", gScreen);
+    registerButton.loadImage(ADDRESS_MENU_REGISTER_BUTTON, gScreen);
     registerButton.setRectSize(REGISTER_BUTTON_WIDTH, REGISTER_BUTTON_HEIGHT);
     registerButton.setRectPos(SCREEN_WIDTH - registerButton.getRect().w, 
                                 SCREEN_HEIGHT - registerButton.getRect().h);
 
     ButtonObject registerButtonClick;
-    registerButtonClick.loadImage("Resources/Image/button/menu_button_register_click.png", gScreen);
+    registerButtonClick.loadImage(ADDRESS_MENU_REGISTER_BUTTON_CLICK, gScreen);
     registerButtonClick.setRectSize(REGISTER_BUTTON_WIDTH, REGISTER_BUTTON_HEIGHT);
     registerButtonClick.setRectPos(SCREEN_WIDTH - registerButton.getRect().w,
         SCREEN_HEIGHT - registerButton.getRect().h);
@@ -602,41 +603,41 @@ void BounceBall::displayLogin() {
     const int DISTANCE_BUTTONS_Y = 100;
 
     ButtonObject usernameButton;
-    usernameButton.loadImage("Resources/Image/button/login_button_username.png", gScreen);
+    usernameButton.loadImage(ADDRESS_USERNAME_BUTTON, gScreen);
     usernameButton.setXPos((SCREEN_WIDTH - usernameButton.getWidth()) / 2);
     usernameButton.setYPos(TOP_MARGIN_OBJECT);
     usernameButton.setRectPos(usernameButton.getXPos(), usernameButton.getYPos());
     usernameButton.render(gScreen);
 
     ButtonObject passwordButton;
-    passwordButton.loadImage("Resources/Image/button/login_button_password.png", gScreen);
+    passwordButton.loadImage(ADDRESS_PASSWORD_BUTTON, gScreen);
     passwordButton.setXPos((SCREEN_WIDTH - passwordButton.getWidth()) / 2);
     passwordButton.setYPos(usernameButton.getYPos() + DISTANCE_BUTTONS_Y);
     passwordButton.setRectPos(passwordButton.getXPos(), passwordButton.getYPos());
     passwordButton.render(gScreen); 
 
     ButtonObject loginButton;
-    loginButton.loadImage("Resources/Image/button/login_button_login.png", gScreen);
+    loginButton.loadImage(ADDRESS_LOGIN_LOGIN_BUTTON, gScreen);
     loginButton.setXPos((SCREEN_WIDTH - loginButton.getWidth()) / 2);
     loginButton.setYPos(passwordButton.getYPos() + DISTANCE_BUTTONS_Y);
     loginButton.setRectPos(loginButton.getXPos(), loginButton.getYPos());
     loginButton.render(gScreen);
 
     ButtonObject loginButtonClick;
-    loginButtonClick.loadImage("Resources/Image/button/login_button_login_click.png", gScreen);
+    loginButtonClick.loadImage(ADDRESS_LOGIN_LOGIN_BUTTON_CLICK, gScreen);
     loginButtonClick.setXPos((SCREEN_WIDTH - loginButtonClick.getWidth()) / 2);
     loginButtonClick.setYPos(passwordButton.getYPos() + DISTANCE_BUTTONS_Y);
     loginButtonClick.setRectPos(loginButton.getXPos(), loginButton.getYPos());
 
     ButtonObject backButton;
-    backButton.loadImage("Resources/Image/button/back_button.png", gScreen);
+    backButton.loadImage(ADDRESS_MENU_BACK_BUTTON, gScreen);
     backButton.setXPos(0);
     backButton.setYPos(SCREEN_HEIGHT - backButton.getRect().h);
     backButton.setRectPos(backButton.getXPos(), backButton.getYPos());
     backButton.render(gScreen);
 
     ButtonObject backButtonClick;
-    backButtonClick.loadImage("Resources/Image/button/back_button_click.png", gScreen);
+    backButtonClick.loadImage(ADDRESS_MENU_BACK_BUTTON_CLICK, gScreen);
     backButtonClick.setXPos(0);
     backButtonClick.setYPos(SCREEN_HEIGHT - backButtonClick.getRect().h);
     backButtonClick.setRectPos(backButtonClick.getXPos(), backButtonClick.getYPos());
@@ -656,15 +657,15 @@ void BounceBall::displayLogin() {
     passwordTextTexture.setPosX(passwordButton.getXPos() + LTEXTURE_VS_BUTTON_X);
     passwordTextTexture.setPosY(passwordButton.getYPos() + LTEXTURE_VS_BUTTON_Y);
 
-    string usernameText = "username"; 
-    string passwordText = "password";    
+    string usernameText = USERNAME_DEFAULT;
+    string passwordText = PASSWORD_DEFAULT;
     //string usernameText = "buiminhhoat"; 
     //string passwordText = "buiminhhoat";
 
     gInputTextTexture = &usernameTextTexture;
 
     BaseObject iteratorMouse;
-    iteratorMouse.loadImage("Resources/Image/button/iteratorMouse.png", gScreen);
+    iteratorMouse.loadImage(ADDRESS_ITERATOR_MOUSE, gScreen);
     int selectText = selectInput::ACCOUNT;
     string *inputText;
     inputText = &usernameText;
@@ -696,16 +697,16 @@ void BounceBall::displayLogin() {
                     if (checkInfoLogin(usernameText, passwordText, infoPlayer)) {
                         display = typeDisplay::RE_MENU;
                         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
-                            "Bounce Ball",
-                            "Login successfully",
+                            WINDOW_TITLE.c_str(),
+                            NOTIFICATION_LOGIN_SUCCESS.c_str(),
                             NULL);
                         quit = true;
                         break;
                     }
                     else {
                         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
-                            "Bounce Ball",
-                            "Wrong account or password",
+                            WINDOW_TITLE.c_str(),
+                            NOTIFICATION_LOGIN_FAIL.c_str(),
                             NULL);
                     }
                 }
@@ -731,18 +732,18 @@ void BounceBall::displayLogin() {
             }
 
             if (gEvent.type == SDL_KEYDOWN) {
-                if (selectText == selectInput::ACCOUNT && *inputText == "username") {
+                if (selectText == selectInput::ACCOUNT && *inputText == USERNAME_DEFAULT) {
                     *inputText = "";
                 }
-                else if (selectText == selectInput::PASSWORD && *inputText == "password") {
+                else if (selectText == selectInput::PASSWORD && *inputText == PASSWORD_DEFAULT) {
                     *inputText = "";
                 }
                 else if (*inputText == "") {
                     if (selectText == selectInput::ACCOUNT && deletedAccount == false) {
-                        *inputText = "username";
+                        *inputText = USERNAME_DEFAULT;
                     }
                     else if (selectText == selectInput::PASSWORD && deletedPassword == false) {
-                        *inputText = "password";
+                        *inputText = PASSWORD_DEFAULT;
                     }
                 }
                 if (gEvent.key.keysym.sym == SDLK_BACKSPACE) {
@@ -772,16 +773,16 @@ void BounceBall::displayLogin() {
                     if (checkInfoLogin(usernameText, passwordText, infoPlayer)) {
                         display = typeDisplay::RE_MENU;
                         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
-                            "Bounce Ball",
-                            "Login successfully",
+                            WINDOW_TITLE.c_str(),
+                            NOTIFICATION_LOGIN_SUCCESS.c_str(),
                             NULL);
                         quit = true;
                         break;
                     }
                     else {
                         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
-                            "Bounce Ball",
-                            "Wrong account or password",
+                            WINDOW_TITLE.c_str(),
+                            NOTIFICATION_LOGIN_FAIL.c_str(),
                             NULL);
                     }
                 }
@@ -812,8 +813,8 @@ void BounceBall::displayLogin() {
         if (selectRegisterButton == false) registerButton.render(gScreen);
         else registerButtonClick.render(gScreen);
     
-        if (usernameText == "" && deletedAccount == false) usernameText = "username";
-        if (passwordText == "" && deletedPassword == false) passwordText = "password";
+        if (usernameText == "" && deletedAccount == false) usernameText = USERNAME_DEFAULT;
+        if (passwordText == "" && deletedPassword == false) passwordText = PASSWORD_DEFAULT;
         string showUsername = "";
         const int LTEXTURE_VS_BOARDLOGIN_X = 85;
         for (int i = max(0, (int) usernameText.size() - MAX_SIZE_SHOW_INFO); 
@@ -833,8 +834,9 @@ void BounceBall::displayLogin() {
         
 
         string encodePassword = "";
-        for (int i = 0; i < min(MAX_SIZE_SHOW_INFO, passwordText.size()); ++i) encodePassword += "*";
-        if (passwordText == "password") encodePassword = passwordText;
+        for (int i = 0; i < min(MAX_SIZE_SHOW_INFO, passwordText.size()); ++i) 
+            encodePassword += "*";
+        if (passwordText == PASSWORD_DEFAULT) encodePassword = passwordText;
         if (encodePassword.size() > 0) {
             passwordTextTexture.setText(encodePassword);
             passwordTextTexture.loadFromRenderText(fontGame, gScreen);
@@ -859,8 +861,6 @@ void BounceBall::displayLogin() {
             iteratorMouse.render(gScreen);
         }
         if (flickerTimer.getTicks() > TIME_END_FLICKERTIMER) flickerTimer.start();
-
-        mouse.render(gScreen);
 
         SDL_RenderPresent(gScreen);
 
@@ -887,7 +887,6 @@ void BounceBall::displayLogin() {
     usernameTextTexture.cleanUp();
     passwordTextTexture.cleanUp();
     iteratorMouse.cleanUp();
-    mouse.cleanUp();
 }
 
 void BounceBall::displayLogout() {
@@ -912,14 +911,14 @@ bool BounceBall::notificationStatusRegister(string usernameText, string password
     pair <string, bool> statusRegister = databaseGame.registerAccount(infoRegister);
     if (statusRegister.second == true) {
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
-            "Register successfully",
+            TITLE_REGISTER_SUCCESS.c_str(),
             statusRegister.first.c_str(),
             NULL);
         return true;
     }
     else {
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
-            "Failed to Register",
+            TITLE_REGISTER_FAIL.c_str(),
             statusRegister.first.c_str(),
             NULL);
         return false;
@@ -932,7 +931,7 @@ void BounceBall::displayRegister() {
     background.render(gScreen);
 
     BaseObject boardRegister;
-    boardRegister.loadImage("Resources/Image/board/boardRegister.png", gScreen);
+    boardRegister.loadImage(ADDRESS_REGISTER_BOARD, gScreen);
     boardRegister.setRectPos((SCREEN_WIDTH - boardRegister.getRect().w) / 2,
         (SCREEN_HEIGHT - boardRegister.getRect().h) / 2);
     boardRegister.render(gScreen);
@@ -941,41 +940,41 @@ void BounceBall::displayRegister() {
     const int DISTANCE_BUTTONS_Y = 100;
 
     ButtonObject usernameButton;
-    usernameButton.loadImage("Resources/Image/button/register_button_username.png", gScreen);
+    usernameButton.loadImage(ADDRESS_REGISTER_USERNAME_BUTTON, gScreen);
     usernameButton.setXPos((SCREEN_WIDTH - usernameButton.getWidth()) / 2);
     usernameButton.setYPos(TOP_MARGIN_OBJECT);
     usernameButton.setRectPos(usernameButton.getXPos(), usernameButton.getYPos());
     usernameButton.render(gScreen);
 
     ButtonObject passwordButton;
-    passwordButton.loadImage("Resources/Image/button/register_button_password.png", gScreen);
+    passwordButton.loadImage(ADDRESS_REGISTER_PASSWORD_BUTTON, gScreen);
     passwordButton.setXPos((SCREEN_WIDTH - passwordButton.getWidth()) / 2);
     passwordButton.setYPos(usernameButton.getYPos() + DISTANCE_BUTTONS_Y);
     passwordButton.setRectPos(passwordButton.getXPos(), passwordButton.getYPos());
     passwordButton.render(gScreen);
 
     ButtonObject registerButton;
-    registerButton.loadImage("Resources/Image/button/register_button_register.png", gScreen);
+    registerButton.loadImage(ADDRESS_REGISTER_REGISTER_BUTTON, gScreen);
     registerButton.setXPos((SCREEN_WIDTH - registerButton.getWidth()) / 2);
     registerButton.setYPos(passwordButton.getYPos() + DISTANCE_BUTTONS_Y);
     registerButton.setRectPos(registerButton.getXPos(), registerButton.getYPos());
     registerButton.render(gScreen);
 
     ButtonObject registerButtonClick;
-    registerButtonClick.loadImage("Resources/Image/button/register_button_register_click.png", gScreen);
+    registerButtonClick.loadImage(ADDRESS_REGISTER_REGISTER_BUTTON_CLICK, gScreen);
     registerButtonClick.setXPos((SCREEN_WIDTH - registerButtonClick.getWidth()) / 2);
     registerButtonClick.setYPos(passwordButton.getYPos() + DISTANCE_BUTTONS_Y);
     registerButtonClick.setRectPos(registerButtonClick.getXPos(), registerButtonClick.getYPos());
 
     ButtonObject backButton;
-    backButton.loadImage("Resources/Image/button/back_button.png", gScreen);
+    backButton.loadImage(ADDRESS_MENU_BACK_BUTTON, gScreen);
     backButton.setXPos(0);
     backButton.setYPos(SCREEN_HEIGHT - backButton.getRect().h);
     backButton.setRectPos(backButton.getXPos(), backButton.getYPos());
     backButton.render(gScreen);
 
     ButtonObject backButtonClick;
-    backButtonClick.loadImage("Resources/Image/button/back_button_click.png", gScreen);
+    backButtonClick.loadImage(ADDRESS_MENU_BACK_BUTTON_CLICK, gScreen);
     backButtonClick.setXPos(0);
     backButtonClick.setYPos(SCREEN_HEIGHT - backButtonClick.getRect().h);
     backButtonClick.setRectPos(backButtonClick.getXPos(), backButtonClick.getYPos());
@@ -985,7 +984,7 @@ void BounceBall::displayRegister() {
 
     ButtonObject loginButton;
     if (infoPlayer->getUsername() == "") {
-        loginButton.loadImage("Resources/Image/button/menu_button_login.png", gScreen);
+        loginButton.loadImage(ADDRESS_MENU_LOGIN_BUTTON, gScreen);
         loginButton.setRectSize(LOGIN_BUTTON_WIDTH, LOGIN_BUTTON_HEIGHT);
         loginButton.setRectPos(SCREEN_WIDTH - loginButton.getRect().w,
                         SCREEN_HEIGHT - loginButton.getRect().h);
@@ -993,7 +992,7 @@ void BounceBall::displayRegister() {
     }
 
     ButtonObject loginButtonClick;
-    loginButtonClick.loadImage("Resources/Image/button/menu_button_login_click.png", gScreen);
+    loginButtonClick.loadImage(ADDRESS_MENU_LOGIN_BUTTON_CLICK, gScreen);
     loginButtonClick.setRectSize(LOGIN_BUTTON_WIDTH, LOGIN_BUTTON_HEIGHT);
     loginButtonClick.setRectPos(SCREEN_WIDTH - loginButtonClick.getRect().w,
         SCREEN_HEIGHT - loginButtonClick.getRect().h);
@@ -1015,15 +1014,15 @@ void BounceBall::displayRegister() {
     passwordTextTexture.setPosY(passwordButton.getYPos() + LTEXTURE_VS_BUTTON_Y);
     passwordTextTexture.setColor(LTexture::COLOR::PURPLE_COLOR);
 
-    string usernameText = "username"; 
-    string passwordText = "password";    
+    string usernameText = USERNAME_DEFAULT;
+    string passwordText = PASSWORD_DEFAULT;
     //string usernameText = "buiminhhoat";
     //string passwordText = "buiminhhoat";
 
     gInputTextTexture = &usernameTextTexture;
 
     BaseObject iteratorMouse;
-    iteratorMouse.loadImage("Resources/Image/button/iteratorMouse.png", gScreen);
+    iteratorMouse.loadImage(ADDRESS_ITERATOR_MOUSE, gScreen);
     int selectText = selectInput::ACCOUNT;
     string* inputText;
     inputText = &usernameText;
@@ -1080,18 +1079,18 @@ void BounceBall::displayRegister() {
             }
 
             if (gEvent.type == SDL_KEYDOWN) {
-                if (selectText == selectInput::ACCOUNT && *inputText == "username") {
+                if (selectText == selectInput::ACCOUNT && *inputText == USERNAME_DEFAULT) {
                     *inputText = "";
                 }
-                else if (selectText == selectInput::PASSWORD && *inputText == "password") {
+                else if (selectText == selectInput::PASSWORD && *inputText == PASSWORD_DEFAULT) {
                     *inputText = "";
                 }
                 else if (*inputText == "") {
                     if (selectText == selectInput::ACCOUNT && deletedAccount == false) {
-                        *inputText = "username";
+                        *inputText = USERNAME_DEFAULT;
                     }
                     else if (selectText == selectInput::PASSWORD && deletedPassword == false) {
-                        *inputText = "password";
+                        *inputText = PASSWORD_DEFAULT;
                     }
                 }
                 if (gEvent.key.keysym.sym == SDLK_BACKSPACE) {
@@ -1152,8 +1151,8 @@ void BounceBall::displayRegister() {
         if (selectRegisterButton == false) registerButton.render(gScreen);
         else registerButtonClick.render(gScreen);
 
-        if (usernameText == "" && deletedAccount == false) usernameText = "username";
-        if (passwordText == "" && deletedPassword == false) passwordText = "password";
+        if (usernameText == "" && deletedAccount == false) usernameText = USERNAME_DEFAULT;
+        if (passwordText == "" && deletedPassword == false) passwordText = PASSWORD_DEFAULT;
 
         string showUsername = "";
         for (int i = max(0, (int) usernameText.size() - MAX_SIZE_SHOW_INFO); i < usernameText.size(); ++i) {
@@ -1174,8 +1173,9 @@ void BounceBall::displayRegister() {
         }
 
         string encodePassword = "";
-        for (int i = 0; i < min(MAX_SIZE_SHOW_INFO, passwordText.size()); ++i) encodePassword += "*";
-        if (passwordText == "password") encodePassword = passwordText;
+        for (int i = 0; i < min(MAX_SIZE_SHOW_INFO, passwordText.size()); ++i) 
+            encodePassword += "*";
+        if (passwordText == PASSWORD_DEFAULT) encodePassword = passwordText;
         if (encodePassword.size() > 0) {
             passwordTextTexture.setText(encodePassword);
             passwordTextTexture.loadFromRenderText(fontGame, gScreen);
@@ -1202,8 +1202,6 @@ void BounceBall::displayRegister() {
         }
         if (flickerTimer.getTicks() > TIME_END_FLICKERTIMER) flickerTimer.start();
 
-        mouse.render(gScreen);
-
         SDL_RenderPresent(gScreen);
 
         int realTime = fpsTimer.getTicks();
@@ -1228,7 +1226,6 @@ void BounceBall::displayRegister() {
     usernameTextTexture.cleanUp();
     passwordTextTexture.cleanUp();
     iteratorMouse.cleanUp();
-    mouse.cleanUp();
 }
 
 void BounceBall::displaySettings() {
@@ -1236,7 +1233,7 @@ void BounceBall::displaySettings() {
     background.loadImage(generalAddressBackground, gScreen);
 
     BaseObject boardSettings;
-    boardSettings.loadImage("Resources/Image/settingsBoard/settingsBoard.png", gScreen);
+    boardSettings.loadImage(ADDRESS_SETTINGS_BOARD, gScreen);
     boardSettings.setRectPos((SCREEN_WIDTH - boardSettings.getRect().w) / 2,
         (SCREEN_HEIGHT - boardSettings.getRect().h) / 2);
 
@@ -1245,38 +1242,38 @@ void BounceBall::displaySettings() {
 
     int setSound = sound;
     ButtonObject soundOnButton;
-    soundOnButton.loadImage("Resources/Image/settingsBoard/settingsBoard_OnButton.png", gScreen);
+    soundOnButton.loadImage(ADDRESS_SETTINGS_BOARD_SOUND_ON_BUTTON, gScreen);
     soundOnButton.setXPos(boardSettings.getRect().x + BUTTON_VS_BOARDREGISTER_X);
     soundOnButton.setYPos(boardSettings.getRect().y + BUTTON_VS_BOARDREGISTER_Y);
     soundOnButton.setRectPos(soundOnButton.getXPos(), soundOnButton.getYPos());
 
     ButtonObject soundOnButtonClick;
-    soundOnButtonClick.loadImage("Resources/Image/settingsBoard/settingsBoard_OnButton_Click.png", gScreen);
+    soundOnButtonClick.loadImage(ADDRESS_SETTINGS_BOARD_SOUND_ON_BUTTON_CLICK, gScreen);
     soundOnButtonClick.setXPos(boardSettings.getRect().x + BUTTON_VS_BOARDREGISTER_X);
     soundOnButtonClick.setYPos(boardSettings.getRect().y + BUTTON_VS_BOARDREGISTER_Y);
     soundOnButtonClick.setRectPos(soundOnButtonClick.getXPos(), soundOnButtonClick.getYPos());
 
     ButtonObject soundOffButton;
-    soundOffButton.loadImage("Resources/Image/settingsBoard/settingsBoard_OffButton.png", gScreen);
+    soundOffButton.loadImage(ADDRESS_SETTINGS_BOARD_SOUND_OFF_BUTTON, gScreen);
     soundOffButton.setXPos(boardSettings.getRect().x + BUTTON_VS_BOARDREGISTER_X);
     soundOffButton.setYPos(boardSettings.getRect().y + BUTTON_VS_BOARDREGISTER_Y);
     soundOffButton.setRectPos(soundOffButton.getXPos(), soundOffButton.getYPos());
 
     ButtonObject soundOffButtonClick;
-    soundOffButtonClick.loadImage("Resources/Image/settingsBoard/settingsBoard_OffButton_Click.png", gScreen);
+    soundOffButtonClick.loadImage(ADDRESS_SETTINGS_BOARD_SOUND_OFF_BUTTON_CLICK, gScreen);
     soundOffButtonClick.setXPos(boardSettings.getRect().x + BUTTON_VS_BOARDREGISTER_X);
     soundOffButtonClick.setYPos(boardSettings.getRect().y + BUTTON_VS_BOARDREGISTER_Y);
     soundOffButtonClick.setRectPos(soundOffButtonClick.getXPos(), soundOffButtonClick.getYPos());
 
     const int SAVEBUTTON_VS_BOARDREGISTER_Y = 210;
     ButtonObject saveButton;
-    saveButton.loadImage("Resources/Image/settingsBoard/settingsBoard_SaveButton.png", gScreen);
+    saveButton.loadImage(ADDRESS_SETTINGS_BOARD_SAVE_BUTTON, gScreen);
     saveButton.setXPos((SCREEN_WIDTH - saveButton.getRect().w) / 2);
     saveButton.setYPos(boardSettings.getRect().y + SAVEBUTTON_VS_BOARDREGISTER_Y);
     saveButton.setRectPos(saveButton.getXPos(), saveButton.getYPos());
 
     ButtonObject saveButtonClick;
-    saveButtonClick.loadImage("Resources/Image/settingsBoard/settingsBoard_SaveButton_Click.png", gScreen);
+    saveButtonClick.loadImage(ADDRESS_SETTINGS_BOARD_SAVE_BUTTON_CLICK, gScreen);
     saveButtonClick.setXPos((SCREEN_WIDTH - saveButtonClick.getRect().w) / 2);
     saveButtonClick.setYPos(boardSettings.getRect().y + SAVEBUTTON_VS_BOARDREGISTER_Y);
     saveButtonClick.setRectPos(saveButtonClick.getXPos(), saveButtonClick.getYPos());
@@ -1284,37 +1281,37 @@ void BounceBall::displaySettings() {
     const int BUTTON_VS_BUTTON_Y = 20;
 
     ButtonObject restoreButton;
-    restoreButton.loadImage("Resources/Image/settingsBoard/settingsBoard_RestoreButton.png", gScreen);
+    restoreButton.loadImage(ADDRESS_SETTINGS_BOARD_RESTORE_BUTTON, gScreen);
     restoreButton.setXPos((SCREEN_WIDTH - saveButton.getRect().w) / 2);
     restoreButton.setYPos(saveButton.getRect().y + saveButton.getRect().h + BUTTON_VS_BUTTON_Y);
     restoreButton.setRectPos(restoreButton.getXPos(), restoreButton.getYPos());
 
     ButtonObject restoreButtonClick;
-    restoreButtonClick.loadImage("Resources/Image/settingsBoard/settingsBoard_RestoreButton_click.png", gScreen);
+    restoreButtonClick.loadImage(ADDRESS_SETTINGS_BOARD_RESTORE_BUTTON_CLICK, gScreen);
     restoreButtonClick.setXPos((SCREEN_WIDTH - saveButton.getRect().w) / 2);
     restoreButtonClick.setYPos(saveButton.getRect().y + saveButton.getRect().h + BUTTON_VS_BUTTON_Y);
     restoreButtonClick.setRectPos(restoreButtonClick.getXPos(), restoreButtonClick.getYPos());
 
     ButtonObject backButton;
-    backButton.loadImage("Resources/Image/settingsBoard/settingsBoard_BackButton.png", gScreen);
+    backButton.loadImage(ADDRESS_SETTINGS_BOARD_BACK_BUTTON, gScreen);
     backButton.setXPos((SCREEN_WIDTH - saveButton.getRect().w) / 2);
     backButton.setYPos(restoreButton.getRect().y + restoreButton.getRect().h + BUTTON_VS_BUTTON_Y);
     backButton.setRectPos(backButton.getXPos(), backButton.getYPos());
 
     ButtonObject backButtonClick;
-    backButtonClick.loadImage("Resources/Image/settingsBoard/settingsBoard_BackButton_click.png", gScreen);
+    backButtonClick.loadImage(ADDRESS_SETTINGS_BOARD_BACK_BUTTON_CLICK, gScreen);
     backButtonClick.setXPos((SCREEN_WIDTH - saveButton.getRect().w) / 2);
     backButtonClick.setYPos(restoreButton.getRect().y + restoreButton.getRect().h + BUTTON_VS_BUTTON_Y);
     backButtonClick.setRectPos(backButtonClick.getXPos(), backButtonClick.getYPos());
 
     ButtonObject exitButton;
-    exitButton.loadImage("Resources/Image/settingsBoard/settingsBoard_exitButton.png", gScreen);
+    exitButton.loadImage(ADDRESS_SETTINGS_BOARD_EXIT_BUTTON, gScreen);
     exitButton.setXPos(boardSettings.getRect().x + boardSettings.getRect().w - exitButton.getRect().w);
     exitButton.setYPos(boardSettings.getRect().y);
     exitButton.setRectPos(exitButton.getXPos(), exitButton.getYPos());
 
     ButtonObject exitButtonClick;
-    exitButtonClick.loadImage("Resources/Image/settingsBoard/settingsBoard_exitButton_Click.png", gScreen);
+    exitButtonClick.loadImage(ADDRESS_SETTINGS_BOARD_EXIT_BUTTON_CLICK, gScreen);
     exitButtonClick.setXPos(boardSettings.getRect().x + boardSettings.getRect().w - exitButtonClick.getRect().w);
     exitButtonClick.setYPos(boardSettings.getRect().y);
     exitButtonClick.setRectPos(exitButtonClick.getXPos(), exitButtonClick.getYPos());
@@ -1381,8 +1378,6 @@ void BounceBall::displaySettings() {
         if (selectExitButton == false) exitButton.render(gScreen);
         else exitButtonClick.render(gScreen);
 
-        mouse.render(gScreen);
-
         SDL_RenderPresent(gScreen);
 
         int realTime = fpsTimer.getTicks();
@@ -1401,7 +1396,6 @@ void BounceBall::displaySettings() {
     restoreButton.cleanUp();
     backButton.cleanUp();
     exitButton.cleanUp();
-    mouse.cleanUp();
 }
 
 void BounceBall::displayHowToPlayButton() {
@@ -1409,18 +1403,18 @@ void BounceBall::displayHowToPlayButton() {
     background.loadImage(generalAddressBackground, gScreen);
 
     BaseObject howToPlay;
-    howToPlay.loadImage("Resources/Image/HowToPlay/HowToPlay.png", gScreen);
+    howToPlay.loadImage(ADDRESS_HOWTOPLAY, gScreen);
     howToPlay.setRectPos((SCREEN_WIDTH - howToPlay.getRect().w) / 2,
         (SCREEN_HEIGHT - howToPlay.getRect().h) / 2);
 
     ButtonObject backButton;
-    backButton.loadImage("Resources/Image/button/back_button.png", gScreen);
+    backButton.loadImage(ADDRESS_MENU_BACK_BUTTON, gScreen);
     backButton.setXPos(0);
     backButton.setYPos(SCREEN_HEIGHT - backButton.getRect().h);
     backButton.setRectPos(backButton.getXPos(), backButton.getYPos());
 
     ButtonObject backButtonClick;
-    backButtonClick.loadImage("Resources/Image/button/back_button_click.png", gScreen);
+    backButtonClick.loadImage(ADDRESS_MENU_BACK_BUTTON_CLICK, gScreen);
     backButtonClick.setXPos(0);
     backButtonClick.setYPos(SCREEN_HEIGHT - backButtonClick.getRect().h);
     backButtonClick.setRectPos(backButtonClick.getXPos(), backButtonClick.getYPos());
@@ -1429,12 +1423,12 @@ void BounceBall::displayHowToPlayButton() {
     const int PLAY_BUTTON_HEIGHT = 64;
 
     ButtonObject playButton;
-    playButton.loadImage("Resources/Image/button/menu_button_play.png", gScreen);
+    playButton.loadImage(ADDRESS_MENU_PLAY_BUTTON, gScreen);
     playButton.setRectSize(PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
     playButton.setRectPos(SCREEN_WIDTH - playButton.getRect().w, SCREEN_HEIGHT - playButton.getRect().h);
 
     ButtonObject playButtonClick;
-    playButtonClick.loadImage("Resources/Image/button/menu_button_play_click.png", gScreen);
+    playButtonClick.loadImage(ADDRESS_MENU_PLAY_BUTTON_CLICK, gScreen);
     playButtonClick.setRectSize(PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
     playButtonClick.setRectPos(SCREEN_WIDTH - playButton.getRect().w, SCREEN_HEIGHT - playButton.getRect().h);
 
@@ -1458,7 +1452,6 @@ void BounceBall::displayHowToPlayButton() {
                     backButtonClick.cleanUp();
                     playButton.cleanUp();
                     playButtonClick.cleanUp();
-                    mouse.cleanUp();
                 }
                 if (clickBackButton) {
                     quit = true;
@@ -1493,8 +1486,6 @@ void BounceBall::displayHowToPlayButton() {
         else backButtonClick.render(gScreen);
         if (clickPlayButton == false) playButton.render(gScreen);
         else playButtonClick.render(gScreen);
-
-        mouse.render(gScreen);
 
         SDL_RenderPresent(gScreen);
         int realTime = fpsTimer.getTicks();

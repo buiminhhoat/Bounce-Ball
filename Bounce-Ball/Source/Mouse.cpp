@@ -4,8 +4,6 @@ void Mouse::mouseHandleEvent() {
 	int mouseX, mouseY;
 	SDL_GetMouseState(&mouseX, &mouseY);
 	setPosition(mouseX, mouseY);
-	rect.x = mouseX;
-	rect.y = mouseY;
 }
 
 void Mouse::setPosition(int mouseX, int mouseY) {

@@ -94,7 +94,7 @@ void Management::loadThreatsObject(SDL_Renderer* screen) {
                 ThreatsObject *dynThreats = new ThreatsObject;
                 int x = j * TILE_SIZE;
                 int y = i * TILE_SIZE;
-                dynThreats->loadImage("Resources/Image/threats/dyn_thorn.png", screen);
+                dynThreats->loadImage(ADDRESS_DYN_THORN, screen);
                 dynThreats->setXPos(x);
                 dynThreats->setYPos(y);
 
@@ -115,7 +115,7 @@ void Management::loadThreatsObject(SDL_Renderer* screen) {
                 ThreatsObject *thornObject = new ThreatsObject;
                 int x = j * TILE_SIZE;
                 int y = i * TILE_SIZE;
-                thornObject->loadImage("Resources/Image/threats/thorn.png", screen);
+                thornObject->loadImage(ADDRESS_THORN, screen);
                 thornObject->setXPos(x);
                 thornObject->setYPos(y);
                 thornObject->setTypeMove(ThreatsObject::STATIC_THREAT);
@@ -161,7 +161,7 @@ void Management::loadRingsObject(SDL_Renderer* screen) {
                 RingsObject *ringObject = new RingsObject;
                 int x = j * TILE_SIZE;
                 int y = i * TILE_SIZE;
-                ringObject->loadImage("Resources/Image/rings/RING_HORIZONTAL.png", screen);
+                ringObject->loadImage(ADDRESS_RING_HORIZONTAL, screen);
                 ringObject->setXPos(x);
                 ringObject->setYPos(y);
                 ringObject->setScoreRing(SCORE_RING_HORIZONTAL);
@@ -173,7 +173,7 @@ void Management::loadRingsObject(SDL_Renderer* screen) {
                 RingsObject* ringObject = new RingsObject;
                 int x = j * TILE_SIZE;
                 int y = i * TILE_SIZE;
-                ringObject->loadImage("Resources/Image/rings/RING_VERTICAL.png", screen);
+                ringObject->loadImage(ADDRESS_RING_VERTICAL, screen);
                 ringObject->setXPos(x);
                 ringObject->setYPos(y);
                 ringObject->setScoreRing(SCORE_RING_VERTICAL);
@@ -214,10 +214,10 @@ void Management::checkIntersectRingsObject(SDL_Renderer* screen) {
             ringObject->setScoreRing(0);
             ringObject->setIsCatched(true);
             if (ringObject->getIsVertical()) {
-                ringObject->loadImage("Resources/Image/rings/RING_VERTICAL_catched.png", screen);
+                ringObject->loadImage(ADDRESS_RING_VERTICAL_CATCHED, screen);
             }
             else {
-                ringObject->loadImage("Resources/Image/rings/RING_HORIZONTAL_catched.png", screen);
+                ringObject->loadImage(ADDRESS_RING_HORIZONTAL_CATCHED, screen);
             }
             --remRings;
         }
@@ -235,7 +235,7 @@ void Management::loadCheckpointObject(SDL_Renderer* screen) {
                 CheckpointObject *checkpointObject = new CheckpointObject;
                 int x = j * TILE_SIZE;
                 int y = i * TILE_SIZE;
-                checkpointObject->loadImage("Resources/Image/checkpoint/checkpoint.png", screen);
+                checkpointObject->loadImage(ADDRESS_CHECKPOINT, screen);
                 checkpointObject->setXPos(x);
                 checkpointObject->setYPos(y);
                 checkpointObject->setScoreRing(SCORE_CHECKPOINT);
@@ -275,12 +275,12 @@ void Management::checkIntersectCheckpointObject(SDL_Renderer* screen) {
             int id_checkpoint = player->getIdCheckpoint();
             if (id_checkpoint != NO_CHECKPOINT) {
                 CheckpointObject *last_checkpoint = checkpointsList.at(id_checkpoint);
-                last_checkpoint->loadImage("Resources/Image/checkpoint/checkpoint_clear.png", screen);
+                last_checkpoint->loadImage(ADDRESS_CHECKPOINT_CLEAR, screen);
             }
             checkpointObject->setIsCatched(true);
             player->setPosCheckpoint(x1Checkpoint, y1Checkpoint);
             player->setIdCheckpoint(i);
-            checkpointObject->loadImage("Resources/Image/checkpoint/checkpoint_catched.png", screen);
+            checkpointObject->loadImage(ADDRESS_CHECKPOINT_CATCHED, screen);
         }
     }
 }
@@ -293,7 +293,7 @@ void Management::loadLifeObject(SDL_Renderer* screen) {
                 LifeObject *lifeObject = new LifeObject;
                 int x = j * TILE_SIZE;
                 int y = i * TILE_SIZE;
-                lifeObject->loadImage("Resources/Image/life/life.png", screen);
+                lifeObject->loadImage(ADDRESS_LIFE, screen);
                 lifeObject->setXPos(x);
                 lifeObject->setYPos(y);
                 lifeObject->setScoreLife(SCORE_LIFE);
@@ -332,7 +332,7 @@ void Management::checkIntersectLifeObject(SDL_Renderer* screen) {
             life->increaseLife(1);
             lifeObject->setScoreLife(0);
             lifeObject->setIsCatched(true);
-            lifeObject->loadImage("Resources/Image/life/life_clear.png", screen);
+            lifeObject->loadImage(ADDRESS_LIFE_CLEAR, screen);
         }
     }
 }
@@ -345,7 +345,7 @@ void Management::loadEndpointObject(SDL_Renderer* screen) {
                 EndpointObject *endpointObject = new EndpointObject;
                 int x = j * TILE_SIZE;
                 int y = i * TILE_SIZE;
-                endpointObject->loadImage("Resources/Image/ENDPOINT/ENDPOINT.png", screen);
+                endpointObject->loadImage(ADDRESS_ENDPOINT, screen);
                 endpointObject->setXPos(x);
                 endpointObject->setYPos(y);
                 endpointObject->setScoreEndpoint(SCORE_ENDPOINT);
@@ -359,7 +359,7 @@ void Management::openAllEndpointObject(SDL_Renderer* screen) {
     for (int i = 0; i < endpointsList.size(); ++i) {
         EndpointObject *endpointObject = endpointsList.at(i);
         endpointObject->setIsOpened(true);
-        endpointObject->loadImage("Resources/Image/ENDPOINT/ENDPOINT_opened.png", screen);
+        endpointObject->loadImage(ADDRESS_ENDPOINT_OPENED, screen);
         endpointObject->render(screen);
     }
 }
@@ -392,19 +392,19 @@ void Management::checkIntersectEndpointObject(SDL_Renderer* screen) {
 }
 
 void Management::loadAllObject(InfoPlayer *infoPlayer, SDL_Renderer* screen) {
-    ballPop = Mix_LoadWAV("Resources/Sound/Ballpop.wav");
+    ballPop = Mix_LoadWAV(ADDRESS_SOUND_BALLPOP.c_str());
     if (ballPop == NULL) {
         printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());
         return;
     }
 
-    musicType1 = Mix_LoadWAV("Resources/Sound/musicType1.wav");
+    musicType1 = Mix_LoadWAV(ADDRESS_SOUND_MUSICTYPE1.c_str());
     if (musicType1 == NULL) {
         printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());
         return;
     }
 
-    musicType2 = Mix_LoadWAV("Resources/Sound/musicType2.wav");
+    musicType2 = Mix_LoadWAV(ADDRESS_SOUND_MUSICTYPE2.c_str());
     if (musicType2 == NULL) {
         printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());
         return;

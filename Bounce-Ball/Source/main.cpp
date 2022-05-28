@@ -16,18 +16,10 @@
 
 using namespace std;
 
-#define debug1(a) cout << #a << " = " << a << ";"
-#define debug1l(a) cout << #a << " = " << a << ";" << '\n'
-#define debug2(a, b) cout << #a << " = " << a << "; " << #b << " = " << b << "; "
-#define debug2l(a, b) cout << #a << " = " << a << "; " << #b << " = " << b << "; " << '\n'
-#define debug3(a, b, c) cout << #a << " = " << a << "; " << #b << " = " << b << "; " << #c << " = " << c << "; "
-#define debug3l(a, b, c) cout << #a << " = " << a << "; " << #b << " = " << b << "; " << #c << " = " << c << "; " << '\n'
-#define debug4(a, b, c, d) cout << #a << " = " << a << "; " << #b << " = " << b << "; " << #c << " = " << c << "; " << #d << " = " << d << "; "
-#define debug4l(a, b, c, d) cout << #a << " = " << a << "; " << #b << " = " << b << "; " << #c << " = " << c << "; " << #d << " = " << d << "; " << '\n'
-
 int main(int argc, char* argv[]) {
     srand(time(NULL));
-    string generalAddressBackground = "Resources/Image/background/background" + to_string(rand() % MAX_BACKGROUND) + ".jpg";
+    string generalAddressBackground = ADDRESS_BACKGROUND
+           + to_string(rand() % MAX_BACKGROUND) + ".jpg";
     BounceBall* bounceBall = new BounceBall;
     bounceBall->setGeneralAddressBackground(generalAddressBackground);
     bounceBall->startGame();  
